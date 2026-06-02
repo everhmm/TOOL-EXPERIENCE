@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-900">
+<html lang="es" class="h-full bg-slate-900 dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaaS Experience Hub - Gold Sunrise</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
@@ -37,16 +36,16 @@
         .window-cascade {
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        /* Ocultar barra de desplazamiento por defecto */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
     </style>
 </head>
-<body class="h-full font-sans antialiased text-slate-900 dark:text-slate-100 transition-colors duration-300">
+<body class="h-full font-sans antialiased text-slate-900 dark:text-slate-100 transition-colors duration-300 bg-slate-50 dark:bg-slate-950">
 
-    <div class="flex h-full overflow-hidden bg-slate-50 dark:bg-slate-950">
+    <div class="flex h-full overflow-hidden">
         
+        <!-- SIDEBAR -->
         <aside class="w-64 flex-shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col z-30">
             <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-800 gap-3">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-corpTeal-500 to-corpBlue-600 flex items-center justify-center text-white font-bold text-lg shadow-md">🌅</div>
@@ -56,7 +55,7 @@
                 </div>
             </div>
             
-            <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+            <nav class="flex-1 overflow-y-auto p-4 space-y-1" id="sidebar-nav">
                 <button onclick="switchView('home')" id="nav-home" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-corpBlue-50 text-corpBlue-600 dark:bg-slate-800 dark:text-corpBlue-400">
                     <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard Home
                 </button>
@@ -69,37 +68,39 @@
                 </button>
                 
                 <div class="pt-4 pb-1 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Enlaces Directos</div>
-                <button onclick="switchView('tns')" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+                <button onclick="switchView('tns')" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-all">
                     <i data-lucide="users" class="w-3.5 h-3.5"></i> Gestión de Buddies
                 </button>
-                <button onclick="switchView('tns')" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+                <button onclick="switchView('tns')" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-all">
                     <i data-lucide="home" class="w-3.5 h-3.5"></i> Familias Globales
                 </button>
-                <button onclick="switchView('tns')" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+                <button onclick="switchView('tns')" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-all">
                     <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i> Base de Ideas
                 </button>
-                <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+                <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-all">
                     <i data-lucide="calendar" class="w-3.5 h-3.5"></i> Calendario Operativo
                 </a>
             </nav>
 
             <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xs font-bold">CX</div>
+                    <div class="w-8 h-8 rounded-full bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-800 dark:text-slate-200">CX</div>
                     <div class="flex-1 min-w-0">
                         <p class="text-xs font-medium text-slate-900 dark:text-white truncate">Coordinación Hub</p>
-                        <p class="text-[10px] text-emerald-500 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span> API Online</p>
+                        <p class="text-[10px] text-emerald-500 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span> Hub Activo</p>
                     </div>
                 </div>
             </div>
         </aside>
 
+        <!-- MAIN MAIN CONTENT -->
         <main class="flex-1 flex flex-col overflow-hidden relative">
             
+            <!-- HEADER -->
             <header class="h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 z-20 shadow-sm">
                 <div class="flex flex-col">
-                    <h2 class="text-sm font-bold tracking-tight text-slate-800 dark:text-slate-100 uppercase">TOOL GUIA DE PROCESOS, IDEAS, CARPETAS Y MÁS</h2>
-                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">COORDI EXPERIENCE GOLD SUNRISE</p>
+                    <h2 class="text-xs md:text-sm font-bold tracking-tight text-slate-800 dark:text-slate-100 uppercase">TOOL GUIA DE PROCESOS, IDEAS, CARPETAS Y MÁS</h2>
+                    <p class="text-[10px] md:text-xs font-semibold text-slate-500 dark:text-slate-400">COORDI EXPERIENCE GOLD SUNRISE</p>
                 </div>
                 
                 <div class="flex items-center gap-6">
@@ -110,24 +111,26 @@
                     
                     <div class="text-right text-[11px] text-slate-500 dark:text-slate-400 border-l border-slate-200 dark:border-slate-800 pl-4">
                         <div class="flex items-center gap-1.5 justify-end">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                            <span>Auto-Sync: <b id="sync-timer">5:00</b></span>
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span>Auto-Sync: <b id="sync-timer">05:00</b></span>
                         </div>
-                        <p class="text-[10px] text-slate-400">Última sync: <span id="sync-timestamp">-</span></p>
+                        <p class="text-[10px] text-slate-400">Última sync: <span id="sync-timestamp">Justo ahora</span></p>
                     </div>
 
-                    <button onclick="toggleDarkMode()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" aria-label="Cambiar modo de luz">
                         <i data-lucide="sun" id="sun-icon" class="w-4 h-4 hidden dark:block text-amber-400"></i>
                         <i data-lucide="moon" id="moon-icon" class="w-4 h-4 block dark:hidden text-slate-600"></i>
                     </button>
                 </div>
             </header>
 
-            <div class="flex-1 overflow-y-auto p-8 relative">
+            <!-- VIEWPORT CONTENT -->
+            <div class="flex-1 overflow-y-auto p-8 relative bg-slate-50 dark:bg-slate-950">
                 
+                <!-- VIEW 1: HOME -->
                 <section id="view-home" class="space-y-8 window-cascade block">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div onclick="switchView('ecb')" class="group cursor-pointer bg-gradient-to-br from-corpTeal-500/10 to-teal-600/5 dark:from-corpTeal-700/20 dark:to-slate-900 border border-corpTeal-500/20 dark:border-corpTeal-500/30 p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+                        <div onclick="switchView('ecb')" class="group cursor-pointer bg-gradient-to-br from-corpTeal-500/10 to-teal-600/5 dark:from-corpTeal-700/10 dark:to-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:border-corpTeal-500/50 dark:hover:border-corpTeal-500/50 transition-all duration-300 relative overflow-hidden">
                             <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-corpTeal-500/10 rounded-full blur-2xl group-hover:bg-corpTeal-500/20 transition-all"></div>
                             <div class="flex items-start gap-4">
                                 <div class="p-4 rounded-xl bg-corpTeal-500 text-white shadow-lg shadow-corpTeal-500/20 group-hover:scale-105 transition-transform">
@@ -143,7 +146,7 @@
                             </div>
                         </div>
 
-                        <div onclick="switchView('tns')" class="group cursor-pointer bg-gradient-to-br from-corpBlue-500/10 to-blue-600/5 dark:from-corpBlue-700/20 dark:to-slate-900 border border-corpBlue-500/20 dark:border-corpBlue-500/30 p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+                        <div onclick="switchView('tns')" class="group cursor-pointer bg-gradient-to-br from-corpBlue-500/10 to-blue-600/5 dark:from-corpBlue-700/10 dark:to-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:border-corpBlue-500/50 dark:hover:border-corpBlue-500/50 transition-all duration-300 relative overflow-hidden">
                             <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-corpBlue-500/10 rounded-full blur-2xl group-hover:bg-corpBlue-500/20 transition-all"></div>
                             <div class="flex items-start gap-4">
                                 <div class="p-4 rounded-xl bg-corpBlue-500 text-white shadow-lg shadow-corpBlue-500/20 group-hover:scale-105 transition-transform">
@@ -211,6 +214,7 @@
                     </div>
                 </section>
 
+                <!-- VIEW 2: ECB -->
                 <section id="view-ecb" class="space-y-6 window-cascade hidden">
                     <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
                         <div class="flex items-center gap-3">
@@ -224,7 +228,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        
                         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl flex flex-col justify-between shadow-sm hover:border-corpTeal-500/40 transition-all">
                             <div>
                                 <div class="flex justify-between items-start mb-2">
@@ -311,21 +314,21 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-100/60 dark:bg-slate-900/40 p-4 rounded-2xl border border-slate-200 dark:border-slate-800/80">
-                        <a href="https://drive.google.com/file/d/1d6DwXPvK_jWLRCFM1YX8uCXGS6iiwGlu/view?usp=sharing" target="_blank" class="flex items-center gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:scale-[1.02] transition-transform">
+                        <a href="https://drive.google.com/file/d/1d6DwXPvK_jWLRCFM1YX8uCXGS6iiwGlu/view?usp=sharing" target="_blank" class="flex items-center gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:scale-[1.02] hover:shadow-sm transition-all">
                             <div class="p-2 rounded-lg bg-red-500/10 text-red-500"><i data-lucide="scale" class="w-4 h-4"></i></div>
                             <div>
                                 <p class="text-xs font-bold">Normas de Intercambio</p>
                                 <p class="text-[10px] text-slate-400">Marco de legalidad institucional</p>
                             </div>
                         </a>
-                        <a href="https://canva.link/sx8qwyuz1g9r9bj" target="_blank" class="flex items-center gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:scale-[1.02] transition-transform">
+                        <a href="https://canva.link/sx8qwyuz1g9r9bj" target="_blank" class="flex items-center gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:scale-[1.02] hover:shadow-sm transition-all">
                             <div class="p-2 rounded-lg bg-pink-500/10 text-pink-500"><i data-lucide="presentation" class="w-4 h-4"></i></div>
                             <div>
                                 <p class="text-xs font-bold">Diapositivas Pre IPS</p>
                                 <p class="text-[10px] text-slate-400">Canva Presentation Deck</p>
                             </div>
                         </a>
-                        <a href="https://drive.google.com/drive/folders/1zNJEuNvtOV6FnS8qh6wV7uA3rIDGyT7T?usp=sharing" target="_blank" class="flex items-center gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:scale-[1.02] transition-transform">
+                        <a href="https://drive.google.com/drive/folders/1zNJEuNvtOV6FnS8qh6wV7uA3rIDGyT7T?usp=sharing" target="_blank" class="flex items-center gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:scale-[1.02] hover:shadow-sm transition-all">
                             <div class="p-2 rounded-lg bg-blue-500/10 text-blue-500"><i data-lucide="folder-search" class="w-4 h-4"></i></div>
                             <div>
                                 <p class="text-xs font-bold">Base de Datos TNs Folder</p>
@@ -335,6 +338,7 @@
                     </div>
                 </section>
 
+                <!-- VIEW 3: TNS -->
                 <section id="view-tns" class="space-y-6 window-cascade hidden">
                     <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
                         <div class="flex items-center gap-3">
@@ -359,260 +363,150 @@
                             <i data-lucide="external-link" class="w-4 h-4"></i> Acceder a Base Maestra
                         </a>
                     </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        
-                        <div class="space-y-4">
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-emerald-500"></i> Programa de Integración Local (Buddies / Familias)</h4>
-                            
-                            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl space-y-3 shadow-sm">
-                                <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-2">
-                                    <p class="text-xs font-bold text-slate-700 dark:text-slate-200">Ecosistema Completo de Buddies</p>
-                                    <span class="text-[10px] px-2 py-0.5 bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 font-bold rounded">6 Enlaces Activos</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2">
-                                    <a href="https://docs.google.com/spreadsheets/d/1YBoX-HBkM0z39_QOtWVjiKQ3_fN5OzOt60rAfPbQdh0/edit?usp=sharing" target="_blank" class="p-2 border border-slate-100 dark:border-slate-800/80 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left transition-colors">
-                                        <p class="text-[11px] font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Datos Personales</p>
-                                    </a>
-                                    <a href="https://forms.gle/FtScUx7b8uVzcMi77" target="_blank" class="p-2 border border-slate-100 dark:border-slate-800/80 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left transition-colors">
-                                        <p class="text-[11px] font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Google Forms</p>
-                                    </a>
-                                    <a href="https://docs.google.com/spreadsheets/d/1VEjfTnTDm94399pq0NRSohfnsG6Y55Bdv--DeVDTZX8/edit?usp=sharing" target="_blank" class="p-2 border border-slate-100 dark:border-slate-800/80 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left transition-colors">
-                                        <p class="text-[11px] font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> DB Aplicantes</p>
-                                    </a>
-                                    <a href="https://docs.google.com/spreadsheets/d/1Okww1E-nTgCj2nY3KZV0txWwMRjGbxGy3UEShN5mQp0/edit?usp=sharing" target="_blank" class="p-2 border border-slate-100 dark:border-slate-800/80 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left transition-colors">
-                                        <p class="text-[11px] font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Entrevistas Set</p>
-                                    </a>
-                                    <a href="https://drive.google.com/drive/folders/1D_hyogT9z9P9YEmipoeI-iHw0N1s7i73?usp=sharing" target="_blank" class="p-2 border border-slate-100 dark:border-slate-800/80 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left transition-colors">
-                                        <p class="text-[11px] font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> Showcasing Hub</p>
-                                    </a>
-                                    <a href="https://canva.link/q4h6uwtzi8hv62u" target="_blank" class="p-2 border border-slate-100 dark:border-slate-800/80 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/40 text-left transition-colors">
-                                        <p class="text-[11px] font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> Agradecimientos</p>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="bg-gradient-to-tr from-slate-900 to-slate-800 border border-slate-700 text-white p-5 rounded-xl shadow-md flex items-center justify-between">
-                                <div class="space-y-1">
-                                    <h5 class="text-xs font-bold tracking-wider text-corpTeal-400 uppercase">Ecosistema de Alojamiento</h5>
-                                    <h4 class="text-sm font-bold text-white">FAMILIAS GLOBALES / BOOKLET HOUSING</h4>
-                                    <p class="text-[11px] text-slate-400 max-w-[280px]">Gestión avanzada de la red de hogares anfitriones y material Canva promocional.</p>
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <a href="https://drive.google.com/drive/folders/1oRQ6Hcw2bRm6V8T3uk1CRhPDSYS7haC9?usp=drive_link" target="_blank" class="px-3 py-1.5 text-[11px] font-bold bg-slate-700 hover:bg-slate-600 text-white rounded-lg flex items-center justify-center gap-1.5 transition-all"><i data-lucide="folder" class="w-3.5 h-3.5"></i> Carpeta Drive</a>
-                                    <a href="https://www.canva.com/design/DAGmfmofgSs/nuGUyRLIbEkxNl8U7nSHTg/edit?utm_content=DAGmfmofgSs&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="px-3 py-1.5 text-[11px] font-bold bg-corpBlue-600 hover:bg-corpBlue-500 text-white rounded-lg flex items-center justify-center gap-1.5 transition-all"><i data-lucide="book" class="w-3.5 h-3.5"></i> Ver Booklet</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-4">
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2"><i data-lucide="lightbulb" class="w-4 h-4 text-amber-500"></i> Innovación y Experiencia Cultural (Cordi Golden Sunrise)</h4>
-                            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl space-y-2 shadow-sm">
-                                
-                                <a href="https://docs.google.com/spreadsheets/d/1Al23B_Skf1nf4ysvOplzyNAZeYj7j513vDvzZAJXl_g/edit?usp=sharing" target="_blank" class="group flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-corpBlue-50/50 dark:bg-slate-800/40 dark:hover:bg-slate-800/90 transition-all border border-transparent hover:border-corpBlue-500/20">
-                                    <div class="flex items-center gap-3">
-                                        <div class="p-2 rounded-lg bg-amber-500/10 text-amber-500"><i data-lucide="home" class="w-4 h-4"></i></div>
-                                        <div>
-                                            <p class="text-xs font-bold text-slate-800 dark:text-slate-200">Información de Hospedaje</p>
-                                            <p class="text-[10px] text-slate-400">Detalles logísticos e inventario de camas</p>
-                                        </div>
-                                    </div>
-                                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
-                                </a>
-
-                                <a href="https://canva.link/oun3q20ma7zqvns" target="_blank" class="group flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-corpBlue-50/50 dark:bg-slate-800/40 dark:hover:bg-slate-800/90 transition-all border border-transparent hover:border-corpBlue-500/20">
-                                    <div class="flex items-center gap-3">
-                                        <div class="p-2 rounded-lg bg-orange-500/10 text-orange-500"><i data-lucide="utensils" class="w-4 h-4"></i></div>
-                                        <div>
-                                            <p class="text-xs font-bold text-slate-800 dark:text-slate-200">Guía de Lugares Gastronómicos</p>
-                                            <p class="text-[10px] text-slate-400">Ruta gastronómica y comercial en Canva</p>
-                                        </div>
-                                    </div>
-                                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
-                                </a>
-
-                                <a href="https://docs.google.com/spreadsheets/d/1FtuZQd9NiaQEjDPJG1N4rCdS9QiXH7UVgwX1qjCWH7s/edit?usp=sharing" target="_blank" class="group flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-corpBlue-50/50 dark:bg-slate-800/40 dark:hover:bg-slate-800/90 transition-all border border-transparent hover:border-corpBlue-500/20">
-                                    <div class="flex items-center gap-3">
-                                        <div class="p-2 rounded-lg bg-red-500/10 text-red-500"><i data-lucide="soup" class="w-4 h-4"></i></div>
-                                        <div>
-                                            <p class="text-xs font-bold text-slate-800 dark:text-slate-200">Comida Típica Degustada</p>
-                                            <p class="text-[10px] text-slate-400">Bitácora alimentaria y experiencias del voluntario</p>
-                                        </div>
-                                    </div>
-                                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
-                                </a>
-
-                                <a href="https://docs.google.com/spreadsheets/d/1dy-PQaIKhN0zxrdxFIz1RcXiUM8zE5a7iKHhF035Gp0/edit?usp=sharing" target="_blank" class="group flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-corpBlue-50/50 dark:bg-slate-800/40 dark:hover:bg-slate-800/90 transition-all border border-transparent hover:border-corpBlue-500/20">
-                                    <div class="flex items-center gap-3">
-                                        <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-500"><i data-lucide="map-pin" class="w-4 h-4"></i></div>
-                                        <div>
-                                            <p class="text-xs font-bold text-slate-800 dark:text-slate-200">Lugares Turísticos Asistidos</p>
-                                            <p class="text-[10px] text-slate-400">Registro histórico de visitas y actividades externas</p>
-                                        </div>
-                                    </div>
-                                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
-                                </a>
-
-                                <a href="https://docs.google.com/spreadsheets/d/1ln54GrisiOtvfGndW8HJ_BuiRhC69W6PeDWwV2B9OO4/edit?usp=sharing" target="_blank" class="group flex items-center justify-between p-2.5 rounded-xl bg-gradient-to-r from-amber-500/5 to-orange-500/5 hover:from-amber-500/10 hover:to-orange-500/10 text-left transition-all border border-amber-500/20">
-                                    <div class="flex items-center gap-3">
-                                        <div class="p-2 rounded-lg bg-gradient-to-tr from-amber-500 to-orange-500 text-white shadow-sm"><i data-lucide="sparkles" class="w-4 h-4"></i></div>
-                                        <div>
-                                            <p class="text-xs font-bold text-slate-800 dark:text-slate-200">Ideas de la Cordi Golden Sunrise</p>
-                                            <p class="text-[10px] text-slate-400">Mesa de innovación estratégica y co-creación del equipo</p>
-                                        </div>
-                                    </div>
-                                    <i data-lucide="external-link" class="w-4 h-4 text-orange-500"></i>
-                                </a>
-                            </div>
-
-                            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl flex items-center justify-between shadow-sm">
-                                <div class="flex items-center gap-3">
-                                    <div class="p-2 rounded-lg bg-indigo-500/10 text-indigo-500"><i data-lucide="file-text" class="w-4 h-4"></i></div>
-                                    <div>
-                                        <p class="text-xs font-bold">Reportes TNs Cordi Golden Sunrise</p>
-                                        <p class="text-[10px] text-slate-400">Encuestas de satisfacción semanales e informes de control</p>
-                                    </div>
-                                </div>
-                                <a href="https://docs.google.com/spreadsheets/d/1yBqcp1MV5Bq6prDLA7DQOijuNhky9VFqjuf49RJ6UQA/edit?usp=sharing" target="_blank" class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500"><i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>
-                            </div>
-                        </div>
-                    </div>
                 </section>
+
             </div>
         </main>
     </div>
 
+    <!-- CORE LOGIC & INTERACTIVITY -->
     <script>
-        // Inicialización y Cache de Gráficos de Chart.js
-        let chartFlow = null;
-        let chartAudits = null;
-        let countdownValue = 300; // 5 minutos en segundos
+        // Inicializar Lucide Icons
+        lucide.createIcons();
 
-        document.addEventListener("DOMContentLoaded", () => {
-            lucide.createIcons();
-            setInitialTimestamp();
-            initCharts();
-            startCountdown();
-            
-            // Cargar Google Charts Visualization de forma asíncrona para la simulación de tuberías de datos
-            google.charts.load('current', {'packages':['corechart']});
-            google.charts.setOnLoadCallback(fetchRealSheetsMetadata);
-        });
+        // Estado Global de la App
+        let charts = {};
 
-        // Controlador Dinámico de Vistas (Ventanería en Cascada / SPA)
+        // Sistema Funcional de Cambio de Vistas
         function switchView(viewId) {
-            const views = ['home', 'ecb', 'tns'];
-            views.forEach(v => {
-                const element = document.getElementById(`view-${v}`);
-                const navBtn = document.getElementById(`nav-${v}`);
-                
-                if (v === viewId) {
-                    element.classList.remove('hidden');
-                    element.classList.add('block');
-                    if (navBtn) {
-                        navBtn.classList.add('bg-corpBlue-50', 'text-corpBlue-600', 'dark:bg-slate-800', 'dark:text-corpBlue-400');
-                        navBtn.classList.remove('text-slate-600', 'dark:text-slate-400');
-                    }
-                } else {
-                    element.classList.add('hidden');
-                    element.classList.remove('block');
-                    if (navBtn) {
-                        navBtn.classList.remove('bg-corpBlue-50', 'text-corpBlue-600', 'dark:bg-slate-800', 'dark:text-corpBlue-400');
-                        navBtn.classList.add('text-slate-600', 'dark:text-slate-400');
+            // Ocultar todas las secciones
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-ecb').classList.add('hidden');
+            document.getElementById('view-tns').classList.add('hidden');
+            
+            // Mostrar vista seleccionada
+            document.getElementById(`view-${viewId}`).classList.remove('hidden');
+
+            // Actualizar clases de la barra de navegación lateral
+            const navIds = ['home', 'ecb', 'tns'];
+            navIds.forEach(id => {
+                const btn = document.getElementById(`nav-${id}`);
+                if(btn) {
+                    if(id === viewId) {
+                        btn.className = "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-corpBlue-50 text-corpBlue-600 dark:bg-slate-800 dark:text-corpBlue-400";
+                    } else {
+                        btn.className = "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800/60 transition-all";
                     }
                 }
             });
         }
 
-        // Sistema Operativo Claro / Oscuro (Dark/Light Engine)
+        // Controlador de Dark Mode Eficiente
         function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            // Re-renderizar gráficos para recalcular paletas visuales adaptativas
+            renderCharts();
         }
 
-        // Configuración y Renderizado de Gráficos (Data Visualization Engine)
-        function initCharts() {
-            const flowCtx = document.getElementById('chart-flow-evolution').getContext('2d');
-            chartFlow = new Chart(flowCtx, {
+        // Inicialización y Renderizado de Gráficos (Chart.js Avanzado)
+        function renderCharts() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#94a3b8' : '#64748b';
+            const gridColor = isDark ? '#1e293b' : '#e2e8f0';
+
+            // Destruir gráficos previos si ya existen antes de redibujar
+            if(charts.flow) charts.flow.destroy();
+            if(charts.audits) charts.audits.destroy();
+
+            // Gráfico 1: Evolución de Flujo (Líneas con Gradientes suavizados)
+            const ctxFlow = document.getElementById('chart-flow-evolution').getContext('2d');
+            
+            const gradientBlue = ctxFlow.createLinearGradient(0, 0, 0, 200);
+            gradientBlue.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
+            gradientBlue.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+
+            charts.flow = new Chart(ctxFlow, {
                 type: 'line',
                 data: {
                     labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-                    datasets: [
-                        { label: 'Realized (RE)', data: [4, 6, 9, 11, 14, 14], borderColor: '#14b8a6', backgroundColor: 'rgba(20, 184, 166, 0.05)', fill: true, tension: 0.3 },
-                        { label: 'Finished (FI)', data: [1, 3, 4, 6, 9, 12], borderColor: '#3b82f6', backgroundColor: 'transparent', tension: 0.3 },
-                        { label: 'Completed (CO)', data: [0, 1, 2, 3, 5, 8], borderColor: '#a855f7', backgroundColor: 'transparent', tension: 0.3 }
-                    ]
+                    datasets: [{
+                        label: 'TNs Realized',
+                        data: [4, 7, 5, 12, 9, 14],
+                        borderColor: '#3b82f6',
+                        borderWidth: 3,
+                        backgroundColor: gradientBlue,
+                        fill: true,
+                        tension: 0.35,
+                        pointBackgroundColor: '#3b82f6'
+                    }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
+                    plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(148, 163, 184, 0.1)' }, ticks: { color: '#94a3b8' } },
-                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                        x: { grid: { color: 'transparent' }, ticks: { color: textColor, font: { size: 10 } } },
+                        y: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 10 } } }
                     }
                 }
             });
 
-            const auditsCtx = document.getElementById('chart-audits-distribution').getContext('2d');
-            chartAudits = new Chart(auditsCtx, {
+            // Gráfico 2: Distribución de Auditorías (Doughnut Moderno)
+            const ctxAudits = document.getElementById('chart-audits-distribution').getContext('2d');
+            charts.audits = new Chart(ctxAudits, {
                 type: 'doughnut',
                 data: {
                     labels: ['Aprobadas', 'Pendientes', 'Rechazadas'],
                     datasets: [{
                         data: [85, 10, 5],
                         backgroundColor: ['#14b8a6', '#f59e0b', '#ef4444'],
-                        borderWidth: 0
+                        borderWidth: isDark ? 3 : 1,
+                        borderColor: isDark ? '#0f172a' : '#ffffff'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 } } } },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: textColor, boxWidth: 12, font: { size: 11 } }
+                        }
+                    },
                     cutout: '75%'
                 }
             });
         }
 
-        // Reloj y Temporizador Loop de Auto-Sincronización (5 minutos)
-        function startCountdown() {
-            const timerDisplay = document.getElementById('sync-timer');
+        // Sistema de Reloj / Sincronización Simulada (Mejora UX)
+        function initSyncTimer() {
+            let timeLeft = 300; // 5 minutos
+            const timerElement = document.getElementById('sync-timer');
+            const timestampElement = document.getElementById('sync-timestamp');
+
+            // Colocar hora inicial real
+            const now = new Date();
+            timestampElement.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
             setInterval(() => {
-                countdownValue--;
-                if (countdownValue <= 0) {
-                    countdownValue = 300; // Resetear contador a 5 minutos
-                    triggerAutomatedRefresh();
+                timeLeft--;
+                if(timeLeft <= 0) {
+                    timeLeft = 300;
+                    const updateTime = new Date();
+                    timestampElement.innerText = updateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 }
-                const minutes = Math.floor(countdownValue / 60);
-                const seconds = countdownValue % 60;
-                timerDisplay.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
             }, 1000);
         }
 
-        function setInitialTimestamp() {
-            const now = new Date();
-            document.getElementById('sync-timestamp').innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-        }
-
-        // Arquitectura de Integración con Google Sheets API / Visualization API
-        function fetchRealSheetsMetadata() {
-            console.log("Inicializando consulta estructurada con Google Visualization API para orígenes de datos...");
-            // Nota de Arquitectura Corporativa: Para conectar las hojas en producción de forma 100% interactiva,
-            // cada enlace utiliza los endpoints públicos estructurados de la siguiente forma:
-            // https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/gviz/tq?tq=[QUERY_STRING]
-            // Ejemplo de ejecución interna simulada por eventos del ecosistema:
-            setInitialTimestamp();
-        }
-
-        function triggerAutomatedRefresh() {
-            console.log("Auto-Sync ejecutado. Refrescando sockets y conexiones con las hojas de cálculo del Drive...");
-            setInitialTimestamp();
-            
-            // Animación reactiva en gráficos al actualizar datos reales
-            if(chartFlow && chartAudits) {
-                chartFlow.update('active');
-                chartAudits.update('active');
-            }
-        }
+        // Ejecutar funciones estructurales al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCharts();
+            initSyncTimer();
+        });
     </script>
 </body>
 </html>
