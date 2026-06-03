@@ -1,512 +1,398 @@
- <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-900 dark">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Experience Hub - Gold Sunrise</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>MetalControl Pro - Gestión Avanzada de Estructuras</title>
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        corpTeal: { 50: '#f0fbfb', 100: '#dcf6f6', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e' },
-                        corpBlue: { 50: '#f0f7ff', 100: '#e0effe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .glassmorphism {
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-        }
-        .dark .glassmorphism {
-            background: rgba(15, 23, 42, 0.45);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .window-cascade {
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-    </style>
 </head>
-<body class="h-full font-sans antialiased text-slate-900 dark:text-slate-100 transition-colors duration-300 bg-slate-50 dark:bg-slate-950">
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans antialiased">
 
-    <div class="flex h-full overflow-hidden">
-        
-        <!-- SIDEBAR -->
-        <aside class="w-64 flex-shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col z-30">
-            <div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-800 gap-3">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-corpTeal-500 to-corpBlue-600 flex items-center justify-center text-white font-bold text-lg shadow-md">🌅</div>
-                <div>
-                    <h1 class="text-xs font-bold tracking-wider text-slate-400 uppercase">AIESEC Hub</h1>
-                    <p class="text-sm font-bold text-slate-700 dark:text-slate-200">Gold Sunrise</p>
-                </div>
-            </div>
-            
-            <nav class="flex-1 overflow-y-auto p-4 space-y-1" id="sidebar-nav">
-                <button onclick="switchView('home')" id="nav-home" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-corpBlue-50 text-corpBlue-600 dark:bg-slate-800 dark:text-corpBlue-400">
-                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard Home
-                </button>
-                <div class="pt-4 pb-1 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Módulos Internos</div>
-                <button onclick="switchView('ecb')" id="nav-ecb" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800/60 transition-all">
-                    <i data-lucide="shield-check" class="w-4 h-4"></i> Control y Calidad (E.C.B.)
-                </button>
-                <button onclick="switchView('tns')" id="nav-tns" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800/60 transition-all">
-                    <i data-lucide="globe" class="w-4 h-4"></i> Gestión de Trainees TN
-                </button>
-                
-                <div class="pt-4 pb-1 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Enlaces Directos</div>
-                <button onclick="switchView('tns')" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-all">
-                    <i data-lucide="users" class="w-3.5 h-3.5"></i> Gestión de Buddies
-                </button>
-                <button onclick="switchView('tns')" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-all">
-                    <i data-lucide="home" class="w-3.5 h-3.5"></i> Familias Globales
-                </button>
-                <button onclick="switchView('tns')" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-all">
-                    <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i> Base de Ideas
-                </button>
-                <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-all">
-                    <i data-lucide="calendar" class="w-3.5 h-3.5"></i> Calendario Operativo
-                </a>
-            </nav>
+    <!-- CONTENEDOR PRINCIPAL INTEGRADO -->
+    <div class="flex h-screen overflow-hidden">
 
-            <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-slate-300 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-800 dark:text-slate-200">CX</div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-xs font-medium text-slate-900 dark:text-white truncate">Coordinación Hub</p>
-                        <p class="text-[10px] text-emerald-500 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span> Hub Activo</p>
+        <!-- 1. BARRA LATERAL (SIDEBAR) EXTENDIDA -->
+        <aside class="w-68 bg-slate-950 border-r border-slate-800 flex flex-col justify-between p-4 hidden lg:flex shrink-0">
+            <div class="space-y-6">
+                <!-- Encabezado de la App -->
+                <div class="flex items-center gap-3 px-2 py-3 border-b border-slate-800/80">
+                    <div class="bg-gradient-to-tr from-indigo-600 to-violet-500 p-2.5 rounded-xl text-white shadow-lg shadow-indigo-500/20">
+                        <i data-lucide="anvil" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base tracking-tight text-white leading-tight">MetalControl <span class="text-indigo-400">Pro</span></h1>
+                        <span class="text-[11px] text-slate-400 font-mono">v2026.3.2</span>
                     </div>
                 </div>
+
+                <!-- Búsqueda Rápida en Panel -->
+                <div class="relative px-2">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-5 top-2.5"></i>
+                    <input type="text" placeholder="Buscar orden o pieza..." class="w-full bg-slate-900 text-xs text-slate-300 pl-9 pr-3 py-2 rounded-lg border border-slate-800 focus:outline-none focus:border-indigo-500 transition-colors">
+                </div>
+
+                <!-- Navegación por Módulos -->
+                <div class="space-y-1">
+                    <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Operaciones</p>
+                    <a href="#" class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-indigo-600/10 text-indigo-400 font-medium border border-indigo-500/20 transition-all">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                            <span class="text-sm">Mesa de Control</span>
+                        </div>
+                        <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-colors">
+                        <i data-lucide="calculator" class="w-4 h-4"></i>
+                        <span class="text-sm">Cálculo de Materiales</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-colors">
+                        <i data-lucide="drafting-compass" class="w-4 h-4"></i>
+                        <span class="text-sm">Geometría y Holguras</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-slate-200 transition-colors">
+                        <i data-lucide="clock" class="w-4 h-4"></i>
+                        <span class="text-sm">Cronograma de Arco</span>
+                    </a>
+                </div>
+
+                <!-- Sección de Parámetros Activos -->
+                <div class="pt-2 border-t border-slate-800/60 space-y-1">
+                    <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Especificaciones de Máquina</p>
+                    <div class="px-3 py-2 bg-slate-900/50 rounded-lg border border-slate-800/40 space-y-2">
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-400">Proceso:</span>
+                            <span class="font-mono text-slate-200 font-semibold">SMAW (Electrodo)</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-400">Polaridad:</span>
+                            <span class="font-mono text-amber-400 font-semibold">DCEP (+ / Reversa)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer con datos del Operador -->
+            <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-2.5 overflow-hidden">
+                    <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-md">
+                        M1
+                    </div>
+                    <div class="overflow-hidden">
+                        <p class="text-xs font-semibold text-slate-200 truncate">Estación de Soldadura 1</p>
+                        <p class="text-[10px] text-emerald-400 flex items-center gap-1">
+                            <span class="w-1 h-1 rounded-full bg-emerald-400 animate-ping"></span> Inversor Activo
+                        </p>
+                    </div>
+                </div>
+                <button class="text-slate-500 hover:text-slate-300 p-1">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                </button>
             </div>
         </aside>
 
-        <!-- MAIN MAIN CONTENT -->
-        <main class="flex-1 flex flex-col overflow-hidden relative">
+        <!-- 2. CONTENIDO PRINCIPAL -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
             
-            <!-- HEADER -->
-            <header class="h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 z-20 shadow-sm">
-                <div class="flex flex-col">
-                    <h2 class="text-xs md:text-sm font-bold tracking-tight text-slate-800 dark:text-slate-100 uppercase">TOOL GUIA DE PROCESOS, IDEAS, CARPETAS Y MÁS</h2>
-                    <p class="text-[10px] md:text-xs font-semibold text-slate-500 dark:text-slate-400">COORDI EXPERIENCE GOLD SUNRISE</p>
+            <!-- Encabezado Superior Fijo (Header) -->
+            <header class="bg-slate-950/60 backdrop-blur-md border-b border-slate-800/80 h-16 flex items-center justify-between px-6 sticky top-0 z-20">
+                <div class="flex items-center gap-4">
+                    <button class="lg:hidden text-slate-400 hover:text-white p-1 rounded bg-slate-900 border border-slate-800">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                    <div>
+                        <h2 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+                            Portón Plegable Residencial 
+                            <span class="text-xs font-normal text-slate-400 font-mono hidden sm:inline">#OP-2026-004</span>
+                        </h2>
+                    </div>
                 </div>
                 
-                <div class="flex items-center gap-6">
-                    <div class="relative w-64 hidden md:block">
-                        <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-slate-400"></i>
-                        <input type="text" placeholder="Buscador global..." class="w-full bg-slate-100 dark:bg-slate-800 text-xs pl-9 pr-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-corpBlue-500 text-slate-700 dark:text-slate-200">
+                <div class="flex items-center gap-3">
+                    <div class="hidden sm:flex items-center gap-2 text-xs bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg">
+                        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                        <span class="text-slate-400">Eficiencia térmica:</span>
+                        <span class="font-bold text-slate-200 font-mono">94%</span>
                     </div>
-                    
-                    <div class="text-right text-[11px] text-slate-500 dark:text-slate-400 border-l border-slate-200 dark:border-slate-800 pl-4">
-                        <div class="flex items-center gap-1.5 justify-end">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            <span>Auto-Sync: <b id="sync-timer">05:00</b></span>
-                        </div>
-                        <p class="text-[10px] text-slate-400">Última sync: <span id="sync-timestamp">Justo ahora</span></p>
-                    </div>
-
-                    <button onclick="toggleDarkMode()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" aria-label="Cambiar modo de luz">
-                        <i data-lucide="sun" id="sun-icon" class="w-4 h-4 hidden dark:block text-amber-400"></i>
-                        <i data-lucide="moon" id="moon-icon" class="w-4 h-4 block dark:hidden text-slate-600"></i>
-                    </button>
+                    <span class="text-xs font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-3 py-1.5 rounded-lg">
+                        Diseño: 4 Hojas / Acordeón
+                    </span>
                 </div>
             </header>
 
-            <!-- VIEWPORT CONTENT -->
-            <div class="flex-1 overflow-y-auto p-8 relative bg-slate-50 dark:bg-slate-950">
-                
-                <!-- VIEW 1: HOME -->
-                <section id="view-home" class="space-y-8 window-cascade block">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div onclick="switchView('ecb')" class="group cursor-pointer bg-gradient-to-br from-corpTeal-500/10 to-teal-600/5 dark:from-corpTeal-700/10 dark:to-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:border-corpTeal-500/50 dark:hover:border-corpTeal-500/50 transition-all duration-300 relative overflow-hidden">
-                            <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-corpTeal-500/10 rounded-full blur-2xl group-hover:bg-corpTeal-500/20 transition-all"></div>
-                            <div class="flex items-start gap-4">
-                                <div class="p-4 rounded-xl bg-corpTeal-500 text-white shadow-lg shadow-corpTeal-500/20 group-hover:scale-105 transition-transform">
-                                    <i data-lucide="shield-check" class="w-6 h-6"></i>
-                                </div>
-                                <div class="space-y-1">
-                                    <h3 class="text-base font-bold text-corpTeal-700 dark:text-corpTeal-400 flex items-center gap-2">
-                                        PANEL DE CONTROL Y CALIDAD (E.C.B.) 
-                                        <i data-lucide="arrow-right" class="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
-                                    </h3>
-                                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Centro de auditorías estructurales, validación y cumplimiento de estándares obligatorios de intercambio, gobernanza documental y flujos operativos del área Experience.</p>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Contenedor General del Dashboard -->
+            <div class="p-6 max-w-7xl w-full mx-auto space-y-6">
 
-                        <div onclick="switchView('tns')" class="group cursor-pointer bg-gradient-to-br from-corpBlue-500/10 to-blue-600/5 dark:from-corpBlue-700/10 dark:to-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:border-corpBlue-500/50 dark:hover:border-corpBlue-500/50 transition-all duration-300 relative overflow-hidden">
-                            <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-corpBlue-500/10 rounded-full blur-2xl group-hover:bg-corpBlue-500/20 transition-all"></div>
-                            <div class="flex items-start gap-4">
-                                <div class="p-4 rounded-xl bg-corpBlue-500 text-white shadow-lg shadow-corpBlue-500/20 group-hover:scale-105 transition-transform">
-                                    <i data-lucide="globe" class="w-6 h-6"></i>
-                                </div>
-                                <div class="space-y-1">
-                                    <h3 class="text-base font-bold text-corpBlue-600 dark:text-corpBlue-400 flex items-center gap-2">
-                                        GESTIÓN DE TRAINEES TN
-                                        <i data-lucide="arrow-right" class="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
-                                    </h3>
-                                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Seguimiento logístico integral de voluntarios internacionales, bases de datos operativas de aplicantes, redes de familias globales anfitrionas, buddies y estructuración de la agenda cultural local.</p>
-                                </div>
+                <!-- CONTROL DE PROGRESO DE LA OBRA -->
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                        <div>
+                            <h3 class="font-bold text-sm uppercase tracking-wider text-slate-400">Estado de Avance General</h3>
+                            <p class="text-2xl font-black text-white mt-1">62% <span class="text-xs font-normal text-slate-400">completado</span></p>
+                        </div>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Cortes 100%</span>
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20">Estructura 45%</span>
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-md bg-slate-900 text-slate-500 border border-slate-800">Acabado 0%</span>
+                        </div>
+                    </div>
+                    <!-- Barra de progreso visual -->
+                    <div class="w-full bg-slate-900 rounded-full h-3 p-0.5 border border-slate-800 overflow-hidden">
+                        <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500 h-2 rounded-full transition-all duration-500" style="width: 62%"></div>
+                    </div>
+                </div>
+
+                <!-- TARJETAS DE MÉTRICAS CRÍTICAS -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Luz del Vano (Total)</p>
+                            <p class="text-2xl font-bold mt-1 text-white font-mono">3.42 <span class="text-sm font-normal text-slate-400">m</span></p>
+                        </div>
+                        <div class="bg-slate-900 p-2.5 rounded-lg text-indigo-400 border border-slate-800">
+                            <i data-lucide="arrows-up-from-line" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Altura Libre Vano</p>
+                            <p class="text-2xl font-bold mt-1 text-white font-mono">2.25 <span class="text-sm font-normal text-slate-400">m</span></p>
+                        </div>
+                        <div class="bg-slate-900 p-2.5 rounded-lg text-indigo-400 border border-slate-800">
+                            <i data-lucide="arrow-up-down" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Descuento Holguras</p>
+                            <p class="text-2xl font-bold mt-1 text-rose-400 font-mono">-20 <span class="text-sm font-normal text-slate-500">mm</span></p>
+                        </div>
+                        <div class="bg-slate-900 p-2.5 rounded-lg text-rose-400 border border-slate-800">
+                            <i data-lucide="scissors" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Peso Aprox. Estructura</p>
+                            <p class="text-2xl font-bold mt-1 text-emerald-400 font-mono">114 <span class="text-sm font-normal text-slate-400">kg</span></p>
+                        </div>
+                        <div class="bg-slate-900 p-2.5 rounded-lg text-emerald-400 border border-slate-800">
+                            <i data-lucide="scale" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN CENTRAL DE PRODUCCIÓN (IZQUIERDA: CORTES / DERECHA: PARAMÉTRICOS) -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- TABLA COMPLETA DE CORTES (2 COLUMNAS) -->
+                    <div class="lg:col-span-2 bg-slate-950 border border-slate-800 rounded-xl overflow-hidden shadow-md">
+                        <div class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-950/40">
+                            <div>
+                                <h3 class="font-bold text-base text-white">Hoja de Ruta de Cortes Mecánicos</h3>
+                                <p class="text-xs text-slate-400">Verifique las dimensiones antes de proceder al corte con tronzadora</p>
                             </div>
+                            <button class="flex items-center gap-1.5 text-xs font-medium text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 rounded-lg hover:bg-indigo-600/20 transition-colors">
+                                <i data-lucide="printer" class="w-3.5 h-3.5"></i> Exportar Guía
+                            </button>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-slate-400 text-xs font-semibold uppercase bg-slate-900/30">
+                                        <th class="p-4">Perfil Base</th>
+                                        <th class="p-4">Sección Funcional</th>
+                                        <th class="p-4 text-center">Cantidad</th>
+                                        <th class="p-4 text-center">Tipo de Corte</th>
+                                        <th class="p-4 text-right">Medida Exacta</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/50 text-sm font-medium">
+                                    <tr class="hover:bg-slate-900/20 transition-colors">
+                                        <td class="p-4 text-white flex items-center gap-3">
+                                            <div class="w-2 h-2 rounded-full bg-indigo-500"></div>Tubular 2" x 1"
+                                        </td>
+                                        <td class="p-4 text-slate-400 font-normal">Parantes Verticales Laterales</td>
+                                        <td class="p-4 text-center text-slate-200">8 piezas</td>
+                                        <td class="p-4 text-center text-slate-400 font-mono">90° Recto</td>
+                                        <td class="p-4 text-right font-mono text-emerald-400 font-bold">2.25 m</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-900/20 transition-colors">
+                                        <td class="p-4 text-white flex items-center gap-3">
+                                            <div class="w-2 h-2 rounded-full bg-indigo-500"></div>Tubular 2" x 1"
+                                        </td>
+                                        <td class="p-4 text-slate-400 font-normal">Travesaños Superiores/Inferiores</td>
+                                        <td class="p-4 text-center text-slate-200">8 piezas</td>
+                                        <td class="p-4 text-center text-amber-500 font-mono">45° Inglete</td>
+                                        <td class="p-4 text-right font-mono text-emerald-400 font-bold">80.5 cm</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-900/20 transition-colors">
+                                        <td class="p-4 text-white flex items-center gap-3">
+                                            <div class="w-2 h-2 rounded-full bg-purple-500"></div>Tubular 1" x 1"
+                                        </td>
+                                        <td class="p-4 text-slate-400 font-normal">Refuerzos Centrales Horizontales</td>
+                                        <td class="p-4 text-center text-slate-200">4 piezas</td>
+                                        <td class="p-4 text-center text-slate-400 font-mono">90° Recto</td>
+                                        <td class="p-4 text-right font-mono text-emerald-400 font-bold">80.5 cm</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-900/20 transition-colors">
+                                        <td class="p-4 text-white flex items-center gap-3">
+                                            <div class="w-2 h-2 rounded-full bg-amber-500"></div>Barra Cuadrada 1/2"
+                                        </td>
+                                        <td class="p-4 text-slate-400 font-normal">Diseño Estético Interior</td>
+                                        <td class="p-4 text-center text-slate-200">12 piezas</td>
+                                        <td class="p-4 text-center text-slate-400 font-mono">90° Recto</td>
+                                        <td class="p-4 text-right font-mono text-emerald-400 font-bold">2.17 m</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-900/20 transition-colors">
+                                        <td class="p-4 text-white flex items-center gap-3">
+                                            <div class="w-2 h-2 rounded-full bg-rose-500"></div>Ángulo 1" x 1/8"
+                                        </td>
+                                        <td class="p-4 text-slate-400 font-normal">Guías Interiores / Topes</td>
+                                        <td class="p-4 text-center text-slate-200">2 piezas</td>
+                                        <td class="p-4 text-center text-slate-400 font-mono">90° Recto</td>
+                                        <td class="p-4 text-right font-mono text-emerald-400 font-bold">3.42 m</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">TNs Activos Totales</p>
-                            <div class="flex items-baseline gap-2 mt-1">
-                                <span id="kpi-tns-count" class="text-2xl font-bold tracking-tight text-slate-800 dark:text-white">14</span>
-                                <span class="text-xs text-emerald-500 font-medium">Realized</span>
-                            </div>
-                        </div>
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Auditorías Ejecutadas</p>
-                            <div class="flex items-baseline gap-2 mt-1">
-                                <span id="kpi-audits-pct" class="text-2xl font-bold tracking-tight text-slate-800 dark:text-white">85%</span>
-                                <span class="text-xs text-corpTeal-500 font-medium">Aprobación</span>
-                            </div>
-                        </div>
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Familias Globales</p>
-                            <div class="flex items-baseline gap-2 mt-1">
-                                <span id="kpi-families" class="text-2xl font-bold tracking-tight text-slate-800 dark:text-white">8</span>
-                                <span class="text-xs text-slate-400 font-medium">Disponibles</span>
-                            </div>
-                        </div>
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Buddies Asignados</p>
-                            <div class="flex items-baseline gap-2 mt-1">
-                                <span id="kpi-buddies" class="text-2xl font-bold tracking-tight text-slate-800 dark:text-white">12/12</span>
-                                <span class="text-xs text-emerald-500 font-medium">100% Ok</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm lg:col-span-2">
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
-                                <i data-lucide="trending-up" class="w-4 h-4 text-corpBlue-500"></i> Evolución Flujo Operativo TNs (RE/FI/CO)
-                            </h4>
-                            <div class="h-64 relative">
-                                <canvas id="chart-flow-evolution"></canvas>
-                            </div>
-                        </div>
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
-                                <i data-lucide="pie-chart" class="w-4 h-4 text-corpTeal-500"></i> Estado Auditorías E.C.B.
-                            </h4>
-                            <div class="h-64 relative flex items-center justify-center">
-                                <canvas id="chart-audits-distribution"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- VIEW 2: ECB -->
-                <section id="view-ecb" class="space-y-6 window-cascade hidden">
-                    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="p-2 rounded-xl bg-corpTeal-500 text-white"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
+                    <!-- REQUERIMIENTOS DE ANCLAJE Y SOLDADURA (1 COLUMNA) -->
+                    <div class="space-y-6">
+                        <!-- Bloque Ajuste Fusión -->
+                        <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 space-y-4">
                             <div>
-                                <h3 class="text-base font-bold text-slate-800 dark:text-white">Panel de Control y Calidad (E.C.B.)</h3>
-                                <p class="text-xs text-slate-500">Gobernanza, auditoría estructural de files y control regulatorio de estándares.</p>
+                                <h3 class="font-bold text-sm uppercase tracking-wider text-slate-400">Calibración de Fusión</h3>
+                                <p class="text-xs text-slate-500">Configuración recomendada para Inversor MMA</p>
                             </div>
-                        </div>
-                        <button onclick="switchView('home')" class="text-xs px-3 py-1.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 rounded-lg font-medium transition-colors">Volver</button>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl flex flex-col justify-between shadow-sm hover:border-corpTeal-500/40 transition-all">
-                            <div>
-                                <div class="flex justify-between items-start mb-2">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-corpTeal-50 text-corpTeal-600 dark:bg-corpTeal-950/40 dark:text-corpTeal-400 uppercase tracking-wider">Documento Core</span>
-                                    <i data-lucide="book-open" class="w-4 h-4 text-corpTeal-500"></i>
+                            
+                            <div class="space-y-3 font-mono">
+                                <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 flex justify-between items-center">
+                                    <span class="text-xs text-slate-400">Amperaje Óptimo</span>
+                                    <span class="text-sm font-bold text-amber-400">85 Amperios</span>
                                 </div>
-                                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100">GUÍA DEL ÁREA EXPERIENCE (BOOKLET E.C.B.)</h4>
-                                <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Manual integral oficial regulatorio con las directrices operativas nacionales e institucionales del equipo de Experience.</p>
+                                <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 flex justify-between items-center">
+                                    <span class="text-xs text-slate-400">Electrodo Núcleo</span>
+                                    <span class="text-sm font-bold text-indigo-400">E6013 - 3/32"</span>
+                                </div>
+                                <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 flex justify-between items-center">
+                                    <span class="text-xs text-slate-400">Tensión de Arco</span>
+                                    <span class="text-sm font-bold text-slate-200">22V - 24V</span>
+                                </div>
                             </div>
-                            <a href="https://drive.google.com/file/d/1DB2SgFyDNFDP_74QIntr9bjaK6oXhJMk/view" target="_blank" class="mt-4 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-corpTeal-500 hover:text-white dark:hover:bg-corpTeal-600 text-xs py-2 rounded-lg font-medium transition-all">
-                                <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Abrir Documento Drive
-                            </a>
                         </div>
 
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl flex flex-col justify-between shadow-sm hover:border-corpTeal-500/40 transition-all">
-                            <div>
-                                <div class="flex justify-between items-start mb-2">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 uppercase tracking-wider">Live Tracker Data</span>
-                                    <i data-lucide="sheet" class="w-4 h-4 text-emerald-500"></i>
-                                </div>
-                                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100">PROCESO DE AUDITORIAS EXPERIENCE</h4>
-                                <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Matriz de control en tiempo real (Secciones: Realización, Finalizado, Completo) con estatus y links clave a files individuales.</p>
+                        <!-- Bloque de Advertencias Dinámicas -->
+                        <div class="bg-amber-500/5 border border-amber-500/10 rounded-xl p-4 space-y-3">
+                            <div class="flex items-center gap-2 text-amber-400">
+                                <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                                <h4 class="text-xs font-bold uppercase tracking-wider">Checklist de Escuadra</h4>
                             </div>
-                            <a href="https://docs.google.com/spreadsheets/d/1sswwe1HrFlfzfFGCBADgKYKZelNUVFoY_MvSSzNMF0o/edit?gid=0#gid=0" target="_blank" class="mt-4 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-corpTeal-500 hover:text-white dark:hover:bg-corpTeal-600 text-xs py-2 rounded-lg font-medium transition-all">
-                                <i data-lucide="database" class="w-3.5 h-3.5"></i> Consultar Base de Datos
-                            </a>
-                        </div>
-
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl flex flex-col justify-between shadow-sm hover:border-corpTeal-500/40 transition-all">
-                            <div>
-                                <div class="flex justify-between items-start mb-2">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 uppercase tracking-wider">Live Tracker Data</span>
-                                    <i data-lucide="check-square" class="w-4 h-4 text-corpTeal-500"></i>
-                                </div>
-                                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100">TOOL DE AUDITORIAS TNs</h4>
-                                <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Seguimiento individualizado avanzado por campos críticos (Nro EP/OP, NAME, EP ID, PROJECT, MC, LC, fechas RE/FI).</p>
-                            </div>
-                            <a href="https://docs.google.com/spreadsheets/d/1vWqeiPBoOLh5FSTskH65I7d5O5IadZUEZKSA22Bh1yc/edit?gid=1541804123&authuser=6#gid=1541804123" target="_blank" class="mt-4 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-corpTeal-500 hover:text-white dark:hover:bg-corpTeal-600 text-xs py-2 rounded-lg font-medium transition-all">
-                                <i data-lucide="sliders" class="w-3.5 h-3.5"></i> Ejecutar Auditoría TN
-                            </a>
-                        </div>
-
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl flex flex-col justify-between shadow-sm hover:border-corpTeal-500/40 transition-all">
-                            <div>
-                                <div class="flex justify-between items-start mb-2">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 uppercase tracking-wider">Repositorio</span>
-                                    <i data-lucide="folder" class="w-4 h-4 text-amber-500"></i>
-                                </div>
-                                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100">MODELO DE DOCUMENTACION TNs</h4>
-                                <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Carpeta contenedora centralizada en la nube con los archivos oficiales comprimidos, seguros médicos de EPs y visados.</p>
-                            </div>
-                            <a href="https://drive.google.com/drive/folders/1wf1iQ18Rhjfen5kiI3jfV7TVvwGXmaGr" target="_blank" class="mt-4 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-corpTeal-500 hover:text-white dark:hover:bg-corpTeal-600 text-xs py-2 rounded-lg font-medium transition-all">
-                                <i data-lucide="folder-open" class="w-3.5 h-3.5"></i> Explorar Drive Files
-                            </a>
-                        </div>
-
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl flex flex-col justify-between shadow-sm hover:border-corpTeal-500/40 transition-all">
-                            <div>
-                                <div class="flex justify-between items-start mb-2">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-50 text-slate-600 dark:bg-slate-800 dark:text-slate-300 uppercase tracking-wider">Biblioteca</span>
-                                    <i data-lucide="mail" class="w-4 h-4 text-indigo-500"></i>
-                                </div>
-                                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100">PLANTILLAS DE CORREOS</h4>
-                                <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Modelos de correos y scripts oficiales de comunicación corporativa para notificaciones de auditorías, aprobaciones y alertas.</p>
-                            </div>
-                            <a href="https://docs.google.com/spreadsheets/d/1B5LKtMbUzldDt7DDw0nHpgKMgdpBBFxOHe351PU1v9I/edit?usp=sharing" target="_blank" class="mt-4 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-corpTeal-500 hover:text-white dark:hover:bg-corpTeal-600 text-xs py-2 rounded-lg font-medium transition-all">
-                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Ver Plantillas Mail
-                            </a>
-                        </div>
-
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl flex flex-col justify-between shadow-sm hover:border-corpTeal-500/40 transition-all">
-                            <div>
-                                <div class="flex justify-between items-start mb-2">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 uppercase tracking-wider">CRM Pipeline</span>
-                                    <i data-lucide="layers" class="w-4 h-4 text-emerald-500"></i>
-                                </div>
-                                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100">LEAD SPACE OPERATIVO</h4>
-                                <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Seguimiento continuo y conversión de leads de perfiles interesados de trainees antes de la formalización del intercambio.</p>
-                            </div>
-                            <a href="https://docs.google.com/spreadsheets/d/1dQxdYjFcTUSNxWJQH1_TDmq26qDhvWCoCmqaD-DJNi8/edit?usp=sharing" target="_blank" class="mt-4 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-corpTeal-500 hover:text-white dark:hover:bg-corpTeal-600 text-xs py-2 rounded-lg font-medium transition-all">
-                                <i data-lucide="filter" class="w-3.5 h-3.5"></i> Abrir Panel de Leads
-                            </a>
+                            <p class="text-xs text-amber-200/80 leading-relaxed">
+                                Debido a la contracción térmica del cordón de soldadura, aplique primero <strong>puntos de sujeción diametralmente opuestos</strong>. No tire cordón completo sin verificar la medida diagonal de las hojas con flexómetro (tolerancia máxima de desfase: 1.5 mm).
+                            </p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-100/60 dark:bg-slate-900/40 p-4 rounded-2xl border border-slate-200 dark:border-slate-800/80">
-                        <a href="https://drive.google.com/file/d/1d6DwXPvK_jWLRCFM1YX8uCXGS6iiwGlu/view?usp=sharing" target="_blank" class="flex items-center gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:scale-[1.02] hover:shadow-sm transition-all">
-                            <div class="p-2 rounded-lg bg-red-500/10 text-red-500"><i data-lucide="scale" class="w-4 h-4"></i></div>
-                            <div>
-                                <p class="text-xs font-bold">Normas de Intercambio</p>
-                                <p class="text-[10px] text-slate-400">Marco de legalidad institucional</p>
-                            </div>
-                        </a>
-                        <a href="https://canva.link/sx8qwyuz1g9r9bj" target="_blank" class="flex items-center gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:scale-[1.02] hover:shadow-sm transition-all">
-                            <div class="p-2 rounded-lg bg-pink-500/10 text-pink-500"><i data-lucide="presentation" class="w-4 h-4"></i></div>
-                            <div>
-                                <p class="text-xs font-bold">Diapositivas Pre IPS</p>
-                                <p class="text-[10px] text-slate-400">Canva Presentation Deck</p>
-                            </div>
-                        </a>
-                        <a href="https://drive.google.com/drive/folders/1zNJEuNvtOV6FnS8qh6wV7uA3rIDGyT7T?usp=sharing" target="_blank" class="flex items-center gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:scale-[1.02] hover:shadow-sm transition-all">
-                            <div class="p-2 rounded-lg bg-blue-500/10 text-blue-500"><i data-lucide="folder-search" class="w-4 h-4"></i></div>
-                            <div>
-                                <p class="text-xs font-bold">Base de Datos TNs Folder</p>
-                                <p class="text-[10px] text-slate-400">Directorio maestro de archivos</p>
-                            </div>
-                        </a>
+                <!-- SECCIÓN ADICIONAL: INVENTARIO DE HARDWARE Y ACCESORIOS MÍNIMOS -->
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6">
+                    <div class="mb-5">
+                        <h3 class="font-bold text-base text-white">Kit Integrado de Herrajes Mecánicos</h3>
+                        <p class="text-xs text-slate-400">Herrajes mínimos necesarios para garantizar la articulación del sistema plegable</p>
                     </div>
-                </section>
 
-                <!-- VIEW 3: TNS -->
-                <section id="view-tns" class="space-y-6 window-cascade hidden">
-                    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="p-2 rounded-xl bg-corpBlue-500 text-white"><i data-lucide="globe" class="w-5 h-5"></i></div>
-                            <div>
-                                <h3 class="text-base font-bold text-slate-800 dark:text-white">Gestión de Trainees TN & Operaciones</h3>
-                                <p class="text-xs text-slate-500">Mapeo del ciclo de experiencia integral, red local de Buddies y sinergia cultural.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Accesorio 1 -->
+                        <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl flex flex-col justify-between">
+                            <div class="flex items-start gap-3">
+                                <div class="bg-indigo-600/10 border border-indigo-500/20 text-indigo-400 p-2 rounded-lg">
+                                    <i data-lucide="toggle-left" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-white">Bisagras de Cazoleta / Libro</h4>
+                                    <p class="text-xs text-slate-400 mt-1">Bisagras de alta resistencia de 3" soldadas al marco y entre juntas móviles.</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-800/60 flex justify-between items-center text-xs">
+                                <span class="text-slate-400">Requerido:</span>
+                                <span class="font-mono bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded font-bold">12 Unidades</span>
                             </div>
                         </div>
-                        <button onclick="switchView('home')" class="text-xs px-3 py-1.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 rounded-lg font-medium transition-colors">Volver</button>
-                    </div>
 
-                    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-corpBlue-100 dark:bg-corpBlue-950/40 flex items-center justify-center text-corpBlue-600 dark:text-corpBlue-400"><i data-lucide="database" class="w-6 h-6"></i></div>
-                            <div>
-                                <h4 class="text-sm font-bold">BASE MAESTRA DATA TNs (EP ID - OP ID - FECHAS)</h4>
-                                <p class="text-xs text-slate-500 max-w-xl">Repositorio analítico unificado para el seguimiento cronológico exacto de las fechas de llegada, estancias y códigos de identificación del Trainee.</p>
+                        <!-- Accesorio 2 -->
+                        <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl flex flex-col justify-between">
+                            <div class="flex items-start gap-3">
+                                <div class="bg-amber-600/10 border border-amber-500/20 text-amber-400 p-2 rounded-lg">
+                                    <i data-lucide="sliders" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-white">Garruchas y Rodamientos superiores</h4>
+                                    <p class="text-xs text-slate-400 mt-1">Soporte con rulemanes blindados para desplazamiento fluido sobre riel.</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-800/60 flex justify-between items-center text-xs">
+                                <span class="text-slate-400">Requerido:</span>
+                                <span class="font-mono bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded font-bold">2 Unidades</span>
                             </div>
                         </div>
-                        <a href="https://docs.google.com/spreadsheets/d/1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8/edit?usp=drive_link" target="_blank" class="w-full md:w-auto text-center px-4 py-2.5 rounded-xl bg-corpBlue-600 hover:bg-corpBlue-700 text-white text-xs font-semibold shadow-sm transition-all whitespace-nowrap flex items-center justify-center gap-2">
-                            <i data-lucide="external-link" class="w-4 h-4"></i> Acceder a Base Maestra
-                        </a>
+
+                        <!-- Accesorio 3 -->
+                        <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl flex flex-col justify-between">
+                            <div class="flex items-start gap-3">
+                                <div class="bg-emerald-600/10 border border-emerald-500/20 text-emerald-400 p-2 rounded-lg">
+                                    <i data-lucide="lock" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-white">Cerradura y Cerrojos de Caña</h4>
+                                    <p class="text-xs text-slate-400 mt-1">Pasadores para fijación inferior al piso en hojas intermedias de control.</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-800/60 flex justify-between items-center text-xs">
+                                <span class="text-slate-400">Requerido:</span>
+                                <span class="font-mono bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">1 Kit Completo</span>
+                            </div>
+                        </div>
                     </div>
-                </section>
+                </div>
+
+                <!-- SECCIÓN DE TIEMPOS ESTIMADOS DE TRABAJO -->
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i data-lucide="hourglass" class="w-5 h-5 text-indigo-400"></i>
+                        <h3 class="font-bold text-base text-white">Cronometría Estimada de Taller</h3>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                        <div class="p-3 bg-slate-900/40 border border-slate-800 rounded-xl">
+                            <p class="text-xs text-slate-400">Corte Mecánico</p>
+                            <p class="text-xl font-bold text-white mt-1">2.5 <span class="text-xs font-normal text-slate-400">hrs</span></p>
+                        </div>
+                        <div class="p-3 bg-slate-900/40 border border-slate-800 rounded-xl">
+                            <p class="text-xs text-slate-400">Presentación y Escuadrado</p>
+                            <p class="text-xl font-bold text-white mt-1">3.0 <span class="text-xs font-normal text-slate-400">hrs</span></p>
+                        </div>
+                        <div class="p-3 bg-slate-900/40 border border-slate-800 rounded-xl">
+                            <p class="text-xs text-slate-400">Soldadura de Arco</p>
+                            <p class="text-xl font-bold text-white mt-1">4.5 <span class="text-xs font-normal text-slate-400">hrs</span></p>
+                        </div>
+                        <div class="p-3 bg-slate-900/40 border border-slate-800 rounded-xl">
+                            <p class="text-xs text-slate-400">Desbaste y Pulido</p>
+                            <p class="text-xl font-bold text-white mt-1">2.0 <span class="text-xs font-normal text-slate-400">hrs</span></p>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </main>
     </div>
 
-    <!-- CORE LOGIC & INTERACTIVITY -->
+    <!-- Script de Renderizado para Iconos Lucide -->
     <script>
-        // Inicializar Lucide Icons
         lucide.createIcons();
-
-        // Estado Global de la App
-        let charts = {};
-
-        // Sistema Funcional de Cambio de Vistas
-        function switchView(viewId) {
-            // Ocultar todas las secciones
-            document.getElementById('view-home').classList.add('hidden');
-            document.getElementById('view-ecb').classList.add('hidden');
-            document.getElementById('view-tns').classList.add('hidden');
-            
-            // Mostrar vista seleccionada
-            document.getElementById(`view-${viewId}`).classList.remove('hidden');
-
-            // Actualizar clases de la barra de navegación lateral
-            const navIds = ['home', 'ecb', 'tns'];
-            navIds.forEach(id => {
-                const btn = document.getElementById(`nav-${id}`);
-                if(btn) {
-                    if(id === viewId) {
-                        btn.className = "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-corpBlue-50 text-corpBlue-600 dark:bg-slate-800 dark:text-corpBlue-400";
-                    } else {
-                        btn.className = "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800/60 transition-all";
-                    }
-                }
-            });
-        }
-
-        // Controlador de Dark Mode Eficiente
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            html.classList.toggle('dark');
-            // Re-renderizar gráficos para recalcular paletas visuales adaptativas
-            renderCharts();
-        }
-
-        // Inicialización y Renderizado de Gráficos (Chart.js Avanzado)
-        function renderCharts() {
-            const isDark = document.documentElement.classList.contains('dark');
-            const textColor = isDark ? '#94a3b8' : '#64748b';
-            const gridColor = isDark ? '#1e293b' : '#e2e8f0';
-
-            // Destruir gráficos previos si ya existen antes de redibujar
-            if(charts.flow) charts.flow.destroy();
-            if(charts.audits) charts.audits.destroy();
-
-            // Gráfico 1: Evolución de Flujo (Líneas con Gradientes suavizados)
-            const ctxFlow = document.getElementById('chart-flow-evolution').getContext('2d');
-            
-            const gradientBlue = ctxFlow.createLinearGradient(0, 0, 0, 200);
-            gradientBlue.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
-            gradientBlue.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
-
-            charts.flow = new Chart(ctxFlow, {
-                type: 'line',
-                data: {
-                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'TNs Realized',
-                        data: [4, 7, 5, 12, 9, 14],
-                        borderColor: '#3b82f6',
-                        borderWidth: 3,
-                        backgroundColor: gradientBlue,
-                        fill: true,
-                        tension: 0.35,
-                        pointBackgroundColor: '#3b82f6'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { grid: { color: 'transparent' }, ticks: { color: textColor, font: { size: 10 } } },
-                        y: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 10 } } }
-                    }
-                }
-            });
-
-            // Gráfico 2: Distribución de Auditorías (Doughnut Moderno)
-            const ctxAudits = document.getElementById('chart-audits-distribution').getContext('2d');
-            charts.audits = new Chart(ctxAudits, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Aprobadas', 'Pendientes', 'Rechazadas'],
-                    datasets: [{
-                        data: [85, 10, 5],
-                        backgroundColor: ['#14b8a6', '#f59e0b', '#ef4444'],
-                        borderWidth: isDark ? 3 : 1,
-                        borderColor: isDark ? '#0f172a' : '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: { color: textColor, boxWidth: 12, font: { size: 11 } }
-                        }
-                    },
-                    cutout: '75%'
-                }
-            });
-        }
-
-        // Sistema de Reloj / Sincronización Simulada (Mejora UX)
-        function initSyncTimer() {
-            let timeLeft = 300; // 5 minutos
-            const timerElement = document.getElementById('sync-timer');
-            const timestampElement = document.getElementById('sync-timestamp');
-
-            // Colocar hora inicial real
-            const now = new Date();
-            timestampElement.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            setInterval(() => {
-                timeLeft--;
-                if(timeLeft <= 0) {
-                    timeLeft = 300;
-                    const updateTime = new Date();
-                    timestampElement.innerText = updateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                }
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                timerElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            }, 1000);
-        }
-
-        // Ejecutar funciones estructurales al cargar la página
-        window.addEventListener('DOMContentLoaded', () => {
-            renderCharts();
-            initSyncTimer();
-        });
     </script>
 </body>
 </html>
