@@ -14,6 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     
     <style>
         :root {
@@ -136,7 +138,7 @@
         }
 
         .accordion-content.open {
-            max-height: 2000px; /* high generic allowance to fit sub-levels */
+            max-height: 2000px;
             opacity: 1;
         }
 
@@ -196,6 +198,12 @@
             flex-direction: column;
             gap: 12px;
         }
+
+        /* Drag & Drop Visuals */
+        .dropzone-active {
+            border-color: var(--neon-orange) !important;
+            background: rgba(255, 120, 0, 0.05) !important;
+        }
     </style>
 </head>
 <body class="p-3 sm:p-6 lg:p-8 relative">
@@ -217,7 +225,7 @@
                     </div>
                     <div>
                         <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">AIESEC Experience</h2>
-                        <p class="text-sm font-bold opacity-90">GOLD SUNRISE </p>
+                        <p class="text-sm font-bold opacity-90">GOLD SUNRISE HUB</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-semibold">
@@ -420,6 +428,29 @@
                         </div>
                     </div>
 
+                    <div class="border border-slate-300/20 rounded-2xl overflow-hidden bg-white/10 dark:bg-slate-900/10">
+                        <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-4 font-bold text-sm flex items-center justify-between hover:bg-white/20 transition-all gap-2">
+                            <span class="flex items-center gap-2 text-slate-900 dark:text-slate-100 uppercase tracking-wide">
+                                <i data-lucide="database" class="w-4 h-4 text-[var(--neon-orange)]"></i>
+                                CENTRO DE DATOS (EXCEL)
+                            </span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 arrow-rotate text-slate-400"></i>
+                        </button>
+                        
+                        <div class="accordion-content bg-white/5 dark:bg-black/5 px-3">
+                            <div class="py-2 flex flex-col gap-2">
+                                <a href="#seccion-centro-datos" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <span class="flex items-center gap-2"><i data-lucide="upload-cloud" class="w-3.5 h-3.5 text-[var(--neon-orange)]"></i> Cargar Motores Locales</span>
+                                    <i data-lucide="arrow-down" class="w-3 h-3 opacity-50"></i>
+                                </a>
+                                <a href="#seccion-administracion-excel" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <span class="flex items-center gap-2"><i data-lucide="settings" class="w-3.5 h-3.5 opacity-70"></i> Administrar Archivos</span>
+                                    <i data-lucide="sliders" class="w-3 h-3 opacity-50"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                 </nav>
             </div>
 
@@ -433,7 +464,7 @@
                     <span class="font-bold text-[var(--tech-blue)]">AIESEC Experience</span>
                 </div>
                 <div class="w-full bg-slate-300/40 dark:bg-slate-700/40 h-1 rounded-full overflow-hidden mt-1">
-                    <div class="bg-[var(--neon-orange)] h-full w-[88%] rounded-full animate-pulse"></div>
+                    <div class="bg-[var(--neon-orange)] h-full w-[100%] rounded-full"></div>
                 </div>
             </div>
         </aside>
@@ -443,7 +474,7 @@
             <header class="glass-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white uppercase leading-none">
-                        TOOL EXPERIENCE
+                        TOOL
                     </h1>
                     <p class="text-xs sm:text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400 mt-1.5 flex items-center gap-2">
                         <span class="inline-block w-2 h-2 rounded-full bg-[var(--neon-orange)]"></span>
@@ -454,7 +485,7 @@
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                     <div class="relative min-w-[240px] md:min-w-[300px]">
                         <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                        <input type="text" id="global-search-input" onkeyup="executeGlobalSearch()" placeholder="Buscar procesos, links o herramientas..." 
+                        <input type="text" id="global-search-input" onkeyup="executeGlobalSmartSearch()" placeholder="Buscar en menú, Sheets o Excel local..." 
                                class="w-full pl-11 pr-4 py-2.5 text-xs font-medium rounded-full bg-white/60 dark:bg-slate-950/40 border border-slate-300/40 dark:border-slate-800/80 outline-none text-slate-900 dark:text-white placeholder-slate-400 focus:border-[var(--neon-orange)] shadow-inner transition-all">
                     </div>
                     
@@ -464,6 +495,34 @@
                     </button>
                 </div>
             </header>
+
+            <section id="smart-search-results-section" class="hidden glass-card p-6 flex flex-col gap-4 border-2 border-[var(--neon-orange)]/40 transition-all">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-300/40 pb-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-[var(--neon-orange)] animate-ping"></div>
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">Resultados del Motor Inteligente Híbrido</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5" id="search-filter-pills-row">
+                        <button onclick="filterSmartSearch('Todos')" class="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition bg-[var(--neon-orange)] text-white shadow-sm filter-pill" data-filter="Todos">Todos</button>
+                        <button onclick="filterSmartSearch('TN')" class="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition bg-white/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 hover:bg-white/80 filter-pill" data-filter="TN">TNs</button>
+                        <button onclick="filterSmartSearch('Buddy')" class="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition bg-white/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 hover:bg-white/80 filter-pill" data-filter="Buddy">Buddies</button>
+                        <button onclick="filterSmartSearch('Familia Global')" class="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition bg-white/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 hover:bg-white/80 filter-pill" data-filter="Familia Global">Familias</button>
+                        <button onclick="filterSmartSearch('Reporte')" class="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition bg-white/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 hover:bg-white/80 filter-pill" data-filter="Reporte">Reportes</button>
+                        <button onclick="filterSmartSearch('Idea')" class="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition bg-white/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 hover:bg-white/80 filter-pill" data-filter="Idea">Ideas</button>
+                        <button onclick="filterSmartSearch('Auditoría')" class="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition bg-white/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 hover:bg-white/80 filter-pill" data-filter="Auditoría">Auditorías</button>
+                        <button onclick="filterSmartSearch('Excel')" class="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition bg-white/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 hover:bg-white/80 filter-pill" data-filter="Excel">Excel Local</button>
+                    </div>
+                </div>
+
+                <div id="smart-search-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[450px] overflow-y-auto pr-2">
+                    </div>
+                
+                <div class="flex justify-end pt-2 border-t border-slate-300/20">
+                    <button onclick="clearSmartSearch()" class="text-xs font-semibold text-slate-400 hover:text-[var(--neon-orange)] transition flex items-center gap-1">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i> Cerrar Panel de Resultados
+                    </button>
+                </div>
+            </section>
 
             <div class="glass-card px-6 py-3 flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400">
                 <div class="flex items-center gap-2" id="breadcrumb-trail">
@@ -476,8 +535,100 @@
                 </div>
             </div>
 
+            <section id="seccion-centro-datos" class="glass-card p-6 flex flex-col gap-6 border-l-4 border-l-[var(--neon-orange)]">
+                <div class="flex items-center justify-between border-b border-slate-300/30 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 rounded-2xl bg-orange-500/10 text-[var(--neon-orange)] shadow-inner">
+                            <i data-lucide="database" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-tight">Centro de Datos Local</h2>
+                            <p class="text-xs text-slate-400 font-medium">Motor de indexación híbrida para archivos .xlsx, .xls y .csv</p>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Híbrido Activo</span>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+                    <div class="xl:col-span-7 flex flex-col gap-3">
+                        <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Carga de Documentos (Drag & Drop)</label>
+                        <div id="excel-drop-zone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:border-[var(--neon-orange)] bg-white/20 dark:bg-slate-950/10 transition-all group relative">
+                            <input type="file" id="excel-file-selector" class="absolute inset-0 opacity-0 cursor-pointer" accept=".xlsx, .xls, .csv" multiple onchange="handleFileSelection(event)">
+                            <div class="p-4 rounded-full bg-white/80 dark:bg-slate-900/60 shadow-md text-[var(--neon-orange)] group-hover:scale-110 transition-transform mb-3">
+                                <i data-lucide="upload-cloud" class="w-8 h-8"></i>
+                            </div>
+                            <p class="text-sm font-bold text-slate-800 dark:text-slate-200">Arrastra tus archivos Excel o CSV aquí</p>
+                            <p class="text-xs text-slate-400 mt-1 max-w-sm">Soporta formatos estándar .xlsx, .xls y .csv de bases de datos de trainees, buddies o auditorías.</p>
+                            <button class="mt-4 px-4 py-2 bg-white/80 dark:bg-slate-900/80 rounded-xl text-xs font-bold border border-slate-300/40 hover:bg-[var(--neon-orange)] hover:text-white transition shadow-sm">Seleccionar Archivo Manualmente</button>
+                        </div>
+                    </div>
+
+                    <div id="seccion-administracion-excel" class="xl:col-span-5 flex flex-col gap-4 bg-white/20 dark:bg-slate-950/10 p-5 rounded-2xl border border-white/30 dark:border-slate-900/30">
+                        <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i data-lucide="sliders" class="w-3.5 h-3.5"></i> Panel de Administración Local
+                        </h4>
+                        
+                        <div class="grid grid-cols-2 gap-3 mt-1">
+                            <div class="bg-white/40 dark:bg-slate-900/40 p-3 rounded-xl shadow-inner">
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Archivos Cargados</span>
+                                <span id="metric-files-count" class="text-xl font-extrabold text-[var(--tech-blue)]">0</span>
+                            </div>
+                            <div class="bg-white/40 dark:bg-slate-900/40 p-3 rounded-xl shadow-inner">
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Registros Indexados</span>
+                                <span id="metric-records-count" class="text-xl font-extrabold text-[var(--neon-orange)]">0</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2 mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                            <div class="flex justify-between border-b border-slate-300/20 pb-1.5">
+                                <span>Último Proceso:</span>
+                                <span id="metric-last-update" class="font-bold text-slate-700 dark:text-slate-300">-</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                            <button onclick="exportUnifiedDatabaseJSON()" class="p-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold shadow-md hover:bg-[var(--tech-blue)] dark:hover:bg-[var(--tech-blue)] dark:hover:text-white transition flex items-center justify-center gap-1.5">
+                                <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar JSON
+                            </button>
+                            <button onclick="purgeEntireLocalStorageDatabase()" class="p-2.5 rounded-xl bg-rose-500/10 text-rose-500 border border-rose-500/20 text-xs font-bold shadow-sm hover:bg-rose-500 hover:text-white transition flex items-center justify-center gap-1.5">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Borrar Todo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="excel-preview-workspace-wrapper" class="hidden flex flex-col gap-3 mt-4 border-t border-slate-300/30 pt-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="table" class="w-4 h-4 text-[var(--tech-blue)]"></i>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Vista Previa de Datos Dinámicos: <span id="preview-filename-lbl" class="text-[var(--neon-orange)] normal-case font-extrabold"></span></h4>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label for="preview-sheet-selector" class="text-[11px] font-bold text-slate-400">Hoja activa:</label>
+                            <select id="preview-sheet-selector" onchange="switchActivePreviewSheet()" class="bg-white/80 dark:bg-slate-900/80 border border-slate-300/40 px-2.5 py-1 text-xs font-bold rounded-lg outline-none text-slate-800 dark:text-slate-200 focus:border-[var(--neon-orange)]"></select>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 text-[11px] font-semibold text-slate-400 bg-white/30 dark:bg-black/10 p-2.5 rounded-xl">
+                        <div>Hojas detectadas: <span id="meta-sheets-count" class="text-slate-800 dark:text-slate-200 font-bold">0</span></div>
+                        <div>Registros en hoja: <span id="meta-rows-count" class="text-slate-800 dark:text-slate-200 font-bold">0</span></div>
+                        <div>Tamaño de archivo: <span id="meta-file-size" class="text-slate-800 dark:text-slate-200 font-bold">0 KB</span></div>
+                    </div>
+
+                    <div class="w-full overflow-x-auto rounded-xl border border-slate-300/40 dark:border-slate-800/80 max-h-[260px] bg-white/40 dark:bg-slate-950/20">
+                        <table id="dynamic-excel-table-render-node" class="w-full text-left text-xs font-medium font-inter border-collapse">
+                            </table>
+                    </div>
+                </div>
+
+                <div id="loaded-files-inventory-wrapper" class="hidden flex flex-col gap-2 mt-2">
+                    <h5 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Inventario de Archivos Activos en Memoria</h5>
+                    <div id="loaded-files-items-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        </div>
+                </div>
+            </section>
+
             <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                
                 <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
                     <div class="flex justify-between items-start">
                         <div class="p-3 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400">
@@ -549,11 +700,9 @@
                         <canvas id="miniChart4"></canvas>
                     </div>
                 </div>
-
             </section>
 
             <section class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                
                 <div class="glass-card p-6 flex flex-col justify-between gap-6 relative overflow-hidden border-t-4 border-t-[var(--tech-blue)] group">
                     <div class="absolute top-0 right-0 p-8 opacity-[0.03] text-slate-900 dark:text-white pointer-events-none group-hover:opacity-[0.07] transition-all">
                         <i data-lucide="shield-alert" class="w-36 h-36"></i>
@@ -597,11 +746,9 @@
                         </button>
                     </div>
                 </div>
-
             </section>
 
             <section class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                
                 <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4">
                     <div class="flex items-center justify-between border-b border-slate-300/30 pb-3">
                         <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
@@ -634,19 +781,36 @@
                         <canvas id="familiesHorizontalBarChart"></canvas>
                     </div>
                 </div>
-
             </section>
 
         </main>
     </div>
 
     <script>
-        // System wide constants mapped from the master prompt instructions.
         const UI_COLORS = {
             orange: '#FF7800',
             blue: '#3B82F6',
             turquoise: '#14B8A6'
         };
+
+        // Static Cloud Mock Data Engine reflecting target entities mentioned in manual requests
+        const EXPORTED_CLOUD_MOCK_ENTITIES = [
+            { type: 'TN', title: 'Carlos Mendoza (EP ID: EP-2026-9812)', desc: 'Trainee de México asignado al área de Marketing. Universidad UNAM. Empresa Partner: InnoTech.', src: 'Google Sheets (2.1 Datos del TNs)', date: '12/04/2026', link: 'https://docs.google.com/spreadsheets/d/1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8' },
+            { type: 'TN', title: 'Sarah Jenkins (EP ID: EP-2026-0411)', desc: 'Trainee de Inglaterra para Gestión Estratégica. Universidad de Oxford. Comentario: Requiere visa extendida.', src: 'Google Sheets (2.1 Datos del TNs)', date: '02/05/2026', link: 'https://docs.google.com/spreadsheets/d/1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8' },
+            { type: 'Buddy', title: 'Camila Ariatna Encinas - Buddy Coordinador', desc: 'Asignada como Buddy principal para soporte logístico y bienvenida del comité Sunrise.', src: 'Google Sheets (2.4.1 Info Buddies)', date: '28/03/2026', link: 'https://docs.google.com/spreadsheets/d/1YBoX-HBkM0z39_QOtWVjiKQ3_fN5OzOt60rAfPbQdh0' },
+            { type: 'Buddy', title: 'Marcos Villegas - Aplicante Aceptado', desc: 'Entrevista completada con puntaje 95/100. Universidad Católica.', src: 'Google Sheets (2.4.3 Base Datos)', date: '15/04/2026', link: 'https://docs.google.com/spreadsheets/d/1VEjfTnTDm94399pq0NRSohfnsG6Y55Bdv--DeVDTZX8' },
+            { type: 'Familia Global', title: 'Familia Quispe - Sopocachi', desc: 'Hospedaje verificado disponible con habitación individual, internet de alta velocidad y alimentación básica.', src: 'Carpeta Drive (2.5 Familias Globales)', date: '10/05/2026', link: 'https://drive.google.com/drive/folders/1oRQ6Hcw2bRm6V8T3uk1CRhPDSYS7haC9' },
+            { type: 'Idea', title: 'Hospedaje Premium Residencia Centro', desc: 'Opción alternativa de alojamiento céntrico con tarifas corporativas negociadas para AIESEC.', src: 'Google Sheets (2.2.1 Hospedaje)', date: '18/04/2026', link: 'https://docs.google.com/spreadsheets/d/1Al23B_Skf1nf4ysvOplzyNAZeYj7j513vDvzZAJXl_g' },
+            { type: 'Idea', title: 'Ruta Gastronómica Tradicional - Mercados', desc: 'Sugerencia de platos típicos: Fricasé, Salteñas y Chairo evaluados positivamente por trainees.', src: 'Canva (2.2.2 Guía Gastronómica)', date: '20/04/2026', link: 'https://canva.link/oun3q20ma7zqvns' },
+            { type: 'Reporte', title: 'Reporte de Auditoría Semanal Sunrise', desc: 'Evaluación de estatus de contratos, cartas de aceptación firmadas y seguros de viaje internacionales.', src: 'Google Sheets (2.3.1 Reportes TNs)', date: '01/06/2026', link: 'https://docs.google.com/spreadsheets/d/1yBqcp1MV5Bq6prDLA7DQOijuNhky9VFqjuf49RJ6UQA' },
+            { type: 'Auditoría', title: 'Matriz General de Control TNs', desc: 'Estatus del 100% de la documentación obligatoria subida a la plataforma oficial.', src: 'Google Sheets (1.2.2 Tool de Auditorias)', date: '29/05/2026', link: 'https://docs.google.com/spreadsheets/d/1vWqeiPBoOLh5FSTskH65I7d5O5IadZUEZKSA22Bh1yc/edit' }
+        ];
+
+        // Central Local Memory Engine (Holds compiled loaded sheets index structure arrays)
+        let LOCAL_DATABASE_REGISTRY = [];
+        let ACTIVE_PREVIEW_FILE_INDEX = null;
+        let CURRENT_SEARCH_ACTIVE_FILTER = 'Todos';
+        let LAST_SEARCH_TYPED_QUERY = '';
 
         // DOM Initializer lifecycle handler hook
         document.addEventListener('DOMContentLoaded', () => {
@@ -655,10 +819,11 @@
             executeCountUpAnimations();
             lucide.createIcons();
             startLiveClock();
-            showNotification('Bienvenido al Hub Premium de AIESEC Experience', 'success');
+            setupDragAndDropHandlers();
+            loadDatabaseFromLocalStorage();
+            showNotification('Bienvenido al Hub Híbrido de AIESEC Experience', 'success');
         });
 
-        // 1. Live Time Sync Clock
         function startLiveClock() {
             const clockEl = document.getElementById('live-clock');
             const formatNum = (num) => String(num).padStart(2, '0');
@@ -668,7 +833,7 @@
             }, 1000);
         }
 
-        // 2. Interactive Multi-level Accordion Core Logics
+        // Accordion Management Actions
         function toggleAccordion(element) {
             const parentNode = element.parentNode;
             const targetContent = parentNode.querySelector('.accordion-content');
@@ -677,43 +842,30 @@
             if (!targetContent) return;
 
             if (targetContent.classList.contains('open')) {
-                // Collapse logic
                 targetContent.classList.remove('open');
                 if(targetArrow) targetArrow.classList.remove('rotated');
-                // Recursive closure safety loop for internal cascading levels
                 targetContent.querySelectorAll('.accordion-content').forEach(sub => {
                     sub.classList.remove('open');
                     const internalArrow = sub.parentNode.querySelector('.arrow-rotate');
                     if(internalArrow) internalArrow.classList.remove('rotated');
                 });
             } else {
-                // Expand logic
                 targetContent.classList.add('open');
                 if(targetArrow) targetArrow.classList.add('rotated');
-                
-                // Update Breadcrumbs node for structural feedback clarity
                 const nodeText = element.textContent.replace(/[\n\r]+/g, '').trim();
                 document.getElementById('current-crumb-node').textContent = nodeText.substring(0, 30) + (nodeText.length > 30 ? '...' : '');
             }
         }
 
         function expandAllAccordions() {
-            document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(content => {
-                content.classList.add('open');
-            });
-            document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(arrow => {
-                arrow.classList.add('rotated');
-            });
+            document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(content => content.classList.add('open'));
+            document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(arrow => arrow.classList.add('rotated'));
             showNotification('Estructura completa desplegada con éxito', 'info');
         }
 
         function collapseAllAccordions() {
-            document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(content => {
-                content.classList.remove('open');
-            });
-            document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(arrow => {
-                arrow.classList.remove('rotated');
-            });
+            document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(content => content.classList.remove('open'));
+            document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(arrow => arrow.classList.remove('rotated'));
             document.getElementById('current-crumb-node').textContent = 'Vista General';
             showNotification('Estructura contraída completamente', 'info');
         }
@@ -732,14 +884,10 @@
             }
         }
 
-        // 3. System Theme Engine Manager (Local Storage backed)
+        // Theme Engine Toggler 
         function initSystemTheme() {
             const savedTheme = localStorage.getItem('premium-dashboard-theme') || 'light';
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark', 'dark-vars');
-            } else {
-                document.documentElement.classList.remove('dark', 'dark-vars');
-            }
+            if (savedTheme === 'dark') document.documentElement.classList.add('dark', 'dark-vars');
         }
 
         function toggleDarkMode() {
@@ -747,42 +895,320 @@
             document.documentElement.classList.toggle('dark-vars', isDark);
             localStorage.setItem('premium-dashboard-theme', isDark ? 'dark' : 'light');
             showNotification(`Modo ${isDark ? 'Oscuro' : 'Claro'} activado`, 'info');
-            
-            // Re-render charts to adjust layout labels clarity if needed
             if(window.auditChartInst) {
-                window.auditChartInst.destroy();
-                window.buddiesChartInst.destroy();
-                window.familiesChartInst.destroy();
+                window.auditChartInst.destroy(); window.buddiesChartInst.destroy(); window.familiesChartInst.destroy();
                 initCharts();
             }
         }
 
-        // 4. Real-time Search Processing Filtration Engine
-        function executeGlobalSearch() {
-            const rawQuery = document.getElementById('global-search-input').value.toLowerCase().trim();
-            const links = document.querySelectorAll('#accordion-root-navigation a');
-            const sections = document.querySelectorAll('#accordion-root-navigation button');
-            const pill = document.getElementById('filter-tag-pill');
+        // ================================================================================= -->
+        // ======================== DRAG AND DROP & SHEETJS ENGINE ========================= -->
+        // ================================================================================= -->
+        function setupDragAndDropHandlers() {
+            const dropZone = document.getElementById('excel-drop-zone');
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    dropZone.classList.add('dropzone-active');
+                }, false);
+            });
 
-            if (!rawQuery) {
-                // Clear matching filter filters
-                pill.classList.add('hidden');
-                links.forEach(l => { l.style.display = ''; l.classList.remove('bg-amber-500/20'); });
-                sections.forEach(s => s.parentNode.style.display = '');
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    dropZone.classList.remove('dropzone-active');
+                }, false);
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                processUploadedFilesCollection(files);
+            }, false);
+        }
+
+        function handleFileSelection(event) {
+            const files = event.target.files;
+            processUploadedFilesCollection(files);
+        }
+
+        function processUploadedFilesCollection(files) {
+            if(!files || files.length === 0) return;
+
+            Array.from(files).forEach(file => {
+                const fileReader = new FileReader();
+                const fileName = file.name;
+                const fileSizeKB = Math.round(file.size / 1024);
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+
+                if(!['xlsx', 'xls', 'csv'].includes(fileExtension)) {
+                    showNotification(`Formato no permitido para el archivo: ${fileName}`, 'orange');
+                    return;
+                }
+
+                fileReader.onload = function(e) {
+                    try {
+                        const dataBytes = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(dataBytes, { type: 'array' });
+                        
+                        const compiledSheetsObject = {};
+                        let aggregatedRecordsCounter = 0;
+
+                        workbook.SheetNames.forEach(sheetName => {
+                            const worksheet = workbook.Sheets[sheetName];
+                            // Automatically extract rows grid as array structure matrix format
+                            const jsonRowsMatrix = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+                            compiledSheetsObject[sheetName] = jsonRowsMatrix;
+                            aggregatedRecordsCounter += jsonRowsMatrix.length;
+                        });
+
+                        // Structural entity mapping for central store local index matching rules
+                        const targetStoredObject = {
+                            id: 'excel_db_' + Date.now() + '_' + Math.floor(Math.random()*1000),
+                            name: fileName,
+                            size: fileSizeKB + ' KB',
+                            date: new Date().toLocaleDateString('es-ES') + ' ' + new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'}),
+                            totalRecords: aggregatedRecordsCounter,
+                            sheets: compiledSheetsObject
+                        };
+
+                        // Push into stack or overwrite matching duplicates if loaded again
+                        const matchingIndex = LOCAL_DATABASE_REGISTRY.findIndex(item => item.name === fileName);
+                        if(matchingIndex > -1) {
+                            LOCAL_DATABASE_REGISTRY[matchingIndex] = targetStoredObject;
+                            showNotification(`Archivo "${fileName}" actualizado correctamente`, 'success');
+                        } else {
+                            LOCAL_DATABASE_REGISTRY.push(targetStoredObject);
+                            showNotification(`Archivo "${fileName}" indexado con éxito`, 'success');
+                        }
+
+                        // Save updated store into LocalStorage automatically
+                        saveDatabaseToLocalStorage();
+                        updateLocalDashboardAdministrationDOM();
+                        triggerFilePreviewWorkspace(LOCAL_DATABASE_REGISTRY.length - 1);
+
+                    } catch (err) {
+                        console.error(err);
+                        showNotification('Error al interpretar estructura interna de celdas.', 'orange');
+                    }
+                };
+
+                fileReader.readAsArrayBuffer(file);
+            });
+        }
+
+        // Local Storage persistence logic layer
+        function saveDatabaseToLocalStorage() {
+            try {
+                localStorage.setItem('aiesec_gold_sunrise_excel_store', JSON.stringify(LOCAL_DATABASE_REGISTRY));
+            } catch(e) {
+                showNotification('Límite de LocalStorage excedido. Datos guardados solo en memoria activa.', 'orange');
+            }
+        }
+
+        function loadDatabaseFromLocalStorage() {
+            const savedRaw = localStorage.getItem('aiesec_gold_sunrise_excel_store');
+            if(savedRaw) {
+                try {
+                    LOCAL_DATABASE_REGISTRY = JSON.parse(savedRaw);
+                    updateLocalDashboardAdministrationDOM();
+                    if(LOCAL_DATABASE_REGISTRY.length > 0) {
+                        triggerFilePreviewWorkspace(0);
+                    }
+                } catch(e) {
+                    LOCAL_DATABASE_REGISTRY = [];
+                }
+            }
+        }
+
+        function purgeEntireLocalStorageDatabase() {
+            LOCAL_DATABASE_REGISTRY = [];
+            localStorage.removeItem('aiesec_gold_sunrise_excel_store');
+            updateLocalDashboardAdministrationDOM();
+            document.getElementById('excel-preview-workspace-wrapper').classList.add('hidden');
+            document.getElementById('loaded-files-inventory-wrapper').classList.add('hidden');
+            clearSmartSearch();
+            showNotification('Base de datos local purgada por completo.', 'orange');
+        }
+
+        function removeFileByArrayId(index) {
+            if(LOCAL_DATABASE_REGISTRY[index]) {
+                const name = LOCAL_DATABASE_REGISTRY[index].name;
+                LOCAL_DATABASE_REGISTRY.splice(index, 1);
+                saveDatabaseToLocalStorage();
+                updateLocalDashboardAdministrationDOM();
+                showNotification(`Archivo "${name}" eliminado`, 'info');
+                
+                if(LOCAL_DATABASE_REGISTRY.length > 0) {
+                    triggerFilePreviewWorkspace(0);
+                } else {
+                    document.getElementById('excel-preview-workspace-wrapper').classList.add('hidden');
+                    document.getElementById('loaded-files-inventory-wrapper').classList.add('hidden');
+                }
+                // Refilter search results if panel is open
+                if(LAST_SEARCH_TYPED_QUERY) {
+                    executeGlobalSmartSearch();
+                }
+            }
+        }
+
+        // Administration DOM renderer layout grid loop update
+        function updateLocalDashboardAdministrationDOM() {
+            let totalRecordsSum = 0;
+            LOCAL_DATABASE_REGISTRY.forEach(f => totalRecordsSum += f.totalRecords);
+
+            document.getElementById('metric-files-count').textContent = LOCAL_DATABASE_REGISTRY.length;
+            document.getElementById('metric-records-count').textContent = totalRecordsSum;
+            document.getElementById('metric-last-update').textContent = LOCAL_DATABASE_REGISTRY.length > 0 ? LOCAL_DATABASE_REGISTRY[LOCAL_DATABASE_REGISTRY.length - 1].date : '-';
+
+            const inventoryWrapper = document.getElementById('loaded-files-inventory-wrapper');
+            const inventoryContainer = document.getElementById('loaded-files-items-container');
+            
+            if(LOCAL_DATABASE_REGISTRY.length === 0) {
+                inventoryWrapper.classList.add('hidden');
                 return;
             }
 
-            pill.classList.remove('hidden');
-            let totalMatches = 0;
+            inventoryWrapper.classList.remove('hidden');
+            inventoryContainer.innerHTML = '';
+
+            LOCAL_DATABASE_REGISTRY.forEach((fileItem, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-white/50 dark:bg-slate-900/40 p-3.5 rounded-xl border border-slate-300/30 flex flex-col justify-between gap-2 shadow-sm hover:border-[var(--neon-orange)] transition";
+                card.innerHTML = `
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                        <div class="overflow-hidden">
+                            <h6 class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate" title="${fileItem.name}">${fileItem.name}</h6>
+                            <p class="text-[10px] text-slate-400 mt-0.5">${fileItem.totalRecords} filas · ${fileItem.size}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between gap-2 border-t border-slate-300/10 pt-2 mt-1">
+                        <button onclick="triggerFilePreviewWorkspace(${idx})" class="text-[10px] font-bold text-[var(--tech-blue)] hover:underline flex items-center gap-0.5">
+                            <i data-lucide="eye" class="w-3 h-3"></i> Ver Tabla
+                        </button>
+                        <button onclick="removeFileByArrayId(${idx})" class="text-[10px] font-bold text-rose-500 hover:underline flex items-center gap-0.5">
+                            <i data-lucide="trash-2" class="w-3 h-3"></i> Quitar
+                        </button>
+                    </div>
+                `;
+                inventoryContainer.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // Spreadsheet dynamic rendering preview window
+        function triggerFilePreviewWorkspace(index) {
+            if(!LOCAL_DATABASE_REGISTRY[index]) return;
+            ACTIVE_PREVIEW_FILE_INDEX = index;
+            const fileItem = LOCAL_DATABASE_REGISTRY[index];
+
+            document.getElementById('excel-preview-workspace-wrapper').classList.remove('hidden');
+            document.getElementById('preview-filename-lbl').textContent = fileItem.name;
+            document.getElementById('meta-file-size').textContent = fileItem.size;
+            
+            const sheetNamesArray = Object.keys(fileItem.sheets);
+            document.getElementById('meta-sheets-count').textContent = sheetNamesArray.length;
+
+            const selectorDropdown = document.getElementById('preview-sheet-selector');
+            selectorDropdown.innerHTML = '';
+            sheetNamesArray.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name; opt.textContent = name;
+                selectorDropdown.appendChild(opt);
+            });
+
+            switchActivePreviewSheet();
+        }
+
+        function switchActivePreviewSheet() {
+            if(ACTIVE_PREVIEW_FILE_INDEX === null || !LOCAL_DATABASE_REGISTRY[ACTIVE_PREVIEW_FILE_INDEX]) return;
+            const fileItem = LOCAL_DATABASE_REGISTRY[ACTIVE_PREVIEW_FILE_INDEX];
+            const activeSheetName = document.getElementById('preview-sheet-selector').value;
+            
+            if(!activeSheetName) return;
+            const rowsData = fileItem.sheets[activeSheetName] || [];
+            document.getElementById('meta-rows-count').textContent = rowsData.length;
+
+            const tableNode = document.getElementById('dynamic-excel-table-render-node');
+            tableNode.innerHTML = '';
+
+            if(rowsData.length === 0) {
+                tableNode.innerHTML = `<tr><td class="p-4 text-center text-slate-400 text-xs">Esta hoja no contiene registros legibles o está vacía.</td></tr>`;
+                return;
+            }
+
+            // Extract headers structure dynamically from the keys mapping of first record row entries
+            const computedHeaders = Object.keys(rowsData[0]);
+            
+            // Build header element row 
+            const thead = document.createElement('thead');
+            thead.className = "bg-white/60 dark:bg-slate-900/60 text-[11px] uppercase tracking-wider font-bold text-slate-500 border-b border-slate-300/40 sticky top-0";
+            let hRowHtml = `<tr>`;
+            computedHeaders.forEach(h => {
+                hRowHtml += `<th class="p-2.5 border-r border-slate-300/20 max-w-[150px] truncate">${h}</th>`;
+            });
+            hRowHtml += `</tr>`;
+            thead.innerHTML = hRowHtml;
+            tableNode.appendChild(thead);
+
+            // Render limited snapshot dataset for premium viewport rendering efficiency (Max 15 rows display)
+            const tbody = document.createElement('tbody');
+            tbody.className = "divide-y divide-slate-300/10 text-slate-700 dark:text-slate-300";
+            
+            const recordsSnapshotLimit = rowsData.slice(0, 15);
+            recordsSnapshotLimit.forEach((row, rIdx) => {
+                let rowHtml = `<tr class="hover:bg-white/30 dark:hover:bg-slate-900/20 transition">`;
+                computedHeaders.forEach(headerKey => {
+                    const cellVal = row[headerKey] !== undefined ? row[headerKey] : "";
+                    rowHtml += `<td class="p-2 border-r border-slate-300/10 truncate max-w-[150px]" title="${cellVal}">${cellVal}</td>`;
+                });
+                rowHtml += `</tr>`;
+                tbody.innerHTML += rowHtml;
+            });
+            tableNode.appendChild(tbody);
+        }
+
+        function exportUnifiedDatabaseJSON() {
+            if(LOCAL_DATABASE_REGISTRY.length === 0) {
+                showNotification('No hay registros locales cargados para exportar', 'orange');
+                return;
+            }
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(LOCAL_DATABASE_REGISTRY, null, 2));
+            const dlAnchorElem = document.createElement('a');
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", `AIESEC_Experience_Gold_Sunrise_Database_${Date.now()}.json`);
+            dlAnchorElem.click();
+            showNotification('Esquema JSON generado exitosamente', 'success');
+        }
+
+        // ================================================================================= -->
+        // ====================== HYBRID REAL-TIME SMART SEARCH ENGINE ===================== -->
+        // ================================================================================= -->
+        function executeGlobalSmartSearch() {
+            // Backward compatible proxy handler for original flat accordion system tree search
+            executeMenuTreeHighlightSearch();
+            
+            // Execute advanced multi-layer hybrid index query parsing
+            executeHybridSmartResultsQuery();
+        }
+
+        function executeMenuTreeHighlightSearch() {
+            const rawQuery = document.getElementById('global-search-input').value.toLowerCase().trim();
+            const links = document.querySelectorAll('#accordion-root-navigation a');
+            
+            if (!rawQuery) {
+                links.forEach(l => { l.style.display = ''; l.classList.remove('bg-amber-500/20'); });
+                return;
+            }
 
             links.forEach(link => {
                 const innerText = link.textContent.toLowerCase();
                 if (innerText.includes(rawQuery)) {
                     link.style.display = '';
                     link.classList.add('bg-amber-500/20');
-                    totalMatches++;
                     
-                    // Force reveal parent containment hierarchy trees dynamically
                     let ancestor = link.parentNode;
                     while (ancestor && ancestor !== document.getElementById('accordion-root-navigation')) {
                         if (ancestor.classList.contains('accordion-content')) {
@@ -797,104 +1223,207 @@
                     link.classList.remove('bg-amber-500/20');
                 }
             });
+        }
 
-            // Clean visible states for internal empty modules
-            document.querySelectorAll('#accordion-root-navigation > div').forEach(masterModule => {
-                const subLinksVisible = masterModule.querySelectorAll('a:not([style*="display: none"])');
-                if (subLinksVisible.length === 0) {
-                    masterModule.style.display = 'none';
-                } else {
-                    masterModule.style.display = '';
+        function executeHybridSmartResultsQuery() {
+            const query = document.getElementById('global-search-input').value.toLowerCase().trim();
+            LAST_SEARCH_TYPED_QUERY = query;
+
+            const resultsSection = document.getElementById('smart-search-results-section');
+            const cardsContainer = document.getElementById('smart-search-cards-container');
+
+            if(!query) {
+                resultsSection.classList.add('hidden');
+                return;
+            }
+
+            resultsSection.classList.remove('hidden');
+            cardsContainer.innerHTML = '';
+
+            let compiledMatches = [];
+
+            // 1. Parse Static Core Entity Clusters (Simulating real-time Google Sheets streaming connections)
+            EXPORTED_CLOUD_MOCK_ENTITIES.forEach(entity => {
+                const bodyConcat = (entity.title + ' ' + entity.desc + ' ' + entity.src).toLowerCase();
+                if(bodyConcat.includes(query)) {
+                    compiledMatches.push({
+                        type: entity.type,
+                        title: entity.title,
+                        desc: entity.desc,
+                        src: entity.src,
+                        date: entity.date,
+                        link: entity.link,
+                        origin: 'cloud'
+                    });
                 }
             });
+
+            // 2. Parse Dynamically Indexable Rows from Uploaded SheetJS Excel Matrices (Automated indexer)
+            LOCAL_DATABASE_REGISTRY.forEach(fileNode => {
+                Object.keys(fileNode.sheets).forEach(sheetName => {
+                    const rowsArray = fileNode.sheets[sheetName];
+                    rowsArray.forEach((row, rowIndex) => {
+                        // Concatenate values grid dynamically without explicit cell index pre-configuration mapping fields
+                        let rowValuesString = '';
+                        Object.keys(row).forEach(k => { rowValuesString += ' ' + row[k]; });
+                        
+                        if(rowValuesString.toLowerCase().includes(query)) {
+                            // Extract key context details to build an elegant preview description grid snippet
+                            const snippetLabels = Object.keys(row).slice(0, 4).map(k => `${k}: ${row[k]}`).join(' | ');
+
+                            compiledMatches.push({
+                                type: 'Excel',
+                                title: `Fila ${rowIndex + 1} @ ${sheetName}`,
+                                desc: snippetLabels.substring(0, 160) + (snippetLabels.length > 160 ? '...' : '') + ` (Campos completos indexados sin configuración manual)`,
+                                src: `Excel Local (${fileNode.name})`,
+                                date: fileNode.date,
+                                link: '#seccion-centro-datos',
+                                rowData: row,
+                                origin: 'local'
+                            });
+                        }
+                    });
+                });
+            });
+
+            // Apply contextual runtime target entity filter tags filter pill matrices
+            if(CURRENT_SEARCH_ACTIVE_FILTER !== 'Todos') {
+                compiledMatches = compiledMatches.filter(item => item.type === CURRENT_SEARCH_ACTIVE_FILTER);
+            }
+
+            if(compiledMatches.length === 0) {
+                cardsContainer.innerHTML = `
+                    <div class="col-span-full p-8 text-center text-slate-400 text-xs font-semibold flex flex-col items-center justify-center gap-2">
+                        <i data-lucide="help-circle" class="w-8 h-8 text-slate-300"></i>
+                        No se encontraron registros coincidentes para tu consulta en el ecosistema de datos indexados.
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            // Build structural interactive display feed node items inside panel viewport box layout wrapper
+            compiledMatches.forEach(match => {
+                const badgeStyle = getBadgeVisualStylesForEntityType(match.type);
+                const itemCard = document.createElement('div');
+                itemCard.className = "bg-white/80 dark:bg-slate-900/60 p-4 rounded-2xl border border-slate-300/40 dark:border-slate-800/80 shadow-md hover:scale-[1.01] transition flex flex-col justify-between gap-3 relative overflow-hidden group";
+                
+                // Copy action string text block context creation
+                const textToCopyStr = `${match.title} - ${match.desc} (Fuente: ${match.src})`;
+
+                itemCard.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between gap-2 border-b border-slate-300/10 pb-2 mb-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold tracking-wide uppercase ${badgeStyle}">${match.type}</span>
+                            <span class="text-[10px] text-slate-400 font-semibold flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> ${match.date}</span>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[var(--neon-orange)] transition truncate">${match.title}</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-1 leading-snug line-clamp-2">${match.desc}</p>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-300/10 mt-1">
+                        <span class="text-[10px] text-slate-400 font-bold truncate max-w-[120px]"><i data-lucide="database" class="w-3 h-3 inline"></i> ${match.src}</span>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button onclick="copyMatchContentText(this, \`${encodeURIComponent(textToCopyStr)}\`)" class="p-1.5 rounded-lg bg-slate-200/50 dark:bg-slate-800/50 hover:bg-[var(--neon-orange)] dark:hover:bg-[var(--neon-orange)] hover:text-white transition" title="Copiar Datos">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button onclick="openSmartMatchViewDetails(\`${encodeURIComponent(JSON.stringify(match))}\`)" class="p-1.5 rounded-lg bg-slate-200/50 dark:bg-slate-800/50 hover:bg-[var(--tech-blue)] dark:hover:bg-[var(--tech-blue)] hover:text-white transition" title="Ver Detalles">
+                                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <a href="${match.link}" ${match.link.startsWith('http') ? 'target="_blank"' : ''} class="p-1.5 rounded-lg bg-slate-200/50 dark:bg-slate-800/50 hover:bg-emerald-500 hover:text-white transition flex items-center justify-center" title="Abrir Origen">
+                                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                cardsContainer.appendChild(itemCard);
+            });
+
+            lucide.createIcons();
         }
 
-        // 5. Count-Up Digital Animation Core
-        function executeCountUpAnimations() {
-            const elements = document.querySelectorAll('.count-up');
-            elements.forEach(el => {
-                const target = parseInt(el.getAttribute('data-target'), 10) || 0;
-                let current = 0;
-                const steps = 50;
-                const increment = Math.ceil(target / steps);
-                const speed = 25;
+        function filterSmartSearch(filterType) {
+            CURRENT_SEARCH_ACTIVE_FILTER = filterType;
+            
+            // Toggle active pill button styles visuals mapping counters row
+            document.querySelectorAll('#search-filter-pills-row button').forEach(btn => {
+                if(btn.getAttribute('data-filter') === filterType) {
+                    btn.className = "px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition bg-[var(--neon-orange)] text-white shadow-sm filter-pill";
+                } else {
+                    btn.className = "px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition bg-white/40 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 hover:bg-white/80 filter-pill";
+                }
+            });
 
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        el.textContent = target;
-                        clearInterval(timer);
-                    } else {
-                        el.textContent = current;
-                    }
-                }, speed);
+            executeHybridSmartResultsQuery();
+        }
+
+        function clearSmartSearch() {
+            document.getElementById('global-search-input').value = '';
+            document.getElementById('smart-search-results-section').classList.add('hidden');
+            executeMenuTreeHighlightSearch();
+        }
+
+        function copyMatchContentText(btnElement, encodedText) {
+            const decoded = decodeURIComponent(encodedText);
+            navigator.clipboard.writeText(decoded).then(() => {
+                showNotification('Información copiada al portapapeles con éxito', 'success');
+                const origInner = btnElement.innerHTML;
+                btnElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-white"></i>`;
+                btnElement.classList.add('bg-emerald-500');
+                lucide.createIcons();
+                setTimeout(() => {
+                    btnElement.innerHTML = origInner;
+                    btnElement.classList.remove('bg-emerald-500');
+                    lucide.createIcons();
+                }, 1500);
             });
         }
 
-        // 6. Notification System Infrastructure Engine
-        function showNotification(message, type = 'success') {
-            const hub = document.getElementById('notification-hub');
-            const toast = document.createElement('div');
+        function openSmartMatchViewDetails(encodedMatchObjectString) {
+            const matchObj = JSON.parse(decodeURIComponent(encodedMatchObjectString));
             
-            let iconType = 'info';
-            let borderCol = 'border-l-[var(--tech-blue)]';
-            let textIcon = 'text-blue-500';
-
-            if(type === 'success') {
-                iconType = 'check-circle';
-                borderCol = 'border-l-emerald-500';
-                textIcon = 'text-emerald-500';
-            } else if (type === 'orange') {
-                iconType = 'alert-triangle';
-                borderCol = 'border-l-[var(--neon-orange)]';
-                textIcon = 'text-amber-500';
+            let messageBodyDetails = matchObj.desc;
+            if(matchObj.type === 'Excel' && matchObj.rowData) {
+                messageBodyDetails = Object.keys(matchObj.rowData).map(k => `<strong>${k}:</strong> ${matchObj.rowData[k]}`).join('<br>');
             }
 
-            let bgStyle = "rgba(255,255,255,0.95)";
-            if(document.documentElement.classList.contains("dark")) {
-                bgStyle = "rgba(15,23,42,0.95)";
-            }
-
-            toast.className = `p-4 rounded-2xl shadow-xl border-l-4 ${borderCol} transition-all duration-300 transform translate-x-20 opacity-0 flex items-start gap-3 w-80 max-w-full`;
-            toast.style.background = bgStyle;
-            toast.style.backdropFilter = "blur(10px)";
-            
-            toast.innerHTML = `
-                <div class="${textIcon} shrink-0 mt-0.5">
-                    <i data-lucide="${iconType}" class="w-4 h-4"></i>
-                </div>
-                <div class="flex-1">
-                    <p class="text-xs font-bold text-slate-900 dark:text-white leading-snug">${message}</p>
+            // Standardize full contextual view inside an operational beautiful temporary dialog frame layer 
+            const detailModal = document.createElement('div');
+            detailModal.className = "fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-fadeIn";
+            detailModal.innerHTML = `
+                <div class="glass-card max-w-lg w-full p-6 flex flex-col gap-4 relative bg-white/95 dark:bg-slate-950/95 shadow-2xl">
+                    <div class="flex items-center justify-between border-b border-slate-300/30 pb-3">
+                        <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold tracking-wide uppercase ${getBadgeVisualStylesForEntityType(matchObj.type)}">${matchObj.type}</span>
+                        <button onclick="this.parentNode.parentNode.parentNode.remove()" class="p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition"><i data-lucide="x" class="w-4 h-4"></i></button>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">${matchObj.title}</h4>
+                        <p class="text-[10px] text-slate-400 font-semibold mt-0.5">Origen: ${matchObj.src} · Sincronizado: ${matchObj.date}</p>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl text-xs text-slate-700 dark:text-slate-300 overflow-y-auto max-h-[250px] font-inter leading-relaxed space-y-1">
+                        ${messageBodyDetails}
+                    </div>
+                    <div class="flex justify-end pt-2">
+                        <button onclick="this.parentNode.parentNode.parentNode.remove()" class="px-4 py-2 bg-[var(--tech-blue)] text-white font-bold text-xs rounded-xl hover:scale-105 transition shadow-sm">Entendido</button>
+                    </div>
                 </div>
             `;
-
-            hub.appendChild(toast);
+            document.body.appendChild(detailModal);
             lucide.createIcons();
-
-            setTimeout(() => {
-                toast.classList.remove("translate-x-20", "opacity-0");
-            }, 50);
-
-            setTimeout(() => {
-                toast.classList.add("translate-x-20", "opacity-0");
-                setTimeout(() => toast.remove(), 400);
-            }, 4000);
         }
 
-        // 7. Network Monitoring Event Hooks
-        window.addEventListener('online', () => {
-            document.getElementById('status-text').textContent = 'Online';
-            const badge = document.getElementById('status-text').parentNode;
-            badge.className = "flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-semibold";
-            showNotification('Conexión reestablecida con el servidor', 'success');
-        });
-
-        window.addEventListener('offline', () => {
-            document.getElementById('status-text').textContent = 'Offline';
-            const badge = document.getElementById('status-text').parentNode;
-            badge.className = "flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-500 text-xs font-semibold";
-            showNotification('Se ha perdido la conexión de red', 'orange');
-        });
+        function getBadgeVisualStylesForEntityType(type) {
+            switch(type) {
+                case 'TN': return 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20';
+                case 'Buddy': return 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20';
+                case 'Familia Global': return 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20';
+                case 'Reporte': return 'bg-purple-500/10 text-purple-500 border border-purple-500/20';
+                case 'Idea': return 'bg-amber-500/10 text-amber-500 border border-amber-500/20';
+                case 'Auditoría': return 'bg-pink-500/10 text-pink-500 border border-pink-500/20';
+                case 'Excel': return 'bg-orange-500/10 text-[var(--neon-orange)] border border-orange-500/20';
+                default: return 'bg-slate-500/10 text-slate-500';
+            }
+        }
 
         // ================================================================================= -->
         // ============================ CHARTS INITIALIZATION LAYER ======================== -->
@@ -904,7 +1433,6 @@
             const fontColor = isDarkActive ? '#94a3b8' : '#4B5563';
             const gridColor = isDarkActive ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)';
 
-            // Master Chart 1: Audit Status (Doughnut Chart)
             const ctxDoughnut = document.getElementById('auditDoughnutChart').getContext('2d');
             window.auditChartInst = new Chart(ctxDoughnut, {
                 type: 'doughnut',
@@ -926,7 +1454,6 @@
                 }
             });
 
-            // Master Chart 2: Buddies Distribution (Bar Chart)
             const ctxBar = document.getElementById('buddiesBarChart').getContext('2d');
             window.buddiesChartInst = new Chart(ctxBar, {
                 type: 'bar',
@@ -950,7 +1477,6 @@
                 }
             });
 
-            // Master Chart 3: Global Families Active Pool Tracking (Horizontal Bar Chart)
             const ctxHBar = document.getElementById('familiesHorizontalBarChart').getContext('2d');
             window.familiesChartInst = new Chart(ctxHBar, {
                 type: 'bar',
@@ -974,7 +1500,6 @@
                 }
             });
 
-            // ================= MINI KPI SPARKLINES LAYER =================
             const miniSparklineOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
