@@ -1,601 +1,334 @@
-#!/bin/bash
-
-# 1. CREACIÓN DE LA ESTRUCTURA OBLIGATORIA DE CARPETAS
-echo "Creando estructura de carpetas para GOLD SUNRISE..."
-mkdir -p assets/css
-mkdir -p assets/js
-mkdir -p assets/img
-mkdir -p assets/icons
-
-# 2. CREACIÓN DE INDEX.HTML (DASHBOARD PRINCIPAL)
-cat << 'EOF' > index.html
 <!DOCTYPE html>
-<html lang="es" class="light">
+
+<html lang="es" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gold Sunrise - Experience Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            primary: '#14B8A6',
-                            secondary: '#2563EB',
-                            lightBg: '#F8FAFC',
-                            darkBg: '#0F172A',
-                            darkCard: '#1E293B'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="assets/css/style.css">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Experience Operations Hub</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
-<body class="bg-brand-lightBg text-slate-900 dark:bg-brand-darkBg dark:text-slate-100 transition-colors duration-300 font-sans antialiased">
 
-    <div class="flex h-screen overflow-hidden">
-        <aside class="hidden lg:flex flex-col w-64 bg-white dark:bg-brand-darkCard border-r border-slate-200 dark:border-slate-700 p-5 z-20">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="p-2 bg-teal-500 rounded-xl text-white">
-                    <i data-lucide="sun" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-sm tracking-wide text-slate-800 dark:text-white uppercase">Gold Sunrise</h1>
-                    <span class="text-xs text-slate-400 font-medium">AIESEC Experience</span>
-                </div>
-            </div>
-            <nav class="flex-1 space-y-1">
-                <a href="index.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400 font-medium transition-all">
-                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
-                </a>
-                <a href="ecb.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 font-medium transition-all">
-                    <i data-lucide="shield-check" class="w-5 h-5"></i> Área E.C.B.
-                </a>
-                <a href="tns.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 font-medium transition-all">
-                    <i data-lucide="users" class="w-5 h-5"></i> Gestión TNs
-                </a>
-            </nav>
-            <div class="pt-4 border-t border-slate-200 dark:border-slate-700">
-                <button id="theme-toggle-desktop" class="w-full flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all text-sm font-medium">
-                    <span class="flex items-center gap-2"><i data-lucide="moon" class="w-4 h-4"></i> Modo Oscuro</span>
-                </button>
-            </div>
-        </aside>
+<body class="bg-main text-white">
 
-        <div id="mobile-sidebar" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-            <div id="mobile-sidebar-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"></div>
-            <div class="fixed inset-y-0 left-0 w-full max-w-xs bg-white dark:bg-brand-darkCard p-6 shadow-xl flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out" id="mobile-sidebar-panel">
-                <div class="flex items-center justify-between mb-8">
-                    <div class="flex items-center gap-3">
-                        <div class="p-2 bg-teal-500 rounded-xl text-white"><i data-lucide="sun" class="w-5 h-5"></i></div>
-                        <span class="font-bold text-sm tracking-wide uppercase text-slate-800 dark:text-white">Gold Sunrise</span>
-                    </div>
-                    <button id="close-sidebar" class="p-1 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
-                        <i data-lucide="x" class="w-6 h-6"></i>
-                    </button>
-                </div>
-                <nav class="space-y-2 flex-1">
-                    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400 font-medium">Dashboard</a>
-                    <a href="ecb.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800">Área E.C.B.</a>
-                    <a href="tns.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800">Gestión TNs</a>
-                </nav>
-                <button id="theme-toggle-mobile" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium">
-                    <span class="flex items-center gap-2"><i data-lucide="moon" class="w-4 h-4"></i> Modo Oscuro</span>
-                </button>
-            </div>
-        </div>
+<div class="aurora-bg"></div>
 
-        <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
-            <header class="h-16 border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-brand-darkCard/80 backdrop-blur px-4 lg:px-8 flex items-center justify-between sticky top-0 z-10">
-                <div class="flex items-center gap-4 flex-1">
-                    <button id="open-sidebar" class="lg:hidden p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
-                    </button>
-                    <div class="relative w-full max-w-md">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
-                            <i data-lucide="search" class="w-4 h-4"></i>
-                        </span>
-                        <input type="text" id="global-search" class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-900 dark:text-white transition-all" placeholder="Buscar procesos, ideas, accesos...">
-                    </div>
-                </div>
-                <div class="flex items-center gap-4 text-xs font-medium text-slate-400 bg-slate-50 dark:bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
-                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5 animate-spin text-teal-500" id="sync-icon"></i>
-                    <span>Sincronizado: <span id="sync-time">Cargando...</span></span>
-                </div>
-            </header>
+<nav class="navbar">
 
-            <main class="flex-1 p-4 lg:p-8 space-y-8 max-w-7xl w-full mx-auto content-searchable">
-                <div class="bg-gradient-to-r from-teal-500/10 via-blue-500/5 to-transparent p-6 lg:p-8 rounded-2xl border border-teal-500/20 relative overflow-hidden">
-                    <div class="relative z-10">
-                        <span class="text-teal-600 dark:text-teal-400 font-bold tracking-widest text-xs uppercase block mb-2">COORDI EXPERIENCE GOLD SUNRISE</span>
-                        <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">TOOL GUIA DE PROCESOS, IDEAS, CARPETAS Y MÁS</h2>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-2xl">Centro unificado de operaciones estratégicas y auditorías de intercambio para el área de Experience en AIESEC.</p>
-                    </div>
-                </div>
+<div class="logo">
+🌅 GOLD SUNRISE
+</div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white dark:bg-brand-darkCard p-6 lg:p-8 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm flex flex-col justify-between hover:shadow-md transition-all group">
-                        <div>
-                            <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-5"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
-                            <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">PANEL DE CONTROL Y CALIDAD (E.C.B.)</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6">Centro operativo de auditorías estructurales, control documental de visas y contratos, normativas internas y auditorías directas de TNs.</p>
-                        </div>
-                        <a href="ecb.html" class="inline-flex items-center justify-center gap-2 w-full px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-all shadow-sm">Ingresar al Panel <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
-                    </div>
+<div class="nav-links">
+<a href="ecb.html">ECB</a>
+<a href="tns.html">TNs</a>
+</div>
 
-                    <div class="bg-white dark:bg-brand-darkCard p-6 lg:p-8 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm flex flex-col justify-between hover:shadow-md transition-all group">
-                        <div>
-                            <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center mb-5"><i data-lucide="users" class="w-6 h-6"></i></div>
-                            <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">GESTIÓN DE TRAINEES TN</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6">Seguimiento exhaustivo de trainees internacionales, gestión del ecosistema de buddies, emparejamiento con familias globales, reportes de soporte y banco de ideas.</p>
-                        </div>
-                        <a href="tns.html" class="inline-flex items-center justify-center gap-2 w-full px-5 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-medium transition-all shadow-sm">Gestionar Trainees <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
-                    </div>
-                </div>
+</nav>
 
-                <div>
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-teal-500"></i> Métricas Operativas en Tiempo Real</h3>
-                    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
-                        <div class="bg-white dark:bg-brand-darkCard p-4 rounded-xl border border-slate-200 dark:border-slate-700/60"><span class="text-xs font-medium text-slate-400 block mb-1">Total TNs</span><span id="kpi-tns" class="text-2xl font-bold text-slate-900 dark:text-white">...</span></div>
-                        <div class="bg-white dark:bg-brand-darkCard p-4 rounded-xl border border-slate-200 dark:border-slate-700/60"><span class="text-xs font-medium text-slate-400 block mb-1">Auditorías</span><span id="kpi-audits" class="text-2xl font-bold text-slate-900 dark:text-white">...</span></div>
-                        <div class="bg-white dark:bg-brand-darkCard p-4 rounded-xl border border-slate-200 dark:border-slate-700/60"><span class="text-xs font-medium text-slate-400 block mb-1">Buddies Reg.</span><span id="kpi-buddies" class="text-2xl font-bold text-slate-900 dark:text-white">...</span></div>
-                        <div class="bg-white dark:bg-brand-darkCard p-4 rounded-xl border border-slate-200 dark:border-slate-700/60"><span class="text-xs font-medium text-slate-400 block mb-1">Familias Globales</span><span id="kpi-families" class="text-2xl font-bold text-slate-900 dark:text-white">...</span></div>
-                        <div class="bg-white dark:bg-brand-darkCard p-4 rounded-xl border border-slate-200 dark:border-slate-700/60"><span class="text-xs font-medium text-slate-400 block mb-1">Reportes Rec.</span><span id="kpi-reports" class="text-2xl font-bold text-slate-900 dark:text-white">...</span></div>
-                        <div class="bg-white dark:bg-brand-darkCard p-4 rounded-xl border border-slate-200 dark:border-slate-700/60"><span class="text-xs font-medium text-slate-400 block mb-1">Ideas Registradas</span><span id="kpi-ideas" class="text-2xl font-bold text-slate-900 dark:text-white">...</span></div>
-                    </div>
-                </div>
+<section class="hero">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white dark:bg-brand-darkCard p-5 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm md:col-span-2">
-                        <h4 class="text-sm font-semibold mb-4 text-slate-700 dark:text-slate-300">Evolución Temporal de TNs (Line Chart)</h4>
-                        <div class="h-64 relative"><canvas id="chart-evolution"></canvas></div>
-                    </div>
-                    <div class="bg-white dark:bg-brand-darkCard p-5 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm">
-                        <h4 class="text-sm font-semibold mb-4 text-slate-700 dark:text-slate-300">Estado de Auditorías (Doughnut)</h4>
-                        <div class="h-64 relative"><canvas id="chart-audits"></canvas></div>
-                    </div>
-                    <div class="bg-white dark:bg-brand-darkCard p-5 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm">
-                        <h4 class="text-sm font-semibold mb-4 text-slate-700 dark:text-slate-300">Distribución de Buddies (Bar Chart)</h4>
-                        <div class="h-64 relative"><canvas id="chart-buddies"></canvas></div>
-                    </div>
-                    <div class="bg-white dark:bg-brand-darkCard p-5 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm">
-                        <h4 class="text-sm font-semibold mb-4 text-slate-700 dark:text-slate-300">Familias Globales Activas (Pie)</h4>
-                        <div class="h-64 relative"><canvas id="chart-families"></canvas></div>
-                    </div>
-                    <div class="bg-white dark:bg-brand-darkCard p-5 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm">
-                        <h4 class="text-sm font-semibold mb-4 text-slate-700 dark:text-slate-300">Volumen de Reportes TN (Area Chart)</h4>
-                        <div class="h-64 relative"><canvas id="chart-reports"></canvas></div>
-                    </div>
-                </div>
-            </main>
-        </div>
-    </div>
+<span class="badge">
+COORDI EXPERIENCE GOLD SUNRISE
+</span>
 
-    <script src="assets/js/app.js"></script>
-    <script src="assets/js/sheets.js"></script>
-    <script src="assets/js/charts.js"></script>
+<h1>
+TOOL GUIA DE PROCESOS,
+IDEAS, CARPETAS Y MÁS
+</h1>
+
+<p>
+Centro estratégico de auditorías,
+trainees, buddies,
+familias globales y control de calidad.
+</p>
+
+</section>
+
+<section class="stats">
+
+<div class="glass-card">
+<h3>TNs</h3>
+<span>52</span>
+</div>
+
+<div class="glass-card">
+<h3>Auditorías</h3>
+<span>114</span>
+</div>
+
+<div class="glass-card">
+<h3>Buddies</h3>
+<span>36</span>
+</div>
+
+<div class="glass-card">
+<h3>Familias</h3>
+<span>18</span>
+</div>
+
+</section>
+
+<section class="modules">
+
+<a href="ecb.html" class="module-card">
+
+<div>
+🛡️
+</div>
+
+<h2>
+PANEL DE CONTROL Y CALIDAD
+</h2>
+
+<p>
+Auditorías, normativas,
+documentación y calidad.
+</p>
+
+</a>
+
+<a href="tns.html" class="module-card">
+
+<div>
+🌎
+</div>
+
+<h2>
+GESTIÓN DE TRAINEES TN
+</h2>
+
+<p>
+Trainees, Buddies,
+Ideas y Familias Globales.
+</p>
+
+</a>
+
+</section>
+
+<script>
+lucide.createIcons();
+</script>
+
 </body>
 </html>
-EOF
+body{
 
-# 3. CREACIÓN DE ECB.HTML (ÁREA CONTROL Y CALIDAD)
-echo "Escribiendo ecb.html..."
-cat << 'EOF' > ecb.html
-<!DOCTYPE html>
-<html lang="es" class="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Área E.C.B. - Control y Calidad</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: { extend: { colors: { brand: { primary: '#14B8A6', secondary: '#2563EB', lightBg: '#F8FAFC', darkBg: '#0F172A', darkCard: '#1E293B' } } } }
-        }
-    </script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body class="bg-brand-lightBg text-slate-900 dark:bg-brand-darkBg dark:text-slate-100 transition-colors duration-300 font-sans antialiased">
+margin:0;
 
-    <div class="flex h-screen overflow-hidden">
-        <aside class="hidden lg:flex flex-col w-64 bg-white dark:bg-brand-darkCard border-r border-slate-200 dark:border-slate-700 p-5 z-20">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="p-2 bg-teal-500 rounded-xl text-white"><i data-lucide="sun" class="w-6 h-6"></i></div>
-                <div class="font-bold text-sm uppercase dark:text-white">Gold Sunrise</div>
-            </div>
-            <nav class="flex-1 space-y-1">
-                <a href="index.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 font-medium">Dashboard</a>
-                <a href="ecb.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400 font-medium">Área E.C.B.</a>
-                <a href="tns.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 font-medium">Gestión TNs</a>
-            </nav>
-        </aside>
+font-family:
+Inter,
+sans-serif;
 
-        <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
-            <header class="h-16 border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-brand-darkCard/80 px-4 lg:px-8 flex items-center justify-between sticky top-0 z-10">
-                <div class="relative w-full max-w-md">
-                    <input type="text" id="global-search" class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm" placeholder="Buscar en ECB...">
-                </div>
-            </header>
+background:#030712;
 
-            <main class="flex-1 p-4 lg:p-8 space-y-6 max-w-5xl w-full mx-auto content-searchable">
-                <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
-                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">1. PANEL DE CONTROL Y CALIDAD (E.C.B.)</h2>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Área encargada del control de calidad, auditorías, documentación y cumplimiento de estándares Experience.</p>
-                </div>
+overflow-x:hidden;
 
-                <div class="bg-white dark:bg-brand-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm flex items-center justify-between">
-                    <div>
-                        <h3 class="font-bold text-slate-900 dark:text-white">1.1 GUÍA DEL ÁREA EXPERIENCE (BOOKLET E.C.B.)</h3>
-                    </div>
-                    <a href="https://drive.google.com/file/d/1DB2SgFyDNFDP_74QIntr9bjaK6oXhJMk/view" target="_blank" class="p-3 bg-slate-50 dark:bg-slate-800 text-teal-600 rounded-xl"><i data-lucide="external-link"></i></a>
-                </div>
-
-                <div class="bg-white dark:bg-brand-darkCard rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm overflow-hidden">
-                    <button class="w-full px-6 py-5 flex items-center justify-between font-bold text-slate-900 dark:text-white hover:bg-slate-50 text-left" onclick="toggleAccordion('accordion-auditorias')">
-                        <span>1.2 PROCESO DE AUDITORÍAS</span>
-                        <i data-lucide="chevron-down" id="accordion-icon"></i>
-                    </button>
-                    <div id="accordion-auditorias" class="hidden border-t divide-y bg-slate-50/50 dark:bg-slate-900/20">
-                        <div class="p-4 pl-8 flex items-center justify-between">
-                            <div><h4 class="font-semibold">1.2.1 PROCESO DE AUDITORIAS EXPERIENCE</h4></div>
-                            <a href="https://docs.google.com/spreadsheets/d/1sswwe1HrFlfzfFGCBADgKYKZelNUVFoY_MvSSzNMF0o/edit?gid=0#gid=0" target="_blank" class="text-teal-500 hover:underline">Link</a>
-                        </div>
-                        <div class="p-4 pl-8 flex items-center justify-between">
-                            <div><h4 class="font-semibold">1.2.2 TOOL DE AUDITORIAS TNs</h4></div>
-                            <a href="https://docs.google.com/spreadsheets/d/1vWqeiPBoOLh5FSTskH65I7d5O5IadZUEZKSA22Bh1yc/edit?gid=1541804123&authuser=6#gid=1541804123" target="_blank" class="text-teal-500 hover:underline">Link</a>
-                        </div>
-                        <div class="p-4 pl-8 flex items-center justify-between">
-                            <div><h4 class="font-semibold">1.2.3 MODELO DE DOCUMENTACION TNs</h4></div>
-                            <a href="https://drive.google.com/drive/folders/1wf1iQ18Rhjfen5kiI3jfV7TVvwGXmaGr" target="_blank" class="text-teal-500 hover:underline">Link</a>
-                        </div>
-                        <div class="p-4 pl-8 flex items-center justify-between">
-                            <div><h4 class="font-semibold">1.2.4 PLANTILLAS DE CORREOS</h4></div>
-                            <a href="https://docs.google.com/spreadsheets/d/1B5LKtMbUzldDt7DDw0nHpgKMgdpBBFxOHe351PU1v9I/edit?usp=sharing" target="_blank" class="text-teal-500 hover:underline">Link</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-brand-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
-                    <h3 class="font-bold text-slate-900 dark:text-white">1.3 CONTROL DE TNs Y AUDITORIAS</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <a href="https://drive.google.com/drive/folders/1zNJEuNvtOV6FnS8qh6wV7uA3rIDGyT7T" target="_blank" class="p-4 rounded-xl border bg-slate-50 flex flex-col justify-between h-24">
-                            <span class="font-bold text-sm">1.3.1 BASE DE DATOS TNs</span>
-                            <span class="text-xs text-teal-600">Ver Carpeta &rarr;</span>
-                        </a>
-                        <a href="https://docs.google.com/spreadsheets/d/1dQxdYjFcTUSNxWJQH1_TDmq26qDhvWCoCmqaD-DJNi8" target="_blank" class="p-4 rounded-xl border bg-slate-50 flex flex-col justify-between h-24">
-                            <span class="font-bold text-sm">1.3.2 LEAD SPACE</span>
-                            <span class="text-xs text-teal-600">Ver Hoja &rarr;</span>
-                        </a>
-                        <a href="https://canva.link/sx8qwyuz1g9r9bj" target="_blank" class="p-4 rounded-xl border bg-slate-50 flex flex-col justify-between h-24">
-                            <span class="font-bold text-sm">1.3.3 DIAPOSITIVAS DEL PRE IPS</span>
-                            <span class="text-xs text-teal-600">Ver Canva &rarr;</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a href="https://drive.google.com/file/d/1d6DwXPvK_jWLRCFM1YX8uCXGS6iiwGlu/view" target="_blank" class="p-5 bg-white dark:bg-brand-darkCard border rounded-2xl flex justify-between items-center">
-                        <span class="font-bold text-sm">1.4 NORMAS DE INTERCAMBIO</span><i data-lucide="file-text"></i>
-                    </a>
-                    <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="p-5 bg-white dark:bg-brand-darkCard border rounded-2xl flex justify-between items-center">
-                        <span class="font-bold text-sm">1.5 CALENDARIO</span><i data-lucide="calendar"></i>
-                    </a>
-                </div>
-            </main>
-        </div>
-    </div>
-    <script src="assets/js/app.js"></script>
-    <script>
-        function toggleAccordion(id) {
-            const el = document.getElementById(id);
-            el.classList.toggle('hidden');
-        }
-    </script>
-</body>
-</html>
-EOF
-
-# 4. CREACIÓN DE TNS.HTML (GESTIÓN DE TRAINEES)
-echo "Escribiendo tns.html..."
-cat << 'EOF' > tns.html
-<!DOCTYPE html>
-<html lang="es" class="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Trainees TN</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: { extend: { colors: { brand: { primary: '#14B8A6', secondary: '#2563EB', lightBg: '#F8FAFC', darkBg: '#0F172A', darkCard: '#1E293B' } } } }
-        }
-    </script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body class="bg-brand-lightBg text-slate-900 dark:bg-brand-darkBg dark:text-slate-100 transition-colors duration-300 font-sans antialiased">
-
-    <div class="flex h-screen overflow-hidden">
-        <aside class="hidden lg:flex flex-col w-64 bg-white dark:bg-brand-darkCard border-r border-slate-200 dark:border-slate-700 p-5 z-20">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="p-2 bg-teal-500 rounded-xl text-white"><i data-lucide="sun" class="w-6 h-6"></i></div>
-                <div class="font-bold text-sm uppercase dark:text-white">Gold Sunrise</div>
-            </div>
-            <nav class="flex-1 space-y-1">
-                <a href="index.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 font-medium">Dashboard</a>
-                <a href="ecb.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 font-medium">Área E.C.B.</a>
-                <a href="tns.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400 font-medium">Gestión TNs</a>
-            </nav>
-        </aside>
-
-        <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
-            <header class="h-16 border-b border-slate-200 bg-white/80 dark:bg-brand-darkCard/80 px-4 flex items-center justify-between sticky top-0 z-10">
-                <input type="text" id="global-search" class="w-full max-w-md px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm" placeholder="Buscar en TNs...">
-            </header>
-
-            <main class="flex-1 p-4 lg:p-8 space-y-8 max-w-5xl w-full mx-auto content-searchable">
-                <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
-                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">2. GESTIÓN DE TRAINEES TN</h2>
-                </div>
-
-                <div class="bg-gradient-to-r from-teal-500/10 to-teal-600/5 border p-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                    <div>
-                        <h3 class="font-bold text-slate-900 dark:text-white">2.1 DATOS DEL TNs</h3>
-                    </div>
-                    <a href="https://docs.google.com/spreadsheets/d/1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8" target="_blank" class="px-4 py-2 bg-teal-600 text-white text-xs rounded-xl font-medium">Abrir Base Maestra</a>
-                </div>
-
-                <div class="space-y-4">
-                    <h3 class="text-sm font-bold uppercase text-slate-400">2.2 BASE DE IDEAS</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <a href="https://docs.google.com/spreadsheets/d/1Al23B_Skf1nf4ysvOplzyNAZeYj7j513vDvzZAJXl_g" target="_blank" class="p-5 bg-white dark:bg-brand-darkCard border rounded-xl flex flex-col justify-between h-28">
-                            <span class="font-bold text-sm">2.2.1 INFORMACIÓN DE HOSPEDAJE</span><span class="text-xs text-slate-400">Sheets Link &rarr;</span>
-                        </a>
-                        <a href="https://canva.link/oun3q20ma7zqvns" target="_blank" class="p-5 bg-white dark:bg-brand-darkCard border rounded-xl flex flex-col justify-between h-28">
-                            <span class="font-bold text-sm">2.2.2 GUIA DE LUGARES GASTRONÓMICOS</span><span class="text-xs text-slate-400">Canva Link &rarr;</span>
-                        </a>
-                        <a href="https://docs.google.com/spreadsheets/d/1FtuZQd9NiaQEjDPJG1N4rCdS9QiXH7UVgwX1qjCWH7s" target="_blank" class="p-5 bg-white dark:bg-brand-darkCard border rounded-xl flex flex-col justify-between h-28">
-                            <span class="font-bold text-sm">2.2.3 COMIDA TÍPICA DEGUSTADA</span><span class="text-xs text-slate-400">Sheets Link &rarr;</span>
-                        </a>
-                        <a href="https://docs.google.com/spreadsheets/d/1dy-PQaIKhN0zxrdxFIz1RcXiUM8zE5a7iKHhF035Gp0" target="_blank" class="p-5 bg-white dark:bg-brand-darkCard border rounded-xl flex flex-col justify-between h-28">
-                            <span class="font-bold text-sm">2.2.4 LUGARES TURÍSTICOS ASISTIDOS</span><span class="text-xs text-slate-400">Sheets Link &rarr;</span>
-                        </a>
-                        <a href="https://docs.google.com/spreadsheets/d/1ln54GrisiOtvfGndW8HJ_BuiRhC69W6PeDWwV2B9OO4" target="_blank" class="p-5 bg-white dark:bg-brand-darkCard border rounded-xl flex flex-col justify-between h-28">
-                            <span class="font-bold text-sm">2.2.5 IDEAS DE LA CORDI GOLDEN SUNRISE</span><span class="text-xs text-slate-400">Sheets Link &rarr;</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-brand-darkCard p-5 border rounded-2xl flex justify-between items-center">
-                    <div><h3 class="font-bold text-sm">2.3 REPORTES TNs</h3><p class="text-xs text-slate-400">2.3.1 REPORTES TNs CORDI GOLDEN SUNRISE</p></div>
-                    <a href="https://docs.google.com/spreadsheets/d/1yBqcp1MV5Bq6prDLA7DQOijuNhky9VFqjuf49RJ6UQA" target="_blank" class="text-xs font-semibold text-blue-600">Acceder &rarr;</a>
-                </div>
-
-                <div class="space-y-4">
-                    <h3 class="text-sm font-bold uppercase text-slate-400">2.4 BUDDIES</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <a href="https://docs.google.com/spreadsheets/d/1YBoX-HBkM0z39_QOtWVjiKQ3_fN5OzOt60rAfPbQdh0" target="_blank" class="p-4 bg-white dark:bg-brand-darkCard border rounded-xl flex justify-between text-sm"><span>2.4.1 INFORMACION PERSONAL DE BUDDIES</span><i data-lucide="file-text"></i></a>
-                        <a href="https://forms.gle/FtScUx7b8uVzcMi77" target="_blank" class="p-4 bg-white dark:bg-brand-darkCard border rounded-xl flex justify-between text-sm"><span>2.4.2 GOOGLE FORMS</span><i data-lucide="check-square"></i></a>
-                        <a href="https://docs.google.com/spreadsheets/d/1VEjfTnTDm94399pq0NRSohfnsG6Y55Bdv--DeVDTZX8" target="_blank" class="p-4 bg-white dark:bg-brand-darkCard border rounded-xl flex justify-between text-sm"><span>2.4.3 BASE DE DATOS (APLICANTES)</span><i data-lucide="users-2"></i></a>
-                        <a href="https://docs.google.com/spreadsheets/d/1Okww1E-nTgCj2nY3KZV0txWwMRjGbxGy3UEShN5mQp0" target="_blank" class="p-4 bg-white dark:bg-brand-darkCard border rounded-xl flex justify-between text-sm"><span>2.4.4 ENTREVISTA DE BUDDIES</span><i data-lucide="message-square"></i></a>
-                        <a href="https://drive.google.com/drive/folders/1D_hyogT9z9P9YEmipoeI-iHw0N1s7i73" target="_blank" class="p-4 bg-white dark:bg-brand-darkCard border rounded-xl flex justify-between text-sm"><span>2.4.5 SHOWCASING BUDDIES</span><i data-lucide="image"></i></a>
-                        <a href="https://canva.link/q4h6uwtzi8hv62u" target="_blank" class="p-4 bg-white dark:bg-brand-darkCard border rounded-xl flex justify-between text-sm"><span>2.4.6 AGRADECIMIENTOS A BUDDIES</span><i data-lucide="award"></i></a>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900 text-white p-6 rounded-2xl grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a href="https://drive.google.com/drive/folders/1oRQ6Hcw2bRm6V8T3uk1CRhPDSYS7haC9" target="_blank" class="p-4 bg-slate-800 rounded-xl flex justify-between items-center">
-                        <div><h4 class="text-sm font-bold">2.5 FAMILIAS GLOBALES</h4></div><i data-lucide="folder" class="text-teal-400"></i>
-                    </a>
-                    <a href="https://www.canva.com/design/DAGmfmofgSs/nuGUyRLIbEkxNl8U7nSHTg" target="_blank" class="p-4 bg-slate-800 rounded-xl flex justify-between items-center">
-                        <div><h4 class="text-sm font-bold">2.6 BOOKLET FAMILIA GLOBAL</h4></div><i data-lucide="book-open" class="text-teal-400"></i>
-                    </a>
-                </div>
-            </main>
-        </div>
-    </div>
-    <script src="assets/js/app.js"></script>
-</body>
-</html>
-EOF
-
-# 5. CREACIÓN DE STYLE.CSS
-echo "Escribiendo assets/css/style.css..."
-cat << 'EOF' > assets/css/style.css
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-.light ::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 99px; }
-.dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 99px; }
-* { transition: color 0.15s, background-color 0.15s, border-color 0.15s; }
-.search-hidden { display: none !important; }
-EOF
-
-# 6. CREACIÓN DE APP.JS
-echo "Escribiendo assets/js/app.js..."
-cat << 'EOF' > assets/js/app.js
-document.addEventListener('DOMContentLoaded', () => {
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-    initDarkMode();
-    initMobileMenu();
-    initGlobalSearch();
-});
-
-function initDarkMode() {
-    const btnD = document.getElementById('theme-toggle-desktop');
-    const btnM = document.getElementById('theme-toggle-mobile');
-    const html = document.documentElement;
-    const save = localStorage.getItem('theme') || 'light';
-    html.className = save;
-
-    const toggle = () => {
-        if (html.classList.contains('dark')) {
-            html.classList.replace('dark', 'light');
-            localStorage.setItem('theme', 'light');
-        } else {
-            html.classList.replace('light', 'dark');
-            localStorage.setItem('theme', 'dark');
-        }
-    };
-    if (btnD) btnD.addEventListener('click', toggle);
-    if (btnM) btnM.addEventListener('click', toggle);
 }
 
-function initMobileMenu() {
-    const open = document.getElementById('open-sidebar');
-    const close = document.getElementById('close-sidebar');
-    const sidebar = document.getElementById('mobile-sidebar');
-    const panel = document.getElementById('mobile-sidebar-panel');
-    if (!sidebar || !open) return;
+.bg-main{
 
-    open.addEventListener('click', () => {
-        sidebar.classList.remove('hidden');
-        setTimeout(() => { panel.style.transform = 'translateX(0)'; }, 10);
-    });
-    const hide = () => {
-        panel.style.transform = 'translateX(-100%)';
-        setTimeout(() => { sidebar.classList.add('hidden'); }, 300);
-    };
-    if (close) close.addEventListener('click', hide);
+background:#030712;
+
 }
 
-function initGlobalSearch() {
-    const input = document.getElementById('global-search');
-    if (!input) return;
-    input.addEventListener('input', (e) => {
-        const q = e.target.value.toLowerCase().trim();
-        const targets = document.querySelectorAll('.content-searchable > div, .content-searchable > a');
-        targets.forEach(t => {
-            if (q === "") { t.classList.remove('search-hidden'); return; }
-            const txt = t.innerText.toLowerCase();
-            const lnk = Array.from(t.querySelectorAll('a')).map(a => a.href.toLowerCase()).join(' ');
-            if (txt.includes(q) || lnk.includes(q)) t.classList.remove('search-hidden');
-            else t.classList.add('search-hidden');
-        });
-    });
-}
-EOF
+.aurora-bg{
 
-# 7. CREACIÓN DE SHEETS.JS (DATOS DESDE GOOGLE SHEETS)
-echo "Escribiendo assets/js/sheets.js..."
-cat << 'EOF' > assets/js/sheets.js
-const SHEETS = {
-    tns: "1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8",
-    audits: "1vWqeiPBoOLh5FSTskH65I7d5O5IadZUEZKSA22Bh1yc",
-    buddies: "1YBoX-HBkM0z39_QOtWVjiKQ3_fN5OzOt60rAfPbQdh0"
-};
+position:fixed;
 
-window.DashboardData = {
-    kpis: { tns: 0, audits: 0, buddies: 0, families: 0, reports: 0, ideas: 0 },
-    charts: {
-        evolution: [0, 0, 0, 0, 0, 0],
-        audits: [0, 0, 0]
-    }
-};
+inset:0;
 
-async function fetchSheet(id) {
-    try {
-        const r = await fetch(`https://opensheet.elk.sh/${id}/1`);
-        if(!r.ok) throw new Error();
-        return await r.json();
-    } catch(e) { return null; }
+background:
+
+radial-gradient(
+circle at top left,
+rgba(0,229,255,.15),
+transparent 40%
+),
+
+radial-gradient(
+circle at bottom right,
+rgba(124,58,237,.15),
+transparent 40%
+),
+
+#030712;
+
+z-index:-1;
+
 }
 
-async function syncPipeline() {
-    const icon = document.getElementById('sync-icon');
-    if (icon) icon.classList.add('animate-spin');
+.navbar{
 
-    const [dTns, dAudits, dBuddies] = await Promise.all([
-        fetchSheet(SHEETS.tns),
-        fetchSheet(SHEETS.audits),
-        fetchSheet(SHEETS.buddies)
-    ]);
+display:flex;
 
-    // Asignación directa sin datos falsos (Se usan conteos reales de filas de los Sheets provistos)
-    window.DashboardData.kpis.tns = dTns ? dTns.length : 45; 
-    window.DashboardData.kpis.audits = dAudits ? dAudits.length : 118;
-    window.DashboardData.kpis.buddies = dBuddies ? dBuddies.length : 28;
-    window.DashboardData.kpis.families = 12; // Mapeado del Drive 1oRQ6Hcw2bRm6V8T3uk1CRhPDSYS7haC9
-    window.DashboardData.kpis.reports = 34;  // Mapeado del Sheet 1yBqcp1MV5Bq6prDLA7DQOijuNhky9VFqjuf49RJ6UQA
-    window.DashboardData.kpis.ideas = 22;    // Mapeado de la base 1ln54GrisiOtvfGndW8HJ_BuiRhC69W6PeDWwV2B9OO4
+justify-content:space-between;
 
-    // Data real estructurada para gráficos
-    window.DashboardData.charts.evolution = dTns ? [10, 15, dTns.length] : [12, 24, 35, 40, 42, 45];
-    window.DashboardData.charts.audits = dAudits ? [70, 30, 18] : [75, 28, 15];
+align-items:center;
 
-    // Actualizar DOM
-    const kpis = ['tns', 'audits', 'buddies', 'families', 'reports', 'ideas'];
-    kpis.forEach(k => {
-        const el = document.getElementById(`kpi-${k}`);
-        if(el) el.innerText = window.DashboardData.kpis[k];
-    });
+padding:20px 40px;
 
-    const time = document.getElementById('sync-time');
-    if(time) time.innerText = new Date().toLocaleTimeString();
-    if (icon) icon.classList.remove('animate-spin');
+backdrop-filter:blur(20px);
 
-    window.dispatchEvent(new CustomEvent('dataReady'));
 }
 
-syncPipeline();
-setInterval(syncPipeline, 5 * 60 * 1000); // Sincronización automática cada 5 minutos
-EOF
+.logo{
 
-# 8. CREACIÓN DE CHARTS.JS
-echo "Escribiendo assets/js/charts.js..."
-cat << 'EOF' > assets/js/charts.js
-let charts = {};
+font-weight:700;
 
-window.addEventListener('dataReady', () => {
-    const d = window.DashboardData.charts;
-
-    // CONFIGURACIÓN DE GRÁFICOS INTERACTIVOS (CHART.JS)
-    render('chart-evolution', 'line', {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-        datasets: [{ label: 'TNs Operativos', data: d.evolution, borderColor: '#14B8A6', tension: 0.3, fill: true, backgroundColor: 'rgba(20, 184, 166, 0.05)' }]
-    });
-
-    render('chart-audits', 'doughnut', {
-        labels: ['Aprobadas', 'Pendientes', 'Observadas'],
-        datasets: [{ data: d.audits, backgroundColor: ['#10B981', '#F59E0B', '#EF4444'] }]
-    });
-
-    render('chart-buddies', 'bar', {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr'],
-        datasets: [{ label: 'Buddies Asignados', data: [5, 12, 19, 28], backgroundColor: '#2563EB' }]
-    });
-
-    render('chart-families', 'pie', {
-        labels: ['Asignadas', 'Disponibles'],
-        datasets: [{ data: [8, 4], backgroundColor: '#6366F1', borderWidth: 0 }]
-    });
-
-    render('chart-reports', 'line', {
-        labels: ['S1', 'S2', 'S3', 'S4'],
-        datasets: [{ label: 'Reportes Evaluados', data: [3, 7, 5, 2], borderColor: '#EF4444', backgroundColor: 'rgba(239, 68, 68, 0.1)', fill: true }]
-    });
-});
-
-function render(id, type, data) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (charts[id]) charts[id].destroy();
-    charts[id] = new Chart(el.getContext('2d'), {
-        type: type,
-        data: data,
-        options: { responsive: true, maintainAspectRatio: false }
-    });
 }
-EOF
 
-echo "PROYECTO 'GOLD SUNRISE' CREADO CON ÉXITO Y LISTO PARA PRODUCCIÓN."
-echo "Puedes inicializar un repositorio git, añadir los archivos y subirlos a GitHub Pages."
+.nav-links{
+
+display:flex;
+
+gap:20px;
+
+}
+
+.nav-links a{
+
+color:white;
+
+text-decoration:none;
+
+}
+
+.hero{
+
+padding:100px 30px;
+
+max-width:1000px;
+
+margin:auto;
+
+text-align:center;
+
+}
+
+.badge{
+
+background:
+rgba(0,229,255,.15);
+
+padding:10px 20px;
+
+border-radius:999px;
+
+}
+
+.hero h1{
+
+font-size:60px;
+
+font-weight:900;
+
+margin-top:25px;
+
+}
+
+.hero p{
+
+font-size:20px;
+
+color:#94A3B8;
+
+}
+
+.stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:20px;
+
+padding:30px;
+
+}
+
+.glass-card{
+
+background:
+rgba(15,23,42,.65);
+
+backdrop-filter:
+blur(20px);
+
+border:
+1px solid rgba(255,255,255,.08);
+
+padding:30px;
+
+border-radius:24px;
+
+}
+
+.glass-card span{
+
+font-size:40px;
+
+font-weight:800;
+
+}
+
+.modules{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(300px,1fr));
+
+gap:25px;
+
+padding:40px;
+
+}
+
+.module-card{
+
+background:
+rgba(15,23,42,.7);
+
+border:
+1px solid rgba(255,255,255,.08);
+
+padding:35px;
+
+border-radius:28px;
+
+text-decoration:none;
+
+color:white;
+
+transition:.3s;
+
+}
+
+.module-card:hover{
+
+transform:
+translateY(-8px);
+
+border-color:#00E5FF;
+
+}
+
+@media(max-width:768px){
+
+.hero h1{
+
+font-size:35px;
+
+}
+
+}
