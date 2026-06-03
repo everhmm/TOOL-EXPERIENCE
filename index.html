@@ -3,715 +3,962 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOOL GUÍA DE PROCESOS, IDEAS, CARPETAS Y MÁS</title>
+    <title>TOOL GUÍA DE PROCESOS, IDEAS, CARPETAS Y MÁS | AIESEC Experience</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
         :root {
-            --bg-body: #F8FAFC;
-            --text-main: #020617;
-            --turquesa: #14B8A6;
-            --azul: #2563EB;
-            --naranja: #F59E0B;
+            --bg-body: linear-gradient(135deg, #E8EDF2, #DEE4EA);
+            --card-bg: #DDE3E9;
+            --glass-white: rgba(255, 255, 255, 0.60);
+            --neon-orange: #FF7800;
+            --tech-blue: #3B82F6;
+            --text-main: #111827;
+            --text-gray: #4B5563;
+            --shadow-soft: 0px 25px 60px rgba(0, 0, 0, 0.10);
+            --shadow-neumorph: 8px 8px 16px rgba(163, 177, 198, 0.50), -8px -8px 16px rgba(255, 255, 255, 0.80);
+        }
+
+        .dark-vars {
+            --bg-body: linear-gradient(135deg, #090d16, #020617);
+            --card-bg: #0f172a;
+            --glass-white: rgba(15, 23, 42, 0.65);
+            --neon-orange: #FF7800;
+            --tech-blue: #3B82F6;
+            --text-main: #f8fafc;
+            --text-gray: #94a3b8;
+            --shadow-soft: 0px 25px 60px rgba(0, 0, 0, 0.50);
+            --shadow-neumorph: 6px 6px 12px rgba(0, 0, 0, 0.40), -4px -4px 12px rgba(30, 41, 59, 0.30);
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-            transition: background-color 0.5s ease, color 0.5s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-main);
+            transition: background 0.5s ease, color 0.3s ease;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .font-inter {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Ambient Premium Background Vectors */
+        .ambient-sphere-1 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(20,184,166,0.25) 0%, rgba(37,99,235,0.05) 70%);
+            filter: blur(80px);
+            top: -10%;
+            left: -10%;
+            z-index: -1;
+            animation: floatOrganic 25s infinite alternate ease-in-out;
+        }
+
+        .ambient-sphere-2 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(245,158,11,0.2) 0%, rgba(219,39,119,0.03) 60%);
+            filter: blur(90px);
+            bottom: 15%;
+            right: -5%;
+            z-index: -1;
+            animation: floatOrganic 20s infinite alternate-reverse ease-in-out;
+        }
+
+        .ambient-tube {
+            position: absolute;
+            width: 800px;
+            height: 250px;
+            background: linear-gradient(45deg, rgba(59,130,246,0.15), rgba(20,184,166,0.1));
+            filter: blur(100px);
+            top: 40%;
+            left: 25%;
+            transform: rotate(-15deg);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        @keyframes floatOrganic {
+            0% { transform: translateY(0px) scale(1) rotate(0deg); }
+            100% { transform: translateY(40px) scale(1.1) rotate(15deg); }
+        }
+
+        /* Glassmorphism Core */
+        .glass-card {
+            background: var(--glass-white);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: var(--shadow-soft), var(--shadow-neumorph);
+            border-radius: 28px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dark .glass-card {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Premium Buttons style mapping rules */
+        .premium-btn {
+            background: var(--glass-white);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .premium-btn:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-orange);
+            box-shadow: 0 12px 24px rgba(255, 120, 0, 0.2);
+        }
+
+        /* Accordion Animations */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .accordion-content.open {
+            max-height: 2000px; /* high generic allowance to fit sub-levels */
+            opacity: 1;
+        }
+
+        .arrow-rotate {
+            transition: transform 0.3s ease;
+        }
+
+        .arrow-rotate.rotated {
+            transform: rotate(90deg);
+        }
+
+        /* Submenu items styling */
+        .sub-link-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            border-left: 0px solid var(--neon-orange);
+        }
+        .dark .sub-link-card {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .sub-link-card:hover {
+            background: rgba(255, 255, 255, 0.7);
+            border-left: 4px solid var(--neon-orange);
+            padding-left: 1.25rem;
+            transform: translateX(4px);
+        }
+        .dark .sub-link-card:hover {
+            background: rgba(255, 255, 255, 0.08);
         }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.03);
-            border-radius: 10px;
+            background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(20, 184, 166, 0.3);
-            border-radius: 10px;
+            background: rgba(163, 177, 198, 0.5);
+            border-radius: 999px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(20, 184, 166, 0.5);
+            background: var(--neon-orange);
         }
 
-        /* Glassmorphism Puro Requerido */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
-        }
-
-        .dark .glass-panel {
-            background: rgba(2, 6, 23, 0.65);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Acordeón Animaciones */
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-            opacity: 0;
-        }
-        .accordion-content.open {
-            opacity: 1;
-        }
-
-        /* Bokeh y Esferas de Fondo Fluido Premium */
-        .bg-fluid-1 {
-            background: radial-gradient(circle at 30% 20%, rgba(20, 184, 166, 0.25) 0%, rgba(37, 99, 235, 0.05) 60%);
-            filter: blur(80px);
-            animation: floatOrganic 20s infinite alternate ease-in-out;
-        }
-        .bg-fluid-2 {
-            background: radial-gradient(circle at 70% 80%, rgba(245, 158, 11, 0.2) 0%, rgba(20, 184, 166, 0.05) 50%);
-            filter: blur(100px);
-            animation: floatOrganic 25s infinite alternate-reverse ease-in-out;
-        }
-        @keyframes floatOrganic {
-            0% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
-            50% { transform: translate(40px, 60px) scale(1.15) rotate(90deg); }
-            100% { transform: translate(-20px, -40px) scale(0.9) rotate(180deg); }
+        /* Notification Toast Container */
+        #notification-hub {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
     </style>
 </head>
-<body class="bg-[#F8FAFC] text-[#020617] dark:bg-[#020617] dark:text-[#F8FAFC] min-h-screen relative overflow-x-hidden antialiased">
+<body class="p-3 sm:p-6 lg:p-8 relative">
 
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute top-[-10%] left-[-5%] w-[60vw] h-[60vw] bg-fluid-1 rounded-full"></div>
-        <div class="absolute bottom-[-15%] right-[-5%] w-[55vw] h-[55vw] bg-fluid-2 rounded-full"></div>
-        <div class="absolute top-[35%] right-[25%] w-[40vw] h-[40vw] bg-gradient-to-br from-teal-500/10 to-transparent blur-[120px] rounded-full"></div>
-    </div>
+    <div class="ambient-sphere-1"></div>
+    <div class="ambient-sphere-2"></div>
+    <div class="ambient-tube"></div>
 
-    <div class="relative z-10 flex flex-col min-h-screen">
+    <div id="notification-hub"></div>
+
+    <div class="max-w-[1920px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
         
-        <div id="notification-hub" class="fixed top-4 right-4 z-50 flex flex-col gap-2 w-80 pointer-events-none"></div>
-
-        <header class="sticky top-0 z-40 w-full px-4 lg:px-8 py-4 glass-panel !rounded-none border-b border-white/30 dark:border-white/5">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-3 w-full md:w-auto">
-                    <div class="p-3 bg-gradient-to-tr from-[#14B8A6] to-[#2563EB] rounded-2xl text-white shadow-md shadow-teal-500/10">
-                        <i data-lucide="sun" class="w-6 h-6"></i>
+        <aside class="col-span-1 lg:col-span-4 xl:col-span-3 flex flex-col gap-6">
+            
+            <div class="glass-card p-6 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#14B8A6] to-[#2563EB] flex items-center justify-center text-white font-bold text-xl shadow-md">
+                        A
                     </div>
                     <div>
-                        <h1 class="text-sm md:text-base font-black tracking-tight text-slate-900 dark:text-white uppercase leading-none mb-1">
-                            TOOL GUÍA DE PROCESOS, IDEAS, CARPETAS Y MÁS
-                        </h1>
-                        <p class="text-xs font-bold tracking-widest text-[#F59E0B] uppercase">
-                            COORDI EXPERIENCE GOLD SUNRISE
-                        </p>
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">AIESEC Experience</h2>
+                        <p class="text-sm font-bold opacity-90">GOLD SUNRISE HUB</p>
                     </div>
                 </div>
-
-                <div class="flex items-center justify-between md:justify-end gap-3 w-full md:w-auto">
-                    <div class="relative w-full md:w-80">
-                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                        <input type="text" id="global-search" placeholder="Buscar procesos, herramientas o enlaces..." 
-                               class="w-full pl-9 pr-4 py-2 text-xs font-medium rounded-xl bg-white/50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500/40 text-slate-800 dark:text-slate-100">
-                    </div>
-
-                    <div id="status-badge" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 text-[10px] font-black tracking-wider">
-                        <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
-                        ONLINE
-                    </div>
-
-                    <button id="dark-mode-toggle" class="p-2.5 rounded-xl bg-white/50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 hover:bg-teal-500/10 text-slate-700 dark:text-slate-300 transition-all">
-                        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
-                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
-                    </button>
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span id="status-text">Online</span>
                 </div>
             </div>
-        </header>
 
-        <div class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-6 flex flex-col lg:flex-row gap-6">
-            
-            <aside class="w-full lg:w-80 shrink-0">
-                <div class="glass-panel p-4 sticky top-24 border border-white/40 dark:border-white/10 space-y-4">
-                    <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
-                        <span class="text-[10px] font-black uppercase text-slate-400 tracking-widest flex items-center gap-2">
-                            <i data-lucide="layers" class="w-3.5 h-3.5 text-[#14B8A6]"></i> Menú Estructural
-                        </span>
-                        <div class="flex gap-1">
-                            <button id="menu-expand-all" title="Expandir todo" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-[#14B8A6] transition-all">
-                                <i data-lucide="chevrons-down" class="w-4 h-4"></i>
-                            </button>
-                            <button id="menu-collapse-all" title="Contraer todo" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-[#F59E0B] transition-all">
-                                <i data-lucide="chevrons-up" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="space-y-2 select-none" id="master-accordion-menu">
-                        
-                        <div class="accordion-item" data-level="1">
-                            <button class="accordion-trigger w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-100/50 dark:hover:bg-slate-800/30 font-bold text-xs text-left text-slate-800 dark:text-slate-200 transition-all group">
-                                <span class="flex items-center gap-2">
-                                    <i data-lucide="shield-check" class="w-4 h-4 text-[#2563EB]"></i> PANEL DE CONTROL Y CALIDAD (E.C.B.)
-                                </span>
-                                <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-300 text-slate-400"></i>
-                            </button>
-                            
-                            <div class="accordion-content space-y-1 pl-3 mt-1 border-l border-blue-500/20 ml-4">
-                                <a href="https://drive.google.com/file/d/1DB2SgFyDNFDP_74QIntr9bjaK6oXhJMk/view" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-2 rounded-lg text-[11px] font-semibold text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                    <i data-lucide="book-open" class="w-3.5 h-3.5 shrink-0"></i> <span>1.1 Guía del Área (Booklet E.C.B.)</span>
-                                </a>
-
-                                <div class="accordion-item" data-level="2">
-                                    <button class="accordion-trigger w-full flex items-center justify-between p-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/30 text-[11px] font-bold text-slate-700 dark:text-slate-300 text-left transition-all">
-                                        <span class="flex items-center gap-2">
-                                            <i data-lucide="folder" class="w-3.5 h-3.5 text-[#F59E0B]"></i> 1.2 Proceso de Auditorías
-                                        </span>
-                                        <i data-lucide="chevron-down" class="w-3 h-3 transition-transform duration-300 text-slate-400"></i>
-                                    </button>
-                                    <div class="accordion-content space-y-0.5 pl-3 mt-1 border-l border-amber-500/20 ml-3">
-                                        <a href="https://docs.google.com/spreadsheets/d/1sswwe1HrFlfzfFGCBADgKYKZelNUVFoY_MvSSzNMF0o/edit" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="file-spreadsheet" class="w-3 h-3 shrink-0"></i> 1.2.1 Proceso de Auditorías Experience
-                                        </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1vWqeiPBoOLh5FSTskH65I7d5O5IadZUEZKSA22Bh1yc/edit" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="file-spreadsheet" class="w-3 h-3 shrink-0"></i> 1.2.2 Tool de Auditorías TNs
-                                        </a>
-                                        <a href="https://drive.google.com/drive/folders/1wf1iQ18Rhjfen5kiI3jfV7TVvwGXmaGr" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="folder-open" class="w-3 h-3 shrink-0"></i> 1.2.3 Modelo de Documentación TNs
-                                        </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1B5LKtMbUzldDt7DDw0nHpgKMgdpBBFxOHe351PU1v9I/edit" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="mail" class="w-3 h-3 shrink-0"></i> 1.2.4 Plantillas de Correos
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="accordion-item" data-level="2">
-                                    <button class="accordion-trigger w-full flex items-center justify-between p-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/30 text-[11px] font-bold text-slate-700 dark:text-slate-300 text-left transition-all">
-                                        <span class="flex items-center gap-2">
-                                            <i data-lucide="folder" class="w-3.5 h-3.5 text-[#14B8A6]"></i> 1.3 Control de TNs y Auditorías
-                                        </span>
-                                        <i data-lucide="chevron-down" class="w-3 h-3 transition-transform duration-300 text-slate-400"></i>
-                                    </button>
-                                    <div class="accordion-content space-y-0.5 pl-3 mt-1 border-l border-teal-500/20 ml-3">
-                                        <a href="https://drive.google.com/drive/folders/1zNJEuNvtOV6FnS8qh6wV7uA3rIDGyT7T" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="database" class="w-3 h-3 shrink-0"></i> 1.3.1 Base de Datos TNs
-                                        </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1dQxdYjFcTUSNxWJQH1_TDmq26qDhvWCoCmqaD-DJNi8" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="trello" class="w-3 h-3 shrink-0"></i> 1.3.2 Lead Space
-                                        </a>
-                                        <a href="https://canva.link/sx8qwyuz1g9r9bj" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="presentation" class="w-3 h-3 shrink-0"></i> 1.3.3 Diapositivas del Pre IPS
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <a href="https://drive.google.com/file/d/1d6DwXPvK_jWLRCFM1YX8uCXGS6iiwGlu/view" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-2 rounded-lg text-[11px] font-semibold text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                    <i data-lucide="scale" class="w-3.5 h-3.5 shrink-0"></i> <span>1.4 Normas de Intercambio</span>
-                                </a>
-                                <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-2 rounded-lg text-[11px] font-semibold text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                    <i data-lucide="calendar" class="w-3.5 h-3.5 shrink-0"></i> <span>1.5 Calendario Operativo</span>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item" data-level="1">
-                            <button class="accordion-trigger w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-100/50 dark:hover:bg-slate-800/30 font-bold text-xs text-left text-slate-800 dark:text-slate-200 transition-all group">
-                                <span class="flex items-center gap-2">
-                                    <i data-lucide="users" class="w-4 h-4 text-[#14B8A6]"></i> GESTIÓN DE TRAINEES TN
-                                </span>
-                                <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-300 text-slate-400"></i>
-                            </button>
-                            
-                            <div class="accordion-content space-y-1 pl-3 mt-1 border-l border-teal-500/20 ml-4">
-                                <a href="https://docs.google.com/spreadsheets/d/1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-2 rounded-lg text-[11px] font-semibold text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                    <i data-lucide="user-check" class="w-3.5 h-3.5 shrink-0"></i> <span>2.1 Datos del TNs</span>
-                                </a>
-
-                                <div class="accordion-item" data-level="2">
-                                    <button class="accordion-trigger w-full flex items-center justify-between p-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/30 text-[11px] font-bold text-slate-700 dark:text-slate-300 text-left transition-all">
-                                        <span class="flex items-center gap-2">
-                                            <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-[#F59E0B]"></i> 2.2 Base de Ideas
-                                        </span>
-                                        <i data-lucide="chevron-down" class="w-3 h-3 transition-transform duration-300 text-slate-400"></i>
-                                    </button>
-                                    <div class="accordion-content space-y-0.5 pl-3 mt-1 border-l border-amber-500/20 ml-3">
-                                        <a href="https://docs.google.com/spreadsheets/d/1Al23B_Skf1nf4ysvOplzyNAZeYj7j513vDvzZAJXl_g" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="home" class="w-3 h-3 shrink-0"></i> 2.2.1 Información de Hospedaje
-                                        </a>
-                                        <a href="https://canva.link/oun3q20ma7zqvns" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="map-pin" class="w-3 h-3 shrink-0"></i> 2.2.2 Guía de Lugares Gastronómicos
-                                        </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1FtuZQd9NiaQEjDPJG1N4rCdS9QiXH7UVgwX1qjCWH7s" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="utensils" class="w-3 h-3 shrink-0"></i> 2.2.3 Comida Típica Degustada
-                                        </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1dy-PQaIKhN0zxrdxFIz1RcXiUM8zE5a7iKHhF035Gp0" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="compass" class="w-3 h-3 shrink-0"></i> 2.2.4 Lugares Turísticos Asistidos
-                                        </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1ln54GrisiOtvfGndW8HJ_BuiRhC69W6PeDWwV2B9OO4" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="sparkles" class="w-3 h-3 shrink-0"></i> 2.2.5 Ideas de la Cordi
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="accordion-item" data-level="2">
-                                    <button class="accordion-trigger w-full flex items-center justify-between p-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/30 text-[11px] font-bold text-slate-700 dark:text-slate-300 text-left transition-all">
-                                        <span class="flex items-center gap-2">
-                                            <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-[#2563EB]"></i> 2.3 Reportes TNs
-                                        </span>
-                                        <i data-lucide="chevron-down" class="w-3 h-3 transition-transform duration-300 text-slate-400"></i>
-                                    </button>
-                                    <div class="accordion-content space-y-0.5 pl-3 mt-1 border-l border-blue-500/20 ml-3">
-                                        <a href="https://docs.google.com/spreadsheets/d/1yBqcp1MV5Bq6prDLA7DQOijuNhky9VFqjuf49RJ6UQA" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="file-text" class="w-3 h-3 shrink-0"></i> 2.3.1 Reportes Golden Sunrise
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="accordion-item" data-level="2">
-                                    <button class="accordion-trigger w-full flex items-center justify-between p-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/30 text-[11px] font-bold text-slate-700 dark:text-slate-300 text-left transition-all">
-                                        <span class="flex items-center gap-2">
-                                            <i data-lucide="heart" class="w-3.5 h-3.5 text-[#14B8A6]"></i> 2.4 Buddies
-                                        </span>
-                                        <i data-lucide="chevron-down" class="w-3 h-3 transition-transform duration-300 text-slate-400"></i>
-                                    </button>
-                                    <div class="accordion-content space-y-0.5 pl-3 mt-1 border-l border-teal-500/20 ml-3">
-                                        <a href="https://docs.google.com/spreadsheets/d/1YBoX-HBkM0z39_QOtWVjiKQ3_fN5OzOt60rAfPbQdh0" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="info" class="w-3 h-3 shrink-0"></i> 2.4.1 Información Personal
-                                        </a>
-                                        <a href="https://forms.gle/FtScUx7b8uVzcMi77" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="check-square" class="w-3 h-3 shrink-0"></i> 2.4.2 Google Forms
-                                        </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1VEjfTnTDm94399pq0NRSohfnsG6Y55Bdv--DeVDTZX8" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="users" class="w-3 h-3 shrink-0"></i> 2.4.3 Base de Aplicantes
-                                        </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1Okww1E-nTgCj2nY3KZV0txWwMRjGbxGy3UEShN5mQp0" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="clipboard" class="w-3 h-3 shrink-0"></i> 2.4.4 Entrevista de Buddies
-                                        </a>
-                                        <a href="https://drive.google.com/drive/folders/1D_hyogT9z9P9YEmipoeI-iHw0N1s7i73" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="image" class="w-3 h-3 shrink-0"></i> 2.4.5 Showcasing Buddies
-                                        </a>
-                                        <a href="https://canva.link/q4h6uwtzi8hv62u" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-1.5 rounded-md text-[10px] font-medium text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                            <i data-lucide="gift" class="w-3 h-3 shrink-0"></i> 2.4.6 Agradecimientos
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <a href="https://drive.google.com/drive/folders/1oRQ6Hcw2bRm6V8T3uk1CRhPDSYS7haC9" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-2 rounded-lg text-[11px] font-semibold text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                    <i data-lucide="home" class="w-3.5 h-3.5 shrink-0"></i> <span>2.5 Familias Globales</span>
-                                </a>
-                                <a href="https://www.canva.com/design/DAGmfmofgSs/nuGUyRLIbEkxNl8U7nSHTg" target="_blank" class="menu-leaf-node w-full flex items-center gap-2 p-2 rounded-lg text-[11px] font-semibold text-slate-600 dark:text-slate-400 hover:bg-teal-500/10 hover:text-[#14B8A6] transition-all">
-                                    <i data-lucide="book-open" class="w-3.5 h-3.5 shrink-0"></i> <span>2.6 Booklet Familia Global</span>
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </aside>
-
-            <main class="flex-1 flex flex-col gap-6">
-                
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 px-1 text-xs font-semibold text-slate-400 select-none">
-                    <div class="flex items-center gap-1.5" id="breadcrumb-container">
-                        <span class="hover:text-teal-500 cursor-pointer">Experience</span>
-                        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-                        <span class="text-slate-600 dark:text-slate-300">Operations Hub</span>
-                    </div>
-                    <div class="text-[10px] font-bold text-slate-400">
-                        Última actualización: <span id="time-stamp">Hoy</span>
+            <div class="glass-card p-6 flex flex-col gap-4">
+                <div class="flex items-center justify-between border-b border-slate-300/30 pb-3 mb-2">
+                    <h3 class="text-sm font-bold text-[var(--tech-blue)] tracking-wide uppercase">Menú Operativo</h3>
+                    <div class="flex gap-2">
+                        <button onclick="expandAllAccordions()" title="Expandir todo" class="p-1.5 rounded-lg hover:bg-slate-300/30 dark:hover:bg-slate-700/40 text-xs font-semibold flex items-center gap-1 transition">
+                            <i data-lucide="chevrons-down" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <button onclick="collapseAllAccordions()" title="Contraer todo" class="p-1.5 rounded-lg hover:bg-slate-300/30 dark:hover:bg-slate-700/40 text-xs font-semibold flex items-center gap-1 transition">
+                            <i data-lucide="chevrons-up" class="w-3.5 h-3.5"></i>
+                        </button>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <nav class="font-inter flex flex-col gap-3" id="accordion-root-navigation">
                     
-                    <div class="glass-panel p-4 flex flex-col justify-between h-44">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase">Total TNs Registrados</p>
-                                <h3 class="text-2xl font-black mt-1 text-slate-900 dark:text-white" id="count-tns">48</h3>
-                            </div>
-                            <span class="p-2 rounded-xl bg-blue-500/10 text-[#2563EB]"><i data-lucide="trending-up" class="w-4 h-4"></i></span>
-                        </div>
-                        <div class="h-16 w-full mt-2">
-                            <canvas id="chart-tns-line"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="glass-panel p-4 flex flex-col justify-between h-44">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase">Estado de Auditorías</p>
-                                <p class="text-xs font-bold text-teal-500 mt-1">85% Aprobadas</p>
-                            </div>
-                            <span class="p-2 rounded-xl bg-teal-500/10 text-[#14B8A6]"><i data-lucide="clipboard-check" class="w-4 h-4"></i></span>
-                        </div>
-                        <div class="h-20 w-full flex justify-center mt-1">
-                            <canvas id="chart-audit-doughnut"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="glass-panel p-4 flex flex-col justify-between h-44 sm:col-span-2 lg:col-span-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase">Formularios Completados</p>
-                                <h3 class="text-4xl font-black mt-2 text-transparent bg-clip-text bg-gradient-to-r from-[#14B8A6] to-[#F59E0B]" id="count-forms">0</h3>
-                            </div>
-                            <span class="p-2 rounded-xl bg-amber-500/10 text-[#F59E0B]"><i data-lucide="file-text" class="w-4 h-4"></i></span>
-                        </div>
-                        <div class="text-[10px] text-slate-400 font-medium pb-1 flex items-center gap-1">
-                            <i data-lucide="check-circle" class="w-3 h-3 text-emerald-500"></i> Datos actualizados en tiempo real por el equipo.
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="glass-panel p-4">
-                        <p class="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase mb-3">Distribución de Buddies Asignados (Bar Chart)</p>
-                        <div class="h-40 relative w-full">
-                            <canvas id="chart-buddies-bar"></canvas>
-                        </div>
-                    </div>
-                    <div class="glass-panel p-4">
-                        <p class="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase mb-3">Familias Globales por Región (Horizontal Bar)</p>
-                        <div class="h-40 relative w-full">
-                            <canvas id="chart-families-horizontal"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    <div class="glass-panel p-6 flex flex-col justify-between group hover:border-teal-500/40 transition-all duration-300">
-                        <div>
-                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#2563EB] to-blue-400 flex items-center justify-center text-white mb-4 shadow-md">
-                                <i data-lucide="shield-alert" class="w-6 h-6"></i>
-                            </div>
-                            <h2 class="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-tight mb-2">
+                    <div class="border border-slate-300/20 rounded-2xl overflow-hidden bg-white/10 dark:bg-slate-900/10">
+                        <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-4 font-bold text-sm flex items-center justify-between hover:bg-white/20 transition-all gap-2">
+                            <span class="flex items-center gap-2 text-slate-900 dark:text-slate-100 uppercase tracking-wide">
+                                <i data-lucide="shield-check" class="w-4 h-4 text-[var(--tech-blue)]"></i>
                                 PANEL DE CONTROL Y CALIDAD (E.C.B.)
-                            </h2>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
-                                Centro especializado en auditorías operativas, recopilación de documentación oficial, normativas de intercambio globales y aseguramiento del control de calidad del área Experience.
-                            </p>
-                        </div>
-                        <button onclick="openAccordionSection(0)" class="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-[#2563EB] to-blue-600 text-white font-bold text-xs tracking-wider uppercase shadow-md shadow-blue-500/10 hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer">
-                            Ingresar al Panel
+                            </span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 arrow-rotate text-slate-400"></i>
                         </button>
-                    </div>
+                        
+                        <div class="accordion-content bg-white/5 dark:bg-black/5 px-3">
+                            <div class="py-2 flex flex-col gap-2">
+                                <a href="https://drive.google.com/file/d/1DB2SgFyDNFDP_74QIntr9bjaK6oXhJMk/view" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <span class="flex items-center gap-2"><i data-lucide="book-open" class="w-3.5 h-3.5 opacity-70"></i> 1.1 Guía del Área Experience (Booklet)</span>
+                                    <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
+                                </a>
 
-                    <div class="glass-panel p-6 flex flex-col justify-between group hover:border-teal-500/40 transition-all duration-300">
-                        <div>
-                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#14B8A6] to-teal-400 flex items-center justify-center text-white mb-4 shadow-md">
-                                <i data-lucide="user-plus" class="w-6 h-6"></i>
+                                <div class="rounded-xl border border-slate-300/10 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/10 hover:bg-white/20 transition gap-2 text-slate-600 dark:text-slate-300">
+                                        <span class="flex items-center gap-2"><i data-lucide="folder" class="w-3.5 h-3.5 text-amber-500"></i> 1.2 Proceso de Auditorías</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
+                                    </button>
+                                    <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
+                                        <a href="https://docs.google.com/spreadsheets/d/1sswwe1HrFlfzfFGCBADgKYKZelNUVFoY_MvSSzNMF0o/edit" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>1.2.1 Proceso Auditorías Experience</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://docs.google.com/spreadsheets/d/1vWqeiPBoOLh5FSTskH65I7d5O5IadZUEZKSA22Bh1yc/edit" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>1.2.2 Tool de Auditorías TNs</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://drive.google.com/drive/folders/1wf1iQ18Rhjfen5kiI3jfV7TVvwGXmaGr" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>1.2.3 Modelo de Documentación TNs</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://docs.google.com/spreadsheets/d/1B5LKtMbUzldDt7DDw0nHpgKMgdpBBFxOHe351PU1v9I/edit" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>1.2.4 Plantillas de Correos</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-xl border border-slate-300/10 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/10 hover:bg-white/20 transition gap-2 text-slate-600 dark:text-slate-300">
+                                        <span class="flex items-center gap-2"><i data-lucide="folder" class="w-3.5 h-3.5 text-amber-500"></i> 1.3 Control de TNs y Auditorías</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
+                                    </button>
+                                    <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
+                                        <a href="https://drive.google.com/drive/folders/1zNJEuNvtOV6FnS8qh6wV7uA3rIDGyT7T" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>1.3.1 Base de Datos TNs</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://docs.google.com/spreadsheets/d/1dQxdYjFcTUSNxWJQH1_TDmq26qDhvWCoCmqaD-DJNi8" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>1.3.2 Lead Space</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://canva.link/sx8qwyuz1g9r9bj" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>1.3.3 Diapositivas del Pre IPS</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <a href="https://drive.google.com/file/d/1d6DwXPvK_jWLRCFM1YX8uCXGS6iiwGlu/view" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <span class="flex items-center gap-2"><i data-lucide="globe" class="w-3.5 h-3.5 opacity-70"></i> 1.4 Normas de Intercambio</span>
+                                    <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
+                                </a>
+
+                                <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <span class="flex items-center gap-2"><i data-lucide="calendar" class="w-3.5 h-3.5 opacity-70"></i> 1.5 Calendario Global</span>
+                                    <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
+                                </a>
                             </div>
-                            <h2 class="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-tight mb-2">
-                                GESTIÓN DE TRAINEES TN
-                            </h2>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
-                                Centro neurálgico para la administración de trainees internacionales, base de ideas logísticas, asignación estratégica de buddies, gestión de familias globales y generación de reportes periódicos.
-                            </p>
                         </div>
-                        <button onclick="openAccordionSection(1)" class="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-[#14B8A6] to-teal-600 text-white font-bold text-xs tracking-wider uppercase shadow-md shadow-teal-500/10 hover:opacity-90 active:scale-[0.98] transition-all cubic-bezier(0.4, 0, 0.2, 1) cursor-pointer">
-                            Ingresar a Gestión
-                        </button>
                     </div>
 
+                    <div class="border border-slate-300/20 rounded-2xl overflow-hidden bg-white/10 dark:bg-slate-900/10">
+                        <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-4 font-bold text-sm flex items-center justify-between hover:bg-white/20 transition-all gap-2">
+                            <span class="flex items-center gap-2 text-slate-900 dark:text-slate-100 uppercase tracking-wide">
+                                <i data-lucide="users" class="w-4 h-4 text-[var(--tech-blue)]"></i>
+                                GESTIÓN DE TRAINEES TN
+                            </span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 arrow-rotate text-slate-400"></i>
+                        </button>
+                        
+                        <div class="accordion-content bg-white/5 dark:bg-black/5 px-3">
+                            <div class="py-2 flex flex-col gap-2">
+                                <a href="https://docs.google.com/spreadsheets/d/1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <span class="flex items-center gap-2"><i data-lucide="database" class="w-3.5 h-3.5 opacity-70"></i> 2.1 Datos del TNs</span>
+                                    <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
+                                </a>
+
+                                <div class="rounded-xl border border-slate-300/10 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/10 hover:bg-white/20 transition gap-2 text-slate-600 dark:text-slate-300">
+                                        <span class="flex items-center gap-2"><i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-500"></i> 2.2 Base de Ideas</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
+                                    </button>
+                                    <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
+                                        <a href="https://docs.google.com/spreadsheets/d/1Al23B_Skf1nf4ysvOplzyNAZeYj7j513vDvzZAJXl_g" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.2.1 Información de Hospedaje</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://canva.link/oun3q20ma7zqvns" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.2.2 Guía de Lugares Gastronómicos</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://docs.google.com/spreadsheets/d/1FtuZQd9NiaQEjDPJG1N4rCdS9QiXH7UVgwX1qjCWH7s" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.2.3 Comida Típica Degustada</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://docs.google.com/spreadsheets/d/1dy-PQaIKhN0zxrdxFIz1RcXiUM8zE5a7iKHhF035Gp0" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.2.4 Lugares Turísticos Asistidos</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://docs.google.com/spreadsheets/d/1ln54GrisiOtvfGndW8HJ_BuiRhC69W6PeDWwV2B9OO4" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.2.5 Ideas Cordi Golden Sunrise</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-xl border border-slate-300/10 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/10 hover:bg-white/20 transition gap-2 text-slate-600 dark:text-slate-300">
+                                        <span class="flex items-center gap-2"><i data-lucide="file-text" class="w-3.5 h-3.5 text-amber-500"></i> 2.3 Reportes TNs</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
+                                    </button>
+                                    <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
+                                        <a href="https://docs.google.com/spreadsheets/d/1yBqcp1MV5Bq6prDLA7DQOijuNhky9VFqjuf49RJ6UQA" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.3.1 Reportes Cordi Golden Sunrise</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-xl border border-slate-300/10 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/10 hover:bg-white/20 transition gap-2 text-slate-600 dark:text-slate-300">
+                                        <span class="flex items-center gap-2"><i data-lucide="heart" class="w-3.5 h-3.5 text-amber-500"></i> 2.4 Buddies</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
+                                    </button>
+                                    <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
+                                        <a href="https://docs.google.com/spreadsheets/d/1YBoX-HBkM0z39_QOtWVjiKQ3_fN5OzOt60rAfPbQdh0" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.4.1 Información Personal Buddies</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://forms.gle/FtScUx7b8uVzcMi77" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.4.2 Google Forms Aplicación</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://docs.google.com/spreadsheets/d/1VEjfTnTDm94399pq0NRSohfnsG6Y55Bdv--DeVDTZX8" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.4.3 Base de Datos Aplicantes</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://docs.google.com/spreadsheets/d/1Okww1E-nTgCj2nY3KZV0txWwMRjGbxGy3UEShN5mQp0" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.4.4 Entrevistas de Buddies</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://drive.google.com/drive/folders/1D_hyogT9z9P9YEmipoeI-iHw0N1s7i73" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.4.5 Showcasing Buddies</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                        <a href="https://canva.link/q4h6uwtzi8hv62u" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
+                                            <span>2.4.6 Agradecimientos a Buddies</span>
+                                            <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <a href="https://drive.google.com/drive/folders/1oRQ6Hcw2bRm6V8T3uk1CRhPDSYS7haC9" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <span class="flex items-center gap-2"><i data-lucide="home" class="w-3.5 h-3.5 opacity-70"></i> 2.5 Familias Globales (Carpeta)</span>
+                                    <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
+                                </a>
+
+                                <a href="https://www.canva.com/design/DAGmfmofgSs/nuGUyRLIbEkxNl8U7nSHTg" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
+                                    <span class="flex items-center gap-2"><i data-lucide="book" class="w-3.5 h-3.5 opacity-70"></i> 2.6 Booklet Familia Global</span>
+                                    <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </nav>
+            </div>
+
+            <div class="glass-card p-5 text-xs text-slate-400 flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <span>Última Sincronización:</span>
+                    <span class="font-bold text-slate-500 dark:text-slate-300" id="live-clock">03/06/2026 18:06</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span>Área:</span>
+                    <span class="font-bold text-[var(--tech-blue)]">AIESEC Experience</span>
+                </div>
+                <div class="w-full bg-slate-300/40 dark:bg-slate-700/40 h-1 rounded-full overflow-hidden mt-1">
+                    <div class="bg-[var(--neon-orange)] h-full w-[88%] rounded-full animate-pulse"></div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="col-span-1 lg:col-span-8 xl:col-span-9 flex flex-col gap-6 lg:gap-8">
+            
+            <header class="glass-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white uppercase leading-none">
+                        TOOL GUÍA DE PROCESOS, IDEAS, CARPETAS Y MÁS
+                    </h1>
+                    <p class="text-xs sm:text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400 mt-1.5 flex items-center gap-2">
+                        <span class="inline-block w-2 h-2 rounded-full bg-[var(--neon-orange)]"></span>
+                        COORDI EXPERIENCE GOLD SUNRISE
+                    </p>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <div class="relative min-w-[240px] md:min-w-[300px]">
+                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                        <input type="text" id="global-search-input" onkeyup="executeGlobalSearch()" placeholder="Buscar procesos, links o herramientas..." 
+                               class="w-full pl-11 pr-4 py-2.5 text-xs font-medium rounded-full bg-white/60 dark:bg-slate-950/40 border border-slate-300/40 dark:border-slate-800/80 outline-none text-slate-900 dark:text-white placeholder-slate-400 focus:border-[var(--neon-orange)] shadow-inner transition-all">
+                    </div>
+                    
+                    <button onclick="toggleDarkMode()" id="theme-toggle-btn" class="p-3 rounded-full bg-white/80 dark:bg-slate-900/60 shadow-md hover:bg-[var(--neon-orange)] hover:text-white transition group flex items-center justify-center border border-white/40">
+                        <i data-lucide="moon" class="w-4 h-4 text-slate-700 dark:text-slate-200 group-hover:text-white block dark:hidden"></i>
+                        <i data-lucide="sun" class="w-4 h-4 text-slate-200 group-hover:text-white hidden dark:block"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="glass-card px-6 py-3 flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400">
+                <div class="flex items-center gap-2" id="breadcrumb-trail">
+                    <span class="hover:text-[var(--tech-blue)] cursor-pointer">SaaS Hub</span>
+                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                    <span class="text-slate-900 dark:text-white font-bold" id="current-crumb-node">Vista General</span>
+                </div>
+                <div id="filter-tag-pill" class="hidden px-2.5 py-1 rounded-full bg-[var(--neon-orange)] text-white text-[10px] uppercase font-bold tracking-wider animate-pulse">
+                    Filtro Activo
+                </div>
+            </div>
+
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
+                    <div class="flex justify-between items-start">
+                        <div class="p-3 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400">
+                            <i data-lucide="globe-2" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center gap-0.5">
+                            <i data-lucide="trending-up" class="w-3 h-3"></i> +12%
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Total TNs Registrados</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1 count-up" data-target="19">0</h4>
+                    </div>
+                    <div class="h-10 w-full mt-2 opacity-80">
+                        <canvas id="miniChart1"></canvas>
+                    </div>
                 </div>
 
-            </main>
-        </div>
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
+                    <div class="flex justify-between items-start">
+                        <div class="p-3 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                            <i data-lucide="check-square" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 flex items-center gap-0.5">
+                            100% Ok
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Auditorías Aprobadas</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1 count-up" data-target="15">0</h4>
+                    </div>
+                    <div class="h-10 w-full mt-2 opacity-80">
+                        <canvas id="miniChart2"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
+                    <div class="flex justify-between items-start">
+                        <div class="p-3 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                            <i data-lucide="smile" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-amber-500/10 text-amber-500 flex items-center gap-0.5">
+                            Activos
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Buddies Conectados</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1 count-up" data-target="24">0</h4>
+                    </div>
+                    <div class="h-10 w-full mt-2 opacity-80">
+                        <canvas id="miniChart3"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
+                    <div class="flex justify-between items-start">
+                        <div class="p-3 rounded-xl bg-orange-500/10 text-[var(--neon-orange)]">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center gap-0.5">
+                            <i data-lucide="check" class="w-3 h-3"></i> Nuevo form
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Formularios Completados</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1 count-up" data-target="48">0</h4>
+                    </div>
+                    <div class="h-10 w-full mt-2 opacity-80">
+                        <canvas id="miniChart4"></canvas>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                
+                <div class="glass-card p-6 flex flex-col justify-between gap-6 relative overflow-hidden border-t-4 border-t-[var(--tech-blue)] group">
+                    <div class="absolute top-0 right-0 p-8 opacity-[0.03] text-slate-900 dark:text-white pointer-events-none group-hover:opacity-[0.07] transition-all">
+                        <i data-lucide="shield-alert" class="w-36 h-36"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <div class="p-3 rounded-2xl bg-blue-500/10 text-[var(--tech-blue)]">
+                                <i data-lucide="shield" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">PANEL DE CONTROL Y CALIDAD (E.C.B.)</h3>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">
+                            Centro neurálgico para auditorías en tiempo real, gestión de documentación obligatoria del comité, normativas de intercambio globales y matrices de control de calidad.
+                        </p>
+                    </div>
+                    <div class="pt-4">
+                        <button onclick="triggerModuleAccordion(0)" class="premium-btn w-full py-3 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white flex items-center justify-center gap-2">
+                            Ingresar al Módulo <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 flex flex-col justify-between gap-6 relative overflow-hidden border-t-4 border-t-[var(--neon-orange)] group">
+                    <div class="absolute top-0 right-0 p-8 opacity-[0.03] text-slate-900 dark:text-white pointer-events-none group-hover:opacity-[0.07] transition-all">
+                        <i data-lucide="users-2" class="w-36 h-36"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <div class="p-3 rounded-2xl bg-orange-500/10 text-[var(--neon-orange)]">
+                                <i data-lucide="user-check" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">GESTIÓN DE TRAINEES TN</h3>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">
+                            Panel de seguimiento logístico para trainees asignados, bases de ideas turísticas, asignación del ecosistema de Buddies, redes de Familias Globales y reportes operacionales.
+                        </p>
+                    </div>
+                    <div class="pt-4">
+                        <button onclick="triggerModuleAccordion(1)" class="premium-btn w-full py-3 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white flex items-center justify-center gap-2">
+                            Ingresar al Módulo <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                
+                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4">
+                    <div class="flex items-center justify-between border-b border-slate-300/30 pb-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i data-lucide="pie-chart" class="w-4 h-4 text-pink-500"></i> Audit Status Distribution
+                        </h4>
+                    </div>
+                    <div class="relative w-full h-64 flex items-center justify-center">
+                        <canvas id="auditDoughnutChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4">
+                    <div class="flex items-center justify-between border-b border-slate-300/30 pb-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-500"></i> Buddies Engagement
+                        </h4>
+                    </div>
+                    <div class="relative w-full h-64 flex items-center justify-center">
+                        <canvas id="buddiesBarChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4">
+                    <div class="flex items-center justify-between border-b border-slate-300/30 pb-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i data-lucide="home" class="w-4 h-4 text-emerald-500"></i> Familias Globales Activas
+                        </h4>
+                    </div>
+                    <div class="relative w-full h-64 flex items-center justify-center">
+                        <canvas id="familiesHorizontalBarChart"></canvas>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            initDarkMode();
-            initAccordionLogic();
-            initCharts();
-            initCountUpAnimation();
-            initGlobalSearch();
-            initOnlineStatus();
-            lucide.createIcons();
-        });
-
-        // Control de Modo Oscuro Guardado en LocalStorage
-        function initDarkMode() {
-            const toggleBtn = document.getElementById("dark-mode-toggle");
-            if(localStorage.getItem("dark-mode") === "enabled") {
-                document.documentElement.classList.add("dark");
-            }
-            toggleBtn.addEventListener("click", () => {
-                if(document.documentElement.classList.contains("dark")) {
-                    document.documentElement.classList.remove("dark");
-                    localStorage.setItem("dark-mode", "disabled");
-                    showToast("Modo Claro", "Se ha activado el tema luminoso de la interfaz.");
-                } else {
-                    document.documentElement.classList.add("dark");
-                    localStorage.setItem("dark-mode", "enabled");
-                    showToast("Modo Oscuro", "Se ha activado el tema oscuro de alta fidelidad visual.");
-                }
-            });
-        }
-
-        // Sistema Desplegable de Acordeón Multinivel Requerido
-        function initAccordionLogic() {
-            const triggers = document.querySelectorAll(".accordion-trigger");
-            
-            triggers.forEach(trigger => {
-                trigger.addEventListener("click", (e) => {
-                    e.stopPropagation();
-                    const currentItem = trigger.closest(".accordion-item");
-                    const content = currentItem.querySelector(":scope > .accordion-content");
-                    const icon = trigger.querySelector("[data-lucide='chevron-down']");
-                    
-                    if (content) {
-                        if (content.classList.contains("open")) {
-                            closeSection(content, icon);
-                        } else {
-                            openSection(content, icon);
-                        }
-                    }
-                });
-            });
-
-            // Expandir todo / Contraer todo funcional
-            document.getElementById("menu-expand-all").addEventListener("click", () => {
-                document.querySelectorAll(".accordion-content").forEach(content => {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                    content.classList.add("open");
-                });
-                document.querySelectorAll(".accordion-trigger [data-lucide='chevron-down']").forEach(icon => {
-                    icon.style.transform = "rotate(180deg)";
-                });
-                showToast("Estructura Expandida", "Se han abierto todos los niveles operativos del menú.");
-            });
-
-            document.getElementById("menu-collapse-all").addEventListener("click", () => {
-                document.querySelectorAll(".accordion-content").forEach(content => {
-                    content.style.maxHeight = "0px";
-                    content.classList.remove("open");
-                });
-                document.querySelectorAll(".accordion-trigger [data-lucide='chevron-down']").forEach(icon => {
-                    icon.style.transform = "rotate(0deg)";
-                });
-                showToast("Estructura Contraída", "Se cerraron todos los niveles jerárquicos secundarios.");
-            });
-        }
-
-        function openSection(content, icon) {
-            content.classList.add("open");
-            content.style.maxHeight = content.scrollHeight + "px";
-            if (icon) icon.style.transform = "rotate(180deg)";
-            
-            // Recalcular alturas de contenedores padres si existen
-            let parentContent = content.parentElement.closest(".accordion-content");
-            while (parentContent) {
-                parentContent.style.maxHeight = (parentContent.scrollHeight + content.scrollHeight) + "px";
-                parentContent = parentContent.parentElement.closest(".accordion-content");
-            }
-        }
-
-        function closeSection(content, icon) {
-            content.style.maxHeight = "0px";
-            content.classList.remove("open");
-            if (icon) icon.style.transform = "rotate(0deg)";
-        }
-
-        // Abrir secciones específicas desde las tarjetas del Dashboard
-        window.openAccordionSection = function(index) {
-            const mainItems = document.querySelectorAll("#master-accordion-menu > .accordion-item");
-            if(mainItems[index]) {
-                const trigger = mainItems[index].querySelector(".accordion-trigger");
-                const content = mainItems[index].querySelector(".accordion-content");
-                const icon = trigger.querySelector("[data-lucide='chevron-down']");
-                openSection(content, icon);
-                trigger.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                showToast("Navegación", `Se ingresó al panel jerárquico correspondiente.`);
-            }
+        // System wide constants mapped from the master prompt instructions.
+        const UI_COLORS = {
+            orange: '#FF7800',
+            blue: '#3B82F6',
+            turquoise: '#14B8A6'
         };
 
-        // Animación Count-Up de Formularios Completados
-        function initCountUpAnimation() {
-            const target = 142; 
-            const element = document.getElementById("count-forms");
-            let count = 0;
-            const duration = 2000;
-            const increment = target / (duration / 30);
-            
-            const timer = setInterval(() => {
-                count += increment;
-                if(count >= target) {
-                    element.innerText = target;
-                    clearInterval(timer);
-                } else {
-                    element.innerText = Math.floor(count);
-                }
-            }, 30);
+        // DOM Initializer lifecycle handler hook
+        document.addEventListener('DOMContentLoaded', () => {
+            initSystemTheme();
+            initCharts();
+            executeCountUpAnimations();
+            lucide.createIcons();
+            startLiveClock();
+            showNotification('Bienvenido al Hub Premium de AIESEC Experience', 'success');
+        });
+
+        // 1. Live Time Sync Clock
+        function startLiveClock() {
+            const clockEl = document.getElementById('live-clock');
+            const formatNum = (num) => String(num).padStart(2, '0');
+            setInterval(() => {
+                const now = new Date();
+                clockEl.textContent = `${formatNum(now.getDate())}/${formatNum(now.getMonth()+1)}/${now.getFullYear()} ${formatNum(now.getHours())}:${formatNum(now.getMinutes())}:${formatNum(now.getSeconds())}`;
+            }, 1000);
         }
 
-        // Buscador Global en tiempo real con filtro visual dinámico
-        function initGlobalSearch() {
-            const searchInput = document.getElementById("global-search");
-            searchInput.addEventListener("input", (e) => {
-                const term = e.target.value.toLowerCase();
-                const leaves = document.querySelectorAll(".menu-leaf-node");
-                
-                leaves.forEach(leaf => {
-                    const text = leaf.textContent.toLowerCase();
-                    if(text.includes(term)) {
-                        leaf.classList.remove("opacity-30");
-                        leaf.style.background = term ? "rgba(20, 184, 166, 0.15)" : "";
-                        
-                        // Si encuentra coincidencia, forzar la apertura del padre para visibilidad
-                        if (term) {
-                            let parentItem = leaf.closest(".accordion-content");
-                            while(parentItem) {
-                                parentItem.classList.add("open");
-                                parentItem.style.maxHeight = "none";
-                                parentItem = parentItem.parentElement.closest(".accordion-content");
-                            }
-                        }
-                    } else {
-                        leaf.classList.add("opacity-30");
-                        leaf.style.background = "";
-                    }
+        // 2. Interactive Multi-level Accordion Core Logics
+        function toggleAccordion(element) {
+            const parentNode = element.parentNode;
+            const targetContent = parentNode.querySelector('.accordion-content');
+            const targetArrow = element.querySelector('.arrow-rotate');
+
+            if (!targetContent) return;
+
+            if (targetContent.classList.contains('open')) {
+                // Collapse logic
+                targetContent.classList.remove('open');
+                if(targetArrow) targetArrow.classList.remove('rotated');
+                // Recursive closure safety loop for internal cascading levels
+                targetContent.querySelectorAll('.accordion-content').forEach(sub => {
+                    sub.classList.remove('open');
+                    const internalArrow = sub.parentNode.querySelector('.arrow-rotate');
+                    if(internalArrow) internalArrow.classList.remove('rotated');
                 });
+            } else {
+                // Expand logic
+                targetContent.classList.add('open');
+                if(targetArrow) targetArrow.classList.add('rotated');
+                
+                // Update Breadcrumbs node for structural feedback clarity
+                const nodeText = element.textContent.replace(/[\n\r]+/g, '').trim();
+                document.getElementById('current-crumb-node').textContent = nodeText.substring(0, 30) + (nodeText.length > 30 ? '...' : '');
+            }
+        }
+
+        function expandAllAccordions() {
+            document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(content => {
+                content.classList.add('open');
+            });
+            document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(arrow => {
+                arrow.classList.add('rotated');
+            });
+            showNotification('Estructura completa desplegada con éxito', 'info');
+        }
+
+        function collapseAllAccordions() {
+            document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(content => {
+                content.classList.remove('open');
+            });
+            document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(arrow => {
+                arrow.classList.remove('rotated');
+            });
+            document.getElementById('current-crumb-node').textContent = 'Vista General';
+            showNotification('Estructura contraída completamente', 'info');
+        }
+
+        function triggerModuleAccordion(index) {
+            const rootLevelButtons = document.querySelectorAll('#accordion-root-navigation > div > button');
+            if(rootLevelButtons[index]) {
+                const parent = rootLevelButtons[index].parentNode;
+                const content = parent.querySelector('.accordion-content');
+                if(content && !content.classList.contains('open')) {
+                    toggleAccordion(rootLevelButtons[index]);
+                }
+                rootLevelButtons[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                rootLevelButtons[index].classList.add('ring-2', 'ring-[#FF7800]');
+                setTimeout(() => rootLevelButtons[index].classList.remove('ring-2', 'ring-[#FF7800]'), 1500);
+            }
+        }
+
+        // 3. System Theme Engine Manager (Local Storage backed)
+        function initSystemTheme() {
+            const savedTheme = localStorage.getItem('premium-dashboard-theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark', 'dark-vars');
+            } else {
+                document.documentElement.classList.remove('dark', 'dark-vars');
+            }
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            document.documentElement.classList.toggle('dark-vars', isDark);
+            localStorage.setItem('premium-dashboard-theme', isDark ? 'dark' : 'light');
+            showNotification(`Modo ${isDark ? 'Oscuro' : 'Claro'} activado`, 'info');
+            
+            // Re-render charts to adjust layout labels clarity if needed
+            if(window.auditChartInst) {
+                window.auditChartInst.destroy();
+                window.buddiesChartInst.destroy();
+                window.familiesChartInst.destroy();
+                initCharts();
+            }
+        }
+
+        // 4. Real-time Search Processing Filtration Engine
+        function executeGlobalSearch() {
+            const rawQuery = document.getElementById('global-search-input').value.toLowerCase().trim();
+            const links = document.querySelectorAll('#accordion-root-navigation a');
+            const sections = document.querySelectorAll('#accordion-root-navigation button');
+            const pill = document.getElementById('filter-tag-pill');
+
+            if (!rawQuery) {
+                // Clear matching filter filters
+                pill.classList.add('hidden');
+                links.forEach(l => { l.style.display = ''; l.classList.remove('bg-amber-500/20'); });
+                sections.forEach(s => s.parentNode.style.display = '');
+                return;
+            }
+
+            pill.classList.remove('hidden');
+            let totalMatches = 0;
+
+            links.forEach(link => {
+                const innerText = link.textContent.toLowerCase();
+                if (innerText.includes(rawQuery)) {
+                    link.style.display = '';
+                    link.classList.add('bg-amber-500/20');
+                    totalMatches++;
+                    
+                    // Force reveal parent containment hierarchy trees dynamically
+                    let ancestor = link.parentNode;
+                    while (ancestor && ancestor !== document.getElementById('accordion-root-navigation')) {
+                        if (ancestor.classList.contains('accordion-content')) {
+                            ancestor.classList.add('open');
+                            const parentTrigger = ancestor.parentNode.querySelector('.arrow-rotate');
+                            if(parentTrigger) parentTrigger.classList.add('rotated');
+                        }
+                        ancestor = ancestor.parentNode;
+                    }
+                } else {
+                    link.style.display = 'none';
+                    link.classList.remove('bg-amber-500/20');
+                }
+            });
+
+            // Clean visible states for internal empty modules
+            document.querySelectorAll('#accordion-root-navigation > div').forEach(masterModule => {
+                const subLinksVisible = masterModule.querySelectorAll('a:not([style*="display: none"])');
+                if (subLinksVisible.length === 0) {
+                    masterModule.style.display = 'none';
+                } else {
+                    masterModule.style.display = '';
+                }
             });
         }
 
-        // Sistema premium de notificaciones visuales (Toast Hub)
-        function showToast(title, message) {
-            const hub = document.getElementById("notification-hub");
-            const toast = document.createElement("div");
+        // 5. Count-Up Digital Animation Core
+        function executeCountUpAnimations() {
+            const elements = document.querySelectorAll('.count-up');
+            elements.forEach(el => {
+                const target = parseInt(el.getAttribute('data-target'), 10) || 0;
+                let current = 0;
+                const steps = 50;
+                const increment = Math.ceil(target / steps);
+                const speed = 25;
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        el.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        el.textContent = current;
+                    }
+                }, speed);
+            });
+        }
+
+        // 6. Notification System Infrastructure Engine
+        function showNotification(message, type = 'success') {
+            const hub = document.getElementById('notification-hub');
+            const toast = document.createElement('div');
             
-            toast.className = "p-3 rounded-2xl shadow-xl border-l-4 border-teal-500 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md pointer-events-auto transition-all duration-300 flex items-start gap-3 w-full transform translate-x-10 opacity-0";
+            let iconType = 'info';
+            let borderCol = 'border-l-[var(--tech-blue)]';
+            let textIcon = 'text-blue-500';
+
+            if(type === 'success') {
+                iconType = 'check-circle';
+                borderCol = 'border-l-emerald-500';
+                textIcon = 'text-emerald-500';
+            } else if (type === 'orange') {
+                iconType = 'alert-triangle';
+                borderCol = 'border-l-[var(--neon-orange)]';
+                textIcon = 'text-amber-500';
+            }
+
+            let bgStyle = "rgba(255,255,255,0.95)";
+            if(document.documentElement.classList.contains("dark")) {
+                bgStyle = "rgba(15,23,42,0.95)";
+            }
+
+            toast.className = `p-4 rounded-2xl shadow-xl border-l-4 ${borderCol} transition-all duration-300 transform translate-x-20 opacity-0 flex items-start gap-3 w-80 max-w-full`;
+            toast.style.background = bgStyle;
+            toast.style.backdropFilter = "blur(10px)";
+            
             toast.innerHTML = `
-                <div class="text-[#14B8A6] mt-0.5"><i data-lucide="bell" class="w-4 h-4"></i></div>
+                <div class="${textIcon} shrink-0 mt-0.5">
+                    <i data-lucide="${iconType}" class="w-4 h-4"></i>
+                </div>
                 <div class="flex-1">
-                    <h5 class="text-xs font-black text-slate-900 dark:text-white leading-none mb-1">${title}</h5>
-                    <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-snug">${message}</p>
+                    <p class="text-xs font-bold text-slate-900 dark:text-white leading-snug">${message}</p>
                 </div>
             `;
+
             hub.appendChild(toast);
             lucide.createIcons();
 
             setTimeout(() => {
-                toast.classList.remove("translate-x-10", "opacity-0");
+                toast.classList.remove("translate-x-20", "opacity-0");
             }, 50);
 
             setTimeout(() => {
-                toast.classList.add("translate-x-10", "opacity-0");
-                setTimeout(() => toast.remove(), 300);
+                toast.classList.add("translate-x-20", "opacity-0");
+                setTimeout(() => toast.remove(), 400);
             }, 4000);
         }
 
-        // Estado del dispositivo Online / Offline en tiempo real
-        function initOnlineStatus() {
-            const badge = document.getElementById("status-badge");
-            const stamp = document.getElementById("time-stamp");
-            
-            const updateTime = () => {
-                const now = new Date();
-                stamp.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            };
-            updateTime();
+        // 7. Network Monitoring Event Hooks
+        window.addEventListener('online', () => {
+            document.getElementById('status-text').textContent = 'Online';
+            const badge = document.getElementById('status-text').parentNode;
+            badge.className = "flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-semibold";
+            showNotification('Conexión reestablecida con el servidor', 'success');
+        });
 
-            window.addEventListener("online", () => {
-                badge.className = "flex items-center gap-1.5 px-3 py-2 rounded-xl bg-teal-500/10 text-teal-600 border border-teal-500/20 text-[10px] font-black";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span> ONLINE`;
-                showToast("Conexión Restaurada", "El sistema se encuentra sincronizado con la red de servidores.");
-            });
+        window.addEventListener('offline', () => {
+            document.getElementById('status-text').textContent = 'Offline';
+            const badge = document.getElementById('status-text').parentNode;
+            badge.className = "flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-500 text-xs font-semibold";
+            showNotification('Se ha perdido la conexión de red', 'orange');
+        });
 
-            window.addEventListener("offline", () => {
-                badge.className = "flex items-center gap-1.5 px-3 py-2 rounded-xl bg-rose-500/10 text-rose-600 border border-rose-500/20 text-[10px] font-black";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span> OFFLINE`;
-                showToast("Conexión Perdida", "Trabajando en modo local fuera de línea temporalmente.");
-            });
-        }
-
-        // Inicialización Avanzada de Gráficos de Datos (Chart.js)
+        // ================================================================================= -->
+        // ============================ CHARTS INITIALIZATION LAYER ======================== -->
+        // ================================================================================= -->
         function initCharts() {
-            // Line Chart para Total TNs
-            const ctxLine = document.getElementById('chart-tns-line').getContext('2d');
-            new Chart(ctxLine, {
-                type: 'line',
-                data: {
-                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'TNs',
-                        data: [12, 19, 28, 35, 42, 48],
-                        borderColor: '#2563EB',
-                        borderWidth: 3,
-                        pointRadius: 0,
-                        fill: true,
-                        backgroundColor: 'rgba(37, 99, 235, 0.05)',
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { x: { display: false }, y: { display: false } }
-                }
-            });
+            const isDarkActive = document.documentElement.classList.contains('dark');
+            const fontColor = isDarkActive ? '#94a3b8' : '#4B5563';
+            const gridColor = isDarkActive ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)';
 
-            // Doughnut Chart para Audit Status
-            const ctxDoughnut = document.getElementById('chart-audit-doughnut').getContext('2d');
-            new Chart(ctxDoughnut, {
+            // Master Chart 1: Audit Status (Doughnut Chart)
+            const ctxDoughnut = document.getElementById('auditDoughnutChart').getContext('2d');
+            window.auditChartInst = new Chart(ctxDoughnut, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Aprobadas', 'Pendientes', 'Rechazadas'],
+                    labels: ['Aprobados', 'Pendientes', 'Revisión'],
                     datasets: [{
-                        data: [85, 10, 5],
-                        backgroundColor: ['#14B8A6', '#F59E0B', '#EF4444'],
+                        data: [12, 4, 3],
+                        backgroundColor: [UI_COLORS.turquoise, UI_COLORS.blue, UI_COLORS.orange],
                         borderWidth: 0
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: fontColor, font: { family: 'Inter', size: 11 } } }
+                    },
                     cutout: '75%'
                 }
             });
 
-            // Bar Chart para Distribución de Buddies
-            const ctxBar = document.getElementById('chart-buddies-bar').getContext('2d');
-            new Chart(ctxBar, {
+            // Master Chart 2: Buddies Distribution (Bar Chart)
+            const ctxBar = document.getElementById('buddiesBarChart').getContext('2d');
+            window.buddiesChartInst = new Chart(ctxBar, {
                 type: 'bar',
                 data: {
-                    labels: ['Equipo A', 'Equipo B', 'Equipo C', 'Equipo D'],
+                    labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5'],
                     datasets: [{
-                        data: [14, 21, 18, 25],
-                        backgroundColor: '#14B8A6',
-                        borderRadius: 6
+                        label: 'Asignaciones Activas',
+                        data: [5, 12, 18, 22, 24],
+                        backgroundColor: UI_COLORS.blue,
+                        borderRadius: 8
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
                     scales: {
-                        x: { grid: { display: false }, ticks: { font: { size: 9 } } },
-                        y: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { font: { size: 9 } } }
-                    }
+                        x: { grid: { display: false }, ticks: { color: fontColor } },
+                        y: { grid: { color: gridColor }, ticks: { color: fontColor } }
+                    },
+                    plugins: { legend: { display: false } }
                 }
             });
 
-            // Horizontal Bar Chart para Familias Globales
-            const ctxHoriz = document.getElementById('chart-families-horizontal').getContext('2d');
-            new Chart(ctxHoriz, {
+            // Master Chart 3: Global Families Active Pool Tracking (Horizontal Bar Chart)
+            const ctxHBar = document.getElementById('familiesHorizontalBarChart').getContext('2d');
+            window.familiesChartInst = new Chart(ctxHBar, {
                 type: 'bar',
                 data: {
-                    labels: ['Zona Norte', 'Zona Sur', 'Centro', 'Periferia'],
+                    labels: ['Zona Central', 'Zona Sur', 'Sopocachi', 'Miraflores'],
                     datasets: [{
-                        data: [8, 15, 12, 6],
-                        backgroundColor: '#F59E0B',
+                        data: [8, 14, 9, 6],
+                        backgroundColor: [UI_COLORS.orange, UI_COLORS.turquoise, UI_COLORS.blue, '#A855F7'],
                         borderRadius: 6
                     }]
                 },
@@ -719,12 +966,45 @@
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
                     scales: {
-                        x: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { font: { size: 9 } } },
-                        y: { grid: { display: false }, ticks: { font: { size: 9 } } }
-                    }
+                        x: { grid: { color: gridColor }, ticks: { color: fontColor } },
+                        y: { grid: { display: false }, ticks: { color: fontColor } }
+                    },
+                    plugins: { legend: { display: false } }
                 }
+            });
+
+            // ================= MINI KPI SPARKLINES LAYER =================
+            const miniSparklineOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                scales: { x: { display: false }, y: { display: false } },
+                elements: { point: { radius: 0 } }
+            };
+
+            new Chart(document.getElementById('miniChart1').getContext('2d'), {
+                type: 'line',
+                data: { labels: ['A','B','C','D','E'], datasets: [{ data: [10, 14, 12, 17, 19], borderColor: UI_COLORS.turquoise, tension: 0.4, borderWidth: 2 }] },
+                options: miniSparklineOptions
+            });
+
+            new Chart(document.getElementById('miniChart2').getContext('2d'), {
+                type: 'line',
+                data: { labels: ['A','B','C','D','E'], datasets: [{ data: [8, 9, 11, 13, 15], borderColor: UI_COLORS.blue, tension: 0.4, borderWidth: 2 }] },
+                options: miniSparklineOptions
+            });
+
+            new Chart(document.getElementById('miniChart3').getContext('2d'), {
+                type: 'line',
+                data: { labels: ['A','B','C','D','E'], datasets: [{ data: [15, 14, 19, 18, 24], borderColor: UI_COLORS.orange, tension: 0.4, borderWidth: 2 }] },
+                options: miniSparklineOptions
+            });
+
+            new Chart(document.getElementById('miniChart4').getContext('2d'), {
+                type: 'line',
+                data: { labels: ['A','B','C','D','E'], datasets: [{ data: [20, 28, 35, 41, 48], borderColor: '#A855F7', tension: 0.4, borderWidth: 2 }] },
+                options: miniSparklineOptions
             });
         }
     </script>
