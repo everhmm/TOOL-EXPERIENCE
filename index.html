@@ -1289,32 +1289,48 @@
             }, 4000);
         }
 
-        // ================================================================================= -->
+           // ================================================================================= -->
         // ============================ CHARTS INITIALIZATION LAYER ======================== -->
         // ================================================================================= -->
         function initCharts() {
-            const fontColor = '#000000';
-            const gridColor = 'rgba(0,0,0,0.06)';
+            const isDarkActive = document.documentElement.classList.contains('dark');
+            const fontColor = isDarkActive ? '#94a3b8' : '#4B5563';
+            const gridColor = isDarkActive ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)';
 
-            window.auditChartInst = new Chart(document.getElementById('auditDoughnutChart').getContext('2d'), {
+            // Master Chart 1: Audit Status (Doughnut Chart)
+            const ctxDoughnut = document.getElementById('auditDoughnutChart').getContext('2d');
+            window.auditChartInst = new Chart(ctxDoughnut, {
                 type: 'doughnut',
                 data: {
                     labels: ['Aprobados', 'Pendientes', 'Revisión'],
-                    datasets: [{ data: [12, 4, 3], backgroundColor: [UI_COLORS.turquoise, UI_COLORS.blue, UI_COLORS.orange], borderWidth: 0 }]
+                    datasets: [{
+                        data: [12, 4, 3],
+                        backgroundColor: [UI_COLORS.turquoise, UI_COLORS.blue, UI_COLORS.orange],
+                        borderWidth: 0
+                    }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { color: fontColor, font: { family: 'Inter', size: 11 } } } },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: fontColor, font: { family: 'Inter', size: 11 } } }
+                    },
                     cutout: '75%'
                 }
             });
 
-            window.buddiesChartInst = new Chart(document.getElementById('buddiesBarChart').getContext('2d'), {
+            // Master Chart 2: Buddies Distribution (Bar Chart)
+            const ctxBar = document.getElementById('buddiesBarChart').getContext('2d');
+            window.buddiesChartInst = new Chart(ctxBar, {
                 type: 'bar',
                 data: {
                     labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5'],
-                    datasets: [{ data: [5, 12, 18, 22, 24], backgroundColor: UI_COLORS.blue, borderRadius: 8 }]
+                    datasets: [{
+                        label: 'Asignaciones Activas',
+                        data: [5, 12, 18, 22, 24],
+                        backgroundColor: UI_COLORS.blue,
+                        borderRadius: 8
+                    }]
                 },
                 options: {
                     responsive: true,
@@ -1327,11 +1343,17 @@
                 }
             });
 
-            window.familiesChartInst = new Chart(document.getElementById('familiesHorizontalBarChart').getContext('2d'), {
+            // Master Chart 3: Global Families Active Pool Tracking (Horizontal Bar Chart)
+            const ctxHBar = document.getElementById('familiesHorizontalBarChart').getContext('2d');
+            window.familiesChartInst = new Chart(ctxHBar, {
                 type: 'bar',
                 data: {
                     labels: ['Zona Central', 'Zona Sur', 'Sopocachi', 'Miraflores'],
-                    datasets: [{ data: [8, 14, 9, 6], backgroundColor: [UI_COLORS.orange, UI_COLORS.turquoise, UI_COLORS.blue, '#A855F7'], borderRadius: 6 }]
+                    datasets: [{
+                        data: [8, 14, 9, 6],
+                        backgroundColor: [UI_COLORS.orange, UI_COLORS.turquoise, UI_COLORS.blue, '#A855F7'],
+                        borderRadius: 6
+                    }]
                 },
                 options: {
                     indexAxis: 'y',
@@ -1345,7 +1367,8 @@
                 }
             });
 
-            const miniOptions = {
+            // ================= MINI KPI SPARKLINES LAYER =================
+            const miniSparklineOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: { legend: { display: false }, tooltip: { enabled: false } },
@@ -1353,10 +1376,29 @@
                 elements: { point: { radius: 0 } }
             };
 
-            new Chart(document.getElementById('miniChart1').getContext('2d'), { type: 'line', data: { labels: ['1','2','3'], datasets: [{ data: [10, 14, 19], borderColor: UI_COLORS.turquoise, tension: 0.4, borderWidth: 2 }] }, options: miniOptions });
-            new Chart(document.getElementById('miniChart2').getContext('2d'), { type: 'line', data: { labels: ['1','2','3'], datasets: [{ data: [8, 11, 15], borderColor: UI_COLORS.blue, tension: 0.4, borderWidth: 2 }] }, options: miniOptions });
-            new Chart(document.getElementById('miniChart3').getContext('2d'), { type: 'line', data: { labels: ['1','2','3'], datasets: [{ data: [15, 19, 24], borderColor: UI_COLORS.orange, tension: 0.4, borderWidth: 2 }] }, options: miniOptions });
-            new Chart(document.getElementById('miniChart4').getContext('2d'), { type: 'line', data: { labels: ['1','2','3'], datasets: [{ data: [20, 35, 48], borderColor: '#A855F7', tension: 0.4, borderWidth: 2 }] }, options: miniOptions });
+            new Chart(document.getElementById('miniChart1').getContext('2d'), {
+                type: 'line',
+                data: { labels: ['A','B','C','D','E'], datasets: [{ data: [10, 14, 12, 17, 19], borderColor: UI_COLORS.turquoise, tension: 0.4, borderWidth: 2 }] },
+                options: miniSparklineOptions
+            });
+
+            new Chart(document.getElementById('miniChart2').getContext('2d'), {
+                type: 'line',
+                data: { labels: ['A','B','C','D','E'], datasets: [{ data: [8, 9, 11, 13, 15], borderColor: UI_COLORS.blue, tension: 0.4, borderWidth: 2 }] },
+                options: miniSparklineOptions
+            });
+
+            new Chart(document.getElementById('miniChart3').getContext('2d'), {
+                type: 'line',
+                data: { labels: ['A','B','C','D','E'], datasets: [{ data: [15, 14, 19, 18, 24], borderColor: UI_COLORS.orange, tension: 0.4, borderWidth: 2 }] },
+                options: miniSparklineOptions
+            });
+
+            new Chart(document.getElementById('miniChart4').getContext('2d'), {
+                type: 'line',
+                data: { labels: ['A','B','C','D','E'], datasets: [{ data: [20, 28, 35, 41, 48], borderColor: '#A855F7', tension: 0.4, borderWidth: 2 }] },
+                options: miniSparklineOptions
+            });
         }
     </script>
 </body>
