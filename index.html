@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+      <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -14,48 +14,44 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     
     <style>
         :root {
             --bg-body: linear-gradient(135deg, #E8EDF2, #DEE4EA);
             --card-bg: #DDE3E9;
-            --glass-white: rgba(255, 255, 255, 0.75);
+            --glass-white: rgba(255, 255, 255, 0.60);
             --neon-orange: #FF7800;
             --tech-blue: #3B82F6;
             --text-main: #111827;
-            --text-gray: #374151;
+            --text-gray: #4B5563;
             --shadow-soft: 0px 25px 60px rgba(0, 0, 0, 0.10);
             --shadow-neumorph: 8px 8px 16px rgba(163, 177, 198, 0.50), -8px -8px 16px rgba(255, 255, 255, 0.80);
         }
 
         .dark-vars {
-            --bg-body: linear-gradient(135deg, #CBD5E1, #94A3B8);
+             --bg-body: linear-gradient(135deg, #E2E8F0, #CBD5E1);
             --card-bg: #E2E8F0;
             --glass-white: rgba(255, 255, 255, 0.85);
             --neon-orange: #FF7800;
             --tech-blue: #1D4ED8;
             --text-main: #0F172A;
             --text-gray: #1E293B;
-            --shadow-soft: 0px 25px 60px rgba(15, 23, 42, 0.15);
-            --shadow-neumorph: 6px 6px 12px rgba(148, 163, 184, 0.5), -4px -4px 12px rgba(255, 255, 255, 0.9);
+            --shadow-soft: 0px 25px 60px rgba(0, 0, 0, 0.12);
+            --shadow-neumorph: 6px 6px 12px rgba(148, 163, 184, 0.5), -6px -6px 12px rgba(255, 255, 255, 0.9);
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg-body);
-            color: #000000 !important;
+            color: var(--text-main);
             transition: background 0.5s ease, color 0.3s ease;
             min-height: 100vh;
             overflow-x: hidden;
         }
-
-        /* Forzar que todos los elementos de texto legibles contengan color negro según instrucción obligatoria */
-        h1, h2, h3, h4, h5, h6, p, span, a, label, input, button, select, text, th, td, div {
+  /* OBLIGATORIO: Todas las letras de color negro */
+        *, ::placeholder, text, span, p, h1, h2, h3, h4, h5, h6, a, input, button, select, option, div {
             color: #000000 !important;
         }
-
         .font-inter {
             font-family: 'Inter', sans-serif;
         }
@@ -65,7 +61,7 @@
             position: absolute;
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(20,184,166,0.2) 0%, rgba(37,99,235,0.05) 70%);
+            background: radial-gradient(circle, rgba(20,184,166,0.25) 0%, rgba(37,99,235,0.05) 70%);
             filter: blur(80px);
             top: -10%;
             left: -10%;
@@ -77,7 +73,7 @@
             position: absolute;
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, rgba(219,39,119,0.03) 60%);
+            background: radial-gradient(circle, rgba(245,158,11,0.2) 0%, rgba(219,39,119,0.03) 60%);
             filter: blur(90px);
             bottom: 15%;
             right: -5%;
@@ -89,7 +85,7 @@
             position: absolute;
             width: 800px;
             height: 250px;
-            background: linear-gradient(45deg, rgba(59,130,246,0.1), rgba(20,184,166,0.08));
+            background: linear-gradient(45deg, rgba(59,130,246,0.15), rgba(20,184,166,0.1));
             filter: blur(100px);
             top: 40%;
             left: 25%;
@@ -108,17 +104,21 @@
             background: var(--glass-white);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             box-shadow: var(--shadow-soft), var(--shadow-neumorph);
             border-radius: 28px;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dark .glass-card {
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         /* Premium Buttons style mapping rules */
         .premium-btn {
             background: var(--glass-white);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 24px;
             box-shadow: var(--shadow-soft);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -139,7 +139,7 @@
         }
 
         .accordion-content.open {
-            max-height: 2000px;
+            max-height: 2000px; /* high generic allowance to fit sub-levels */
             opacity: 1;
         }
 
@@ -154,17 +154,23 @@
         /* Submenu items styling */
         .sub-link-card {
             position: relative;
-            background: rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.35);
             border-radius: 14px;
             transition: all 0.3s ease;
             border-left: 0px solid var(--neon-orange);
         }
+        .dark .sub-link-card {
+            background: rgba(255, 255, 255, 0.03);
+        }
 
         .sub-link-card:hover {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.7);
             border-left: 4px solid var(--neon-orange);
             padding-left: 1.25rem;
             transform: translateX(4px);
+        }
+        .dark .sub-link-card:hover {
+            background: rgba(255, 255, 255, 0.08);
         }
 
         /* Custom Scrollbar */
@@ -176,13 +182,14 @@
             background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(163, 177, 198, 0.5);
             border-radius: 999px;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: var(--neon-orange);
         }
 
+        /* Notification Toast Container */
         #notification-hub {
             position: fixed;
             bottom: 24px;
@@ -191,14 +198,6 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-        }
-
-        /* Floating Engine Trigger Config */
-        .excel-floating-trigger {
-            position: fixed;
-            top: 20px;
-            right: 90px;
-            z-index: 50;
         }
     </style>
 </head>
@@ -210,101 +209,30 @@
 
     <div id="notification-hub"></div>
 
-    <div class="excel-floating-trigger">
-        <button onclick="openExcelModal()" class="glass-card px-4 py-2 flex items-center gap-2 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-[#FF7800] bg-white/80 shadow-lg" style="border-radius: 24px;">
-            <i data-lucide="upload-cloud" style="color: #000000 !important;"></i>
-            <span class="text-xs font-bold font-inter">Cargar</span>
-        </button>
-    </div>
-
-    <div id="excel-modal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all duration-300">
-        <div class="glass-card w-full max-w-4xl max-h-[85vh] overflow-y-auto p-6 sm:p-8 flex flex-col gap-6 bg-white/95" style="border-radius: 32px;">
-            <div class="flex items-center justify-between border-b border-black/10 pb-4">
-                <div class="flex items-center gap-3">
-                    <div class="p-2.5 bg-amber-500/10 rounded-xl">
-                        <i data-lucide="database" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold">Motor de Datos Local Excel / CSV</h3>
-                        <p class="text-xs">Indexación híbrida local en LocalStorage</p>
-                    </div>
-                </div>
-                <button onclick="closeExcelModal()" class="p-2 rounded-full hover:bg-black/10 transition">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div id="excel-dropzone" class="border-2 border-dashed border-black/20 hover:border-[#FF7800] rounded-2xl p-8 flex flex-col items-center justify-center gap-3 bg-black/5 text-center transition-all cursor-pointer">
-                <i data-lucide="file-spreadsheet" class="w-12 h-12 text-teal-600"></i>
-                <div>
-                    <p class="text-sm font-bold">Arrastra tus archivos Excel o CSV aquí</p>
-                    <p class="text-xs mt-1">Soporta formatos .xlsx, .xls y .csv con indexación automática completa</p>
-                </div>
-                <label class="premium-btn px-4 py-2 text-xs font-bold cursor-pointer inline-block mt-2">
-                    Seleccionar archivo manualmente
-                    <input type="file" id="excel-file-input" class="hidden" accept=".xlsx, .xls, .csv" multiple onchange="handleExcelFileSelect(event)">
-                </label>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-black/5 p-4 rounded-2xl">
-                <div class="flex flex-col">
-                    <span class="text-xs font-medium">Archivos Cargados</span>
-                    <span id="stat-files-count" class="text-xl font-extrabold">0</span>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-xs font-medium">Registros Indexados</span>
-                    <span id="stat-records-count" class="text-xl font-extrabold">0</span>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-xs font-medium">Última Actualización</span>
-                    <span id="stat-last-update" class="text-xs font-bold mt-1">-</span>
-                </div>
-                <div class="col-span-1 md:col-span-3 flex flex-wrap gap-2 pt-2 border-t border-black/10">
-                    <button onclick="exportUnifiedJSON()" class="premium-btn px-3 py-1.5 text-xs font-bold flex items-center gap-1.5"><i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar Datos</button>
-                    <button onclick="clearExcelDatabase()" class="premium-btn px-3 py-1.5 text-xs font-bold text-red-600 border-red-200 hover:border-red-500 flex items-center gap-1.5"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Eliminar Todo</button>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-3">
-                <h4 class="text-xs font-bold uppercase tracking-wider">Archivos e Índices Procesados</h4>
-                <div id="excel-files-manifest-list" class="flex flex-col gap-2">
-                    <p class="text-xs italic">No hay archivos en memoria local actualmente.</p>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-3">
-                <h4 class="text-xs font-bold uppercase tracking-wider">Vista Previa de Tabla Dinámica</h4>
-                <div class="overflow-x-auto border border-black/10 rounded-xl bg-white/50 max-h-60 overflow-y-auto">
-                    <table class="w-full text-left text-xs" id="dynamic-preview-table">
-                        <thead class="bg-black/5 sticky top-0">
-                            <tr>
-                                <th class="p-3 font-bold">Index Row</th>
-                                <th class="p-3 font-bold">Carga un documento para visualizar columnas</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="p-3 italic text-slate-500" colspan="2">Ninguna muestra de datos cargada.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="max-w-[1920px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
         
         <aside class="col-span-1 lg:col-span-4 xl:col-span-3 flex flex-col gap-6">
             
-            <div class="glass-card p-6 flex items-center justify-between bg-white/80">
+            <div class="glass-card p-6 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#14B8A6] to-[#2563EB] flex items-center justify-center font-bold text-xl shadow-md">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#14B8A6] to-[#2563EB] flex items-center justify-center text-white font-bold text-xl shadow-md">
                         A
                     </div>
+ <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded-full font-bold uppercase" id="local-db-counter">0 Archivos</span>
+                </div>
+
+                <div id="excel-drop-zone" class="border-2 border-dashed border-slate-200 rounded-xl p-4 text-center cursor-pointer hover:bg-white/40 transition flex flex-col items-center justify-center gap-2">
+                    <i data-lucide="upload-cloud" class="w-8 h-8 text-slate-400"></i>
+                    <p class="text-xs font-bold">Arrastra tu Excel / CSV aquí</p>
+                    <p class="text-[10px] text-slate-500">Soporta .xlsx, .xls, .csv</p>
+                    <input type="file" id="excel-file-input" accept=".xlsx, .xls, .csv" class="hidden" multiple>
+                    <button type="button" onclick="document.getElementById('excel-file-input').click()" class="mt-1 px-3 py-1 bg-slate-200 text-[10px] font-bold rounded-lg hover:bg-slate-300 transition">
+                        Examinar Archivos
+                    </button>
+                </div>
                     <div>
-                        <h2 class="text-xs font-bold uppercase tracking-wider">AIESEC Experience</h2>
-                        <p class="text-sm font-bold opacity-90">GOLD SUNRISE HUB</p>
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">AIESEC Experience</h2>
+                        <p class="text-sm font-bold opacity-90">GOLD SUNRISE </p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-semibold">
@@ -313,14 +241,14 @@
                 </div>
             </div>
 
-            <div class="glass-card p-6 flex flex-col gap-4 bg-white/80">
-                <div class="flex items-center justify-between border-b border-black/10 pb-3 mb-2">
-                    <h3 class="text-sm font-bold tracking-wide uppercase">Menú Operativo</h3>
+            <div class="glass-card p-6 flex flex-col gap-4">
+                <div class="flex items-center justify-between border-b border-slate-300/30 pb-3 mb-2">
+                    <h3 class="text-sm font-bold text-[var(--tech-blue)] tracking-wide uppercase">Menú Operativo</h3>
                     <div class="flex gap-2">
-                        <button onclick="expandAllAccordions()" title="Expandir todo" class="p-1.5 rounded-lg hover:bg-black/5 text-xs font-semibold flex items-center gap-1 transition">
+                        <button onclick="expandAllAccordions()" title="Expandir todo" class="p-1.5 rounded-lg hover:bg-slate-300/30 dark:hover:bg-slate-700/40 text-xs font-semibold flex items-center gap-1 transition">
                             <i data-lucide="chevrons-down" class="w-3.5 h-3.5"></i>
                         </button>
-                        <button onclick="collapseAllAccordions()" title="Contraer todo" class="p-1.5 rounded-lg hover:bg-black/5 text-xs font-semibold flex items-center gap-1 transition">
+                        <button onclick="collapseAllAccordions()" title="Contraer todo" class="p-1.5 rounded-lg hover:bg-slate-300/30 dark:hover:bg-slate-700/40 text-xs font-semibold flex items-center gap-1 transition">
                             <i data-lucide="chevrons-up" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
@@ -328,74 +256,74 @@
 
                 <nav class="font-inter flex flex-col gap-3" id="accordion-root-navigation">
                     
-                    <div class="border border-black/10 rounded-2xl overflow-hidden bg-white/30">
-                        <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-4 font-bold text-sm flex items-center justify-between hover:bg-white/40 transition-all gap-2">
-                            <span class="flex items-center gap-2 uppercase tracking-wide">
-                                <i data-lucide="shield-check" class="w-4 h-4 text-teal-600"></i>
+                    <div class="border border-slate-300/20 rounded-2xl overflow-hidden bg-white/10 dark:bg-slate-900/10">
+                        <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-4 font-bold text-sm flex items-center justify-between hover:bg-white/20 transition-all gap-2">
+                            <span class="flex items-center gap-2 text-slate-900 dark:text-slate-100 uppercase tracking-wide">
+                                <i data-lucide="shield-check" class="w-4 h-4 text-[var(--tech-blue)]"></i>
                                 PANEL DE CONTROL Y CALIDAD (E.C.B.)
                             </span>
-                            <i data-lucide="chevron-right" class="w-4 h-4 arrow-rotate"></i>
+                            <i data-lucide="chevron-right" class="w-4 h-4 arrow-rotate text-slate-400"></i>
                         </button>
                         
-                        <div class="accordion-content bg-white/10 px-3">
+                        <div class="accordion-content bg-white/5 dark:bg-black/5 px-3">
                             <div class="py-2 flex flex-col gap-2">
-                                <a href="https://drive.google.com/file/d/1DB2SgFyDNFDP_74QIntr9bjaK6oXhJMk/view" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium">
+                                <a href="https://drive.google.com/file/d/1DB2SgFyDNFDP_74QIntr9bjaK6oXhJMk/view" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
                                     <span class="flex items-center gap-2"><i data-lucide="book-open" class="w-3.5 h-3.5 opacity-70"></i> 1.1 Guía del Área Experience (Booklet)</span>
                                     <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
                                 </a>
 
-                                <div class="rounded-xl border border-black/5 overflow-hidden">
-                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/20 hover:bg-white/40 transition gap-2">
+                                <div class="rounded-xl border border-slate-300/10 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/10 hover:bg-white/20 transition gap-2 text-slate-600 dark:text-slate-300">
                                         <span class="flex items-center gap-2"><i data-lucide="folder" class="w-3.5 h-3.5 text-amber-500"></i> 1.2 Proceso de Auditorías</span>
-                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate"></i>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
                                     </button>
                                     <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
-                                        <a href="https://docs.google.com/spreadsheets/d/1sswwe1HrFlfzfFGCBADgKYKZelNUVFoY_MvSSzNMF0o/edit" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1sswwe1HrFlfzfFGCBADgKYKZelNUVFoY_MvSSzNMF0o/edit" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>1.2.1 Proceso Auditorías Experience</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1vWqeiPBoOLh5FSTskH65I7d5O5IadZUEZKSA22Bh1yc/edit" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1vWqeiPBoOLh5FSTskH65I7d5O5IadZUEZKSA22Bh1yc/edit" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>1.2.2 Tool de Auditorías TNs</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://drive.google.com/drive/folders/1wf1iQ18Rhjfen5kiI3jfV7TVvwGXmaGr" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://drive.google.com/drive/folders/1wf1iQ18Rhjfen5kiI3jfV7TVvwGXmaGr" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>1.2.3 Modelo de Documentación TNs</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1B5LKtMbUzldDt7DDw0nHpgKMgdpBBFxOHe351PU1v9I/edit" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1B5LKtMbUzldDt7DDw0nHpgKMgdpBBFxOHe351PU1v9I/edit" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>1.2.4 Plantillas de Correos</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
                                     </div>
                                 </div>
 
-                                <div class="rounded-xl border border-black/5 overflow-hidden">
-                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/20 hover:bg-white/40 transition gap-2">
+                                <div class="rounded-xl border border-slate-300/10 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/10 hover:bg-white/20 transition gap-2 text-slate-600 dark:text-slate-300">
                                         <span class="flex items-center gap-2"><i data-lucide="folder" class="w-3.5 h-3.5 text-amber-500"></i> 1.3 Control de TNs y Auditorías</span>
-                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate"></i>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
                                     </button>
                                     <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
-                                        <a href="https://drive.google.com/drive/folders/1zNJEuNvtOV6FnS8qh6wV7uA3rIDGyT7T" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://drive.google.com/drive/folders/1zNJEuNvtOV6FnS8qh6wV7uA3rIDGyT7T" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>1.3.1 Base de Datos TNs</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1dQxdYjFcTUSNxWJQH1_TDmq26qDhvWCoCmqaD-DJNi8" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1dQxdYjFcTUSNxWJQH1_TDmq26qDhvWCoCmqaD-DJNi8" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>1.3.2 Lead Space</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://canva.link/sx8qwyuz1g9r9bj" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://canva.link/sx8qwyuz1g9r9bj" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>1.3.3 Diapositivas del Pre IPS</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
                                     </div>
                                 </div>
 
-                                <a href="https://drive.google.com/file/d/1d6DwXPvK_jWLRCFM1YX8uCXGS6iiwGlu/view" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium">
+                                <a href="https://drive.google.com/file/d/1d6DwXPvK_jWLRCFM1YX8uCXGS6iiwGlu/view" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
                                     <span class="flex items-center gap-2"><i data-lucide="globe" class="w-3.5 h-3.5 opacity-70"></i> 1.4 Normas de Intercambio</span>
                                     <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
                                 </a>
 
-                                <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium">
+                                <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
                                     <span class="flex items-center gap-2"><i data-lucide="calendar" class="w-3.5 h-3.5 opacity-70"></i> 1.5 Calendario Global</span>
                                     <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
                                 </a>
@@ -403,103 +331,103 @@
                         </div>
                     </div>
 
-                    <div class="border border-black/10 rounded-2xl overflow-hidden bg-white/30">
-                        <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-4 font-bold text-sm flex items-center justify-between hover:bg-white/40 transition-all gap-2">
-                            <span class="flex items-center gap-2 uppercase tracking-wide">
-                                <i data-lucide="users" class="w-4 h-4 text-blue-600"></i>
+                    <div class="border border-slate-300/20 rounded-2xl overflow-hidden bg-white/10 dark:bg-slate-900/10">
+                        <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-4 font-bold text-sm flex items-center justify-between hover:bg-white/20 transition-all gap-2">
+                            <span class="flex items-center gap-2 text-slate-900 dark:text-slate-100 uppercase tracking-wide">
+                                <i data-lucide="users" class="w-4 h-4 text-[var(--tech-blue)]"></i>
                                 GESTIÓN DE TRAINEES TN
                             </span>
-                            <i data-lucide="chevron-right" class="w-4 h-4 arrow-rotate"></i>
+                            <i data-lucide="chevron-right" class="w-4 h-4 arrow-rotate text-slate-400"></i>
                         </button>
                         
-                        <div class="accordion-content bg-white/10 px-3">
+                        <div class="accordion-content bg-white/5 dark:bg-black/5 px-3">
                             <div class="py-2 flex flex-col gap-2">
-                                <a href="https://docs.google.com/spreadsheets/d/1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium">
+                                <a href="https://docs.google.com/spreadsheets/d/1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
                                     <span class="flex items-center gap-2"><i data-lucide="database" class="w-3.5 h-3.5 opacity-70"></i> 2.1 Datos del TNs</span>
                                     <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
                                 </a>
 
-                                <div class="rounded-xl border border-black/5 overflow-hidden">
-                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/20 hover:bg-white/40 transition gap-2">
+                                <div class="rounded-xl border border-slate-300/10 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/10 hover:bg-white/20 transition gap-2 text-slate-600 dark:text-slate-300">
                                         <span class="flex items-center gap-2"><i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-500"></i> 2.2 Base de Ideas</span>
-                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate"></i>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
                                     </button>
                                     <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
-                                        <a href="https://docs.google.com/spreadsheets/d/1Al23B_Skf1nf4ysvOplzyNAZeYj7j513vDvzZAJXl_g" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1Al23B_Skf1nf4ysvOplzyNAZeYj7j513vDvzZAJXl_g" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.2.1 Información de Hospedaje</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://canva.link/oun3q20ma7zqvns" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://canva.link/oun3q20ma7zqvns" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.2.2 Guía de Lugares Gastronómicos</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1FtuZQd9NiaQEjDPJG1N4rCdS9QiXH7UVgwX1qjCWH7s" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1FtuZQd9NiaQEjDPJG1N4rCdS9QiXH7UVgwX1qjCWH7s" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.2.3 Comida Típica Degustada</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1dy-PQaIKhN0zxrdxFIz1RcXiUM8zE5a7iKHhF035Gp0" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1dy-PQaIKhN0zxrdxFIz1RcXiUM8zE5a7iKHhF035Gp0" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.2.4 Lugares Turísticos Asistidos</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1ln54GrisiOtvfGndW8HJ_BuiRhC69W6PeDWwV2B9OO4" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1ln54GrisiOtvfGndW8HJ_BuiRhC69W6PeDWwV2B9OO4" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.2.5 Ideas Cordi Golden Sunrise</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
                                     </div>
                                 </div>
 
-                                <div class="rounded-xl border border-black/5 overflow-hidden">
-                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/20 hover:bg-white/40 transition gap-2">
+                                <div class="rounded-xl border border-slate-300/10 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/10 hover:bg-white/20 transition gap-2 text-slate-600 dark:text-slate-300">
                                         <span class="flex items-center gap-2"><i data-lucide="file-text" class="w-3.5 h-3.5 text-amber-500"></i> 2.3 Reportes TNs</span>
-                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate"></i>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
                                     </button>
                                     <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
-                                        <a href="https://docs.google.com/spreadsheets/d/1yBqcp1MV5Bq6prDLA7DQOijuNhky9VFqjuf49RJ6UQA" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1yBqcp1MV5Bq6prDLA7DQOijuNhky9VFqjuf49RJ6UQA" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.3.1 Reportes Cordi Golden Sunrise</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
                                     </div>
                                 </div>
 
-                                <div class="rounded-xl border border-black/5 overflow-hidden">
-                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/20 hover:bg-white/40 transition gap-2">
+                                <div class="rounded-xl border border-slate-300/10 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/10 hover:bg-white/20 transition gap-2 text-slate-600 dark:text-slate-300">
                                         <span class="flex items-center gap-2"><i data-lucide="heart" class="w-3.5 h-3.5 text-amber-500"></i> 2.4 Buddies</span>
-                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate"></i>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
                                     </button>
                                     <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
-                                        <a href="https://docs.google.com/spreadsheets/d/1YBoX-HBkM0z39_QOtWVjiKQ3_fN5OzOt60rAfPbQdh0" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1YBoX-HBkM0z39_QOtWVjiKQ3_fN5OzOt60rAfPbQdh0" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.4.1 Información Personal Buddies</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://forms.gle/FtScUx7b8uVzcMi77" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://forms.gle/FtScUx7b8uVzcMi77" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.4.2 Google Forms Aplicación</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1VEjfTnTDm94399pq0NRSohfnsG6Y55Bdv--DeVDTZX8" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1VEjfTnTDm94399pq0NRSohfnsG6Y55Bdv--DeVDTZX8" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.4.3 Base de Datos Aplicantes</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://docs.google.com/spreadsheets/d/1Okww1E-nTgCj2nY3KZV0txWwMRjGbxGy3UEShN5mQp0" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://docs.google.com/spreadsheets/d/1Okww1E-nTgCj2nY3KZV0txWwMRjGbxGy3UEShN5mQp0" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.4.4 Entrevistas de Buddies</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://drive.google.com/drive/folders/1D_hyogT9z9P9YEmipoeI-iHw0N1s7i73" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://drive.google.com/drive/folders/1D_hyogT9z9P9YEmipoeI-iHw0N1s7i73" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.4.5 Showcasing Buddies</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
-                                        <a href="https://canva.link/q4h6uwtzi8hv62u" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
+                                        <a href="https://canva.link/q4h6uwtzi8hv62u" target="_blank" class="sub-link-card p-2.5 text-xs text-slate-600 dark:text-slate-400 flex justify-between items-center">
                                             <span>2.4.6 Agradecimientos a Buddies</span>
                                             <i data-lucide="external-link" class="w-3 h-3 opacity-40"></i>
                                         </a>
                                     </div>
                                 </div>
 
-                                <a href="https://drive.google.com/drive/folders/1oRQ6Hcw2bRm6V8T3uk1CRhPDSYS7haC9" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium">
+                                <a href="https://drive.google.com/drive/folders/1oRQ6Hcw2bRm6V8T3uk1CRhPDSYS7haC9" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
                                     <span class="flex items-center gap-2"><i data-lucide="home" class="w-3.5 h-3.5 opacity-70"></i> 2.5 Familias Globales (Carpeta)</span>
                                     <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
                                 </a>
 
-                                <a href="https://www.canva.com/design/DAGmfmofgSs/nuGUyRLIbEkxNl8U7nSHTg" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium">
+                                <a href="https://www.canva.com/design/DAGmfmofgSs/nuGUyRLIbEkxNl8U7nSHTg" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
                                     <span class="flex items-center gap-2"><i data-lucide="book" class="w-3.5 h-3.5 opacity-70"></i> 2.6 Booklet Familia Global</span>
                                     <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
                                 </a>
@@ -510,257 +438,242 @@
                 </nav>
             </div>
 
-            <div class="glass-card p-5 text-xs flex flex-col gap-2 bg-white/80">
+            <div class="glass-card p-5 text-xs text-slate-400 flex flex-col gap-2">
                 <div class="flex items-center justify-between">
                     <span>Última Sincronización:</span>
-                    <span class="font-bold text-slate-800" id="live-clock">03/06/2026 18:06</span>
+                    <span class="font-bold text-slate-500 dark:text-slate-300" id="live-clock">03/06/2026 18:06</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <span>Área:</span>
-                    <span class="font-bold text-blue-700">AIESEC Experience</span>
+                    <span class="font-bold text-[var(--tech-blue)]">AIESEC Experience</span>
                 </div>
-                <div class="w-full bg-slate-300 h-1 rounded-full overflow-hidden mt-1">
-                    <div class="bg-[#FF7800] h-full w-[88%] rounded-full animate-pulse"></div>
+                <div class="w-full bg-slate-300/40 dark:bg-slate-700/40 h-1 rounded-full overflow-hidden mt-1">
+                    <div class="bg-[var(--neon-orange)] h-full w-[88%] rounded-full animate-pulse"></div>
                 </div>
             </div>
         </aside>
 
         <main class="col-span-1 lg:col-span-8 xl:col-span-9 flex flex-col gap-6 lg:gap-8">
             
-            <header class="glass-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/80">
+            <header class="glass-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight uppercase leading-none">
+                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white uppercase leading-none">
                         TOOL EXPERIENCE
                     </h1>
-                    <p class="text-xs sm:text-sm font-semibold tracking-wide mt-1.5 flex items-center gap-2">
-                        <span class="inline-block w-2 h-2 rounded-full bg-[#FF7800]"></span>
+                    <p class="text-xs sm:text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400 mt-1.5 flex items-center gap-2">
+                        <span class="inline-block w-2 h-2 rounded-full bg-[var(--neon-orange)]"></span>
                         COORDI EXPERIENCE GOLD SUNRISE
                     </p>
                 </div>
                 
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                     <div class="relative min-w-[240px] md:min-w-[300px]">
-                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500"></i>
-                        <input type="text" id="global-search-input" onkeyup="executeGlobalSearch()" placeholder="Buscar procesos, links o registros de excel..." 
-                               class="w-full pl-11 pr-4 py-2.5 text-xs font-medium rounded-full bg-white/90 border border-slate-300 outline-none placeholder-slate-500 focus:border-[#FF7800] shadow-inner transition-all">
+                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                        <input type="text" id="global-search-input" onkeyup="executeGlobalSearch()" placeholder="Buscar procesos, links o herramientas..." 
+                               class="w-full pl-11 pr-4 py-2.5 text-xs font-medium rounded-full bg-white/60 dark:bg-slate-950/40 border border-slate-300/40 dark:border-slate-800/80 outline-none text-slate-900 dark:text-white placeholder-slate-400 focus:border-[var(--neon-orange)] shadow-inner transition-all">
                     </div>
                     
-                    <button onclick="toggleDarkMode()" id="theme-toggle-btn" class="p-3 rounded-full bg-white/90 shadow-md hover:bg-[#FF7800] transition group flex items-center justify-center border border-black/10">
-                        <i data-lucide="moon" class="w-4 h-4 text-slate-700 block dark:hidden"></i>
-                        <i data-lucide="sun" class="w-4 h-4 text-slate-900 hidden dark:block"></i>
+                    <button onclick="toggleDarkMode()" id="theme-toggle-btn" class="p-3 rounded-full bg-white/80 dark:bg-slate-900/60 shadow-md hover:bg-[var(--neon-orange)] hover:text-white transition group flex items-center justify-center border border-white/40">
+                        <i data-lucide="moon" class="w-4 h-4 text-slate-700 dark:text-slate-200 group-hover:text-white block dark:hidden"></i>
+                        <i data-lucide="sun" class="w-4 h-4 text-slate-200 group-hover:text-white hidden dark:block"></i>
                     </button>
                 </div>
             </header>
 
-            <div class="glass-card p-3 flex flex-wrap items-center gap-2 bg-white/80">
-                <span class="text-xs font-bold px-3 uppercase text-slate-500">Filtros:</span>
-                <button onclick="filterSearchResults('all')" id="filter-btn-all" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-[#FF7800] text-white transition-all">Todos</button>
-                <button onclick="filterSearchResults('TN')" id="filter-btn-TN" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">TNs</button>
-                <button onclick="filterSearchResults('Buddy')" id="filter-btn-Buddy" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">Buddies</button>
-                <button onclick="filterSearchResults('Familia Global')" id="filter-btn-Familia" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">Familias</button>
-                <button onclick="filterSearchResults('Reporte')" id="filter-btn-Reporte" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">Reportes</button>
-                <button onclick="filterSearchResults('Idea')" id="filter-btn-Idea" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">Ideas</button>
-                <button onclick="filterSearchResults('Auditoría')" id="filter-btn-Auditoría" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">Auditorías</button>
-                <button onclick="filterSearchResults('Excel')" id="filter-btn-Excel" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all font-semibold border-dashed border-teal-500">Excel Local</button>
-            </div>
-
-            <div id="search-results-panel" class="glass-card p-6 hidden flex flex-col gap-4 bg-amber-500/5 border-2 border-dashed border-[#FF7800]/30 animate-fadeIn">
-                <div class="flex items-center justify-between border-b border-black/10 pb-2">
-                    <h4 class="text-sm font-bold flex items-center gap-2"><i data-lucide="layers" class="text-[#FF7800]"></i> Resultados del Motor de Inteligencia Unificado (<span id="results-count-metric">0</span>)</h4>
-                    <button onclick="closeSearchResults()" class="text-xs font-bold text-slate-500 hover:text-black">Cerrar Resultados</button>
-                </div>
-                <div id="search-results-injection-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto pr-2">
-                    </div>
-            </div>
-
-            <div class="glass-card px-6 py-3 flex items-center justify-between text-xs font-semibold bg-white/80">
+            <div class="glass-card px-6 py-3 flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400">
                 <div class="flex items-center gap-2" id="breadcrumb-trail">
-                    <span class="hover:text-blue-600 cursor-pointer">SaaS Hub</span>
+                    <span class="hover:text-[var(--tech-blue)] cursor-pointer">SaaS Hub</span>
                     <i data-lucide="chevron-right" class="w-3 h-3"></i>
-                    <span class="font-bold" id="current-crumb-node">Vista General</span>
+                    <span class="text-slate-900 dark:text-white font-bold" id="current-crumb-node">Vista General</span>
+                </div>
+                <div id="filter-tag-pill" class="hidden px-2.5 py-1 rounded-full bg-[var(--neon-orange)] text-white text-[10px] uppercase font-bold tracking-wider animate-pulse">
+                    Filtro Activo
                 </div>
             </div>
 
             <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden bg-white/80 group hover:scale-[1.02]">
+                
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
                     <div class="flex justify-between items-start">
-                        <div class="p-3 rounded-xl bg-teal-500/10 text-teal-600">
+                        <div class="p-3 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400">
                             <i data-lucide="globe-2" class="w-5 h-5"></i>
                         </div>
-                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center gap-0.5">
+                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center gap-0.5">
                             <i data-lucide="trending-up" class="w-3 h-3"></i> +12%
                         </span>
                     </div>
                     <div>
-                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-600">Total TNs Registrados</p>
-                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 count-up" data-target="19">0</h4>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Total TNs Registrados</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1 count-up" data-target="19">0</h4>
                     </div>
                     <div class="h-10 w-full mt-2 opacity-80">
                         <canvas id="miniChart1"></canvas>
                     </div>
                 </div>
 
-                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden bg-white/80 group hover:scale-[1.02]">
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
                     <div class="flex justify-between items-start">
-                        <div class="p-3 rounded-xl bg-blue-500/10 text-blue-600">
+                        <div class="p-3 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
                             <i data-lucide="check-square" class="w-5 h-5"></i>
                         </div>
-                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-500/10 text-blue-600">100% Ok</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 flex items-center gap-0.5">
+                            100% Ok
+                        </span>
                     </div>
                     <div>
-                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-600">Auditorías Aprobadas</p>
-                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 count-up" data-target="15">0</h4>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Auditorías Aprobadas</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1 count-up" data-target="15">0</h4>
                     </div>
                     <div class="h-10 w-full mt-2 opacity-80">
                         <canvas id="miniChart2"></canvas>
                     </div>
                 </div>
 
-                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden bg-white/80 group hover:scale-[1.02]">
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
                     <div class="flex justify-between items-start">
-                        <div class="p-3 rounded-xl bg-amber-500/10 text-amber-600">
+                        <div class="p-3 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
                             <i data-lucide="smile" class="w-5 h-5"></i>
                         </div>
-                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-amber-500/10 text-amber-600">Activos</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-amber-500/10 text-amber-500 flex items-center gap-0.5">
+                            Activos
+                        </span>
                     </div>
                     <div>
-                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-600">Buddies Conectados</p>
-                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 count-up" data-target="24">0</h4>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Buddies Conectados</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1 count-up" data-target="24">0</h4>
                     </div>
                     <div class="h-10 w-full mt-2 opacity-80">
                         <canvas id="miniChart3"></canvas>
                     </div>
                 </div>
 
-                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden bg-white/80 group hover:scale-[1.02]">
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
                     <div class="flex justify-between items-start">
-                        <div class="p-3 rounded-xl bg-orange-500/10 text-[#FF7800]">
+                        <div class="p-3 rounded-xl bg-orange-500/10 text-[var(--neon-orange)]">
                             <i data-lucide="clipboard-list" class="w-5 h-5"></i>
                         </div>
-                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center gap-0.5"><i data-lucide="check" class="w-3 h-3"></i> Nuevo</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center gap-0.5">
+                            <i data-lucide="check" class="w-3 h-3"></i> Nuevo form
+                        </span>
                     </div>
                     <div>
-                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-600">Formularios Completados</p>
-                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 count-up" data-target="48">0</h4>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Formularios Completados</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1 count-up" data-target="48">0</h4>
                     </div>
                     <div class="h-10 w-full mt-2 opacity-80">
                         <canvas id="miniChart4"></canvas>
                     </div>
                 </div>
+
             </section>
 
             <section class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                <div class="glass-card p-6 flex flex-col justify-between gap-6 relative overflow-hidden border-t-4 border-t-blue-600 bg-white/80 group">
+                
+                <div class="glass-card p-6 flex flex-col justify-between gap-6 relative overflow-hidden border-t-4 border-t-[var(--tech-blue)] group">
+                    <div class="absolute top-0 right-0 p-8 opacity-[0.03] text-slate-900 dark:text-white pointer-events-none group-hover:opacity-[0.07] transition-all">
+                        <i data-lucide="shield-alert" class="w-36 h-36"></i>
+                    </div>
                     <div>
                         <div class="flex items-center gap-3">
-                            <div class="p-3 rounded-2xl bg-blue-500/10 text-blue-600">
+                            <div class="p-3 rounded-2xl bg-blue-500/10 text-[var(--tech-blue)]">
                                 <i data-lucide="shield" class="w-6 h-6"></i>
                             </div>
-                            <h3 class="text-lg font-bold">PANEL DE CONTROL Y CALIDAD (E.C.B.)</h3>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">PANEL DE CONTROL Y CALIDAD (E.C.B.)</h3>
                         </div>
-                        <p class="text-sm mt-3 leading-relaxed text-slate-700">
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">
                             Centro neurálgico para auditorías en tiempo real, gestión de documentación obligatoria del comité, normativas de intercambio globales y matrices de control de calidad.
                         </p>
                     </div>
                     <div class="pt-4">
-                        <button onclick="triggerModuleAccordion(0)" class="premium-btn w-full py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 bg-white text-black">
+                        <button onclick="triggerModuleAccordion(0)" class="premium-btn w-full py-3 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white flex items-center justify-center gap-2">
                             Ingresar al Módulo <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="glass-card p-6 flex flex-col justify-between gap-6 relative overflow-hidden border-t-4 border-t-[#FF7800] bg-white/80 group">
+                <div class="glass-card p-6 flex flex-col justify-between gap-6 relative overflow-hidden border-t-4 border-t-[var(--neon-orange)] group">
+                    <div class="absolute top-0 right-0 p-8 opacity-[0.03] text-slate-900 dark:text-white pointer-events-none group-hover:opacity-[0.07] transition-all">
+                        <i data-lucide="users-2" class="w-36 h-36"></i>
+                    </div>
                     <div>
                         <div class="flex items-center gap-3">
-                            <div class="p-3 rounded-2xl bg-orange-500/10 text-[#FF7800]">
+                            <div class="p-3 rounded-2xl bg-orange-500/10 text-[var(--neon-orange)]">
                                 <i data-lucide="user-check" class="w-6 h-6"></i>
                             </div>
-                            <h3 class="text-lg font-bold">GESTIÓN DE TRAINEES TN</h3>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">GESTIÓN DE TRAINEES TN</h3>
                         </div>
-                        <p class="text-sm mt-3 leading-relaxed text-slate-700">
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">
                             Panel de seguimiento logístico para trainees asignados, bases de ideas turísticas, asignación del ecosistema de Buddies, redes de Familias Globales y reportes operacionales.
                         </p>
                     </div>
                     <div class="pt-4">
-                        <button onclick="triggerModuleAccordion(1)" class="premium-btn w-full py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 bg-white text-black">
+                        <button onclick="triggerModuleAccordion(1)" class="premium-btn w-full py-3 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white flex items-center justify-center gap-2">
                             Ingresar al Módulo <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
                     </div>
                 </div>
+
             </section>
 
             <section class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4 bg-white/80">
-                    <div class="flex items-center justify-between border-b border-black/10 pb-3">
-                        <h4 class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="pie-chart" class="text-pink-600"></i> Audit Status Distribution</h4>
+                
+                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4">
+                    <div class="flex items-center justify-between border-b border-slate-300/30 pb-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i data-lucide="pie-chart" class="w-4 h-4 text-pink-500"></i> Audit Status Distribution
+                        </h4>
                     </div>
                     <div class="relative w-full h-64 flex items-center justify-center">
                         <canvas id="auditDoughnutChart"></canvas>
                     </div>
                 </div>
 
-                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4 bg-white/80">
-                    <div class="flex items-center justify-between border-b border-black/10 pb-3">
-                        <h4 class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="bar-chart-3" class="text-indigo-600"></i> Buddies Engagement</h4>
+                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4">
+                    <div class="flex items-center justify-between border-b border-slate-300/30 pb-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-500"></i> Buddies Engagement
+                        </h4>
                     </div>
                     <div class="relative w-full h-64 flex items-center justify-center">
                         <canvas id="buddiesBarChart"></canvas>
                     </div>
                 </div>
 
-                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4 bg-white/80">
-                    <div class="flex items-center justify-between border-b border-black/10 pb-3">
-                        <h4 class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="home" class="text-emerald-600"></i> Familias Globales Activas</h4>
+                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4">
+                    <div class="flex items-center justify-between border-b border-slate-300/30 pb-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i data-lucide="home" class="w-4 h-4 text-emerald-500"></i> Familias Globales Activas
+                        </h4>
                     </div>
                     <div class="relative w-full h-64 flex items-center justify-center">
                         <canvas id="familiesHorizontalBarChart"></canvas>
                     </div>
                 </div>
+
             </section>
 
         </main>
     </div>
 
     <script>
-        // Internal Real Data Mappings corresponding to default system links
-        const STATIC_DATABASE_KNOWLEDGE = [
-            { type: "Auditoría", title: "Proceso de Auditorías Experience", desc: "Planilla de control de calidad interno", link: "https://docs.google.com/spreadsheets/d/1sswwe1HrFlfzfFGCBADgKYKZelNUVFoY_MvSSzNMF0o/edit", date: "01/04/2026", src: "Google Sheets" },
-            { type: "Auditoría", title: "Tool de Auditorías TNs", desc: "Seguimiento e indexación de requerimientos legales para trainees", link: "https://docs.google.com/spreadsheets/d/1vWqeiPBoOLh5FSTskH65I7d5O5IadZUEZKSA22Bh1yc/edit", date: "12/04/2026", src: "Google Sheets" },
-            { type: "Auditoría", title: "Modelo de Documentación TNs", desc: "Carpeta en la nube con plantillas oficiales y expedientes tipo", link: "https://drive.google.com/drive/folders/1wf1iQ18Rhjfen5kiI3jfV7TVvwGXmaGr", date: "15/04/2026", src: "Google Drive" },
-            { type: "Auditoría", title: "Plantillas de Correos", desc: "Modelos de comunicación formal pregrabados", link: "https://docs.google.com/spreadsheets/d/1B5LKtMbUzldDt7DDw0nHpgKMgdpBBFxOHe351PU1v9I/edit", date: "20/04/2026", src: "Google Sheets" },
-            { type: "TN", title: "Base de Datos TNs (E.C.B.)", desc: "Registros históricos y carpetas de trainees nacionales", link: "https://drive.google.com/drive/folders/1zNJEuNvtOV6FnS8qh6wV7uA3rIDGyT7T", date: "22/04/2026", src: "Google Drive" },
-            { type: "TN", title: "Lead Space", desc: "Consolidado de oportunidades operacionales", link: "https://docs.google.com/spreadsheets/d/1dQxdYjFcTUSNxWJQH1_TDmq26qDhvWCoCmqaD-DJNi8", date: "25/04/2026", src: "Google Sheets" },
-            { type: "TN", title: "Datos del TNs (Módulo Logística)", desc: "Información extendida y perfiles de trainees", link: "https://docs.google.com/spreadsheets/d/1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8", date: "02/05/2026", src: "Google Sheets" },
-            { type: "Idea", title: "Información de Hospedaje", desc: "Listado de inmuebles y opciones habitacionales válidas", link: "https://docs.google.com/spreadsheets/d/1Al23B_Skf1nf4ysvOplzyNAZeYj7j513vDvzZAJXl_g", date: "05/05/2026", src: "Google Sheets" },
-            { type: "Idea", title: "Guía de Lugares Gastronómicos", desc: "Recomendaciones culinarias locales organizadas en Canva", link: "https://canva.link/oun3q20ma7zqvns", date: "07/05/2026", src: "Canva Link" },
-            { type: "Idea", title: "Comida Típica Degustada", desc: "Control y feedback cultural de experiencias gastronómicas", link: "https://docs.google.com/spreadsheets/d/1FtuZQd9NiaQEjDPJG1N4rCdS9QiXH7UVgwX1qjCWH7s", date: "08/05/2026", src: "Google Sheets" },
-            { type: "Idea", title: "Ideas de la Cordi Golden Sunrise", desc: "Repositorio estratégico de brainstorming para el comité", link: "https://docs.google.com/spreadsheets/d/1ln54GrisiOtvfGndW8HJ_BuiRhC69W6PeDWwV2B9OO4", date: "10/05/2026", src: "Google Sheets" },
-            { type: "Reporte", title: "Reportes TNs Cordi Golden Sunrise", desc: "Reportabilidad operativa semanal", link: "https://docs.google.com/spreadsheets/d/1yBqcp1MV5Bq6prDLA7DQOijuNhky9VFqjuf49RJ6UQA", date: "15/05/2026", src: "Google Sheets" },
-            { type: "Buddy", title: "Información Personal de Buddies", desc: "Directorio institucional de voluntarios asignados", link: "https://docs.google.com/spreadsheets/d/1YBoX-HBkM0z39_QOtWVjiKQ3_fN5OzOt60rAfPbQdh0", date: "18/05/2026", src: "Google Sheets" },
-            { type: "Buddy", title: "Google Forms Aplicación Buddies", desc: "Formulario de captación externa de nuevos aplicantes", link: "https://forms.gle/FtScUx7b8uVzcMi77", date: "19/05/2026", src: "Google Forms" },
-            { type: "Buddy", title: "Base de Datos (Aplicantes)", desc: "Matriz evaluativa y perfiles de postulantes a Buddy", link: "https://docs.google.com/spreadsheets/d/1VEjfTnTDm94399pq0NRSohfnsG6Y55Bdv--DeVDTZX8", date: "20/05/2026", src: "Google Sheets" },
-            { type: "Buddy", title: "Entrevistas de Buddies", desc: "Agenda y notas cualitativas de selección de personal", link: "https://docs.google.com/spreadsheets/d/1Okww1E-nTgCj2nY3KZV0txWwMRjGbxGy3UEShN5mQp0", date: "22/05/2026", src: "Google Sheets" },
-            { type: "Familia Global", title: "Carpeta de Familias Globales", desc: "Documentación legal y perfiles de hogares anfitriones", link: "https://drive.google.com/drive/folders/1oRQ6Hcw2bRm6V8T3uk1CRhPDSYS7haC9", date: "28/05/2026", src: "Google Drive" },
-            { type: "Familia Global", title: "Booklet Familia Global", desc: "Manual de inducción premium para familias en Canva", link: "https://www.canva.com/design/DAGmfmofgSs/nuGUyRLIbEkxNl8U7nSHTg", date: "02/06/2026", src: "Canva Link" }
-        ];
+        // System wide constants mapped from the master prompt instructions.
+        const UI_COLORS = {
+            orange: '#FF7800',
+            blue: '#3B82F6',
+            turquoise: '#14B8A6'
+        };
 
-        // Global Hybrid Database Instance state arrays
-        let EXCEL_DATABASE = []; 
-        let CURRENT_FILTER = 'all';
-        let LAST_SEARCH_QUERY = '';
-
-        // DOM Initializer lifecycles hooks
+        // DOM Initializer lifecycle handler hook
         document.addEventListener('DOMContentLoaded', () => {
             initSystemTheme();
             initCharts();
             executeCountUpAnimations();
             lucide.createIcons();
             startLiveClock();
-            setupExcelDragAndDrop();
-            loadExcelDatabaseFromLocalStorage();
-            showNotification('Bienvenido al Hub Híbrido de AIESEC Experience', 'success');
+            showNotification('Bienvenido al Hub Premium de AIESEC Experience', 'success');
         });
 
+        // 1. Live Time Sync Clock
         function startLiveClock() {
             const clockEl = document.getElementById('live-clock');
             const formatNum = (num) => String(num).padStart(2, '0');
@@ -770,38 +683,52 @@
             }, 1000);
         }
 
-        // Accordion Trigger Handlers
+        // 2. Interactive Multi-level Accordion Core Logics
         function toggleAccordion(element) {
             const parentNode = element.parentNode;
             const targetContent = parentNode.querySelector('.accordion-content');
             const targetArrow = element.querySelector('.arrow-rotate');
+
             if (!targetContent) return;
 
             if (targetContent.classList.contains('open')) {
+                // Collapse logic
                 targetContent.classList.remove('open');
                 if(targetArrow) targetArrow.classList.remove('rotated');
+                // Recursive closure safety loop for internal cascading levels
                 targetContent.querySelectorAll('.accordion-content').forEach(sub => {
                     sub.classList.remove('open');
                     const internalArrow = sub.parentNode.querySelector('.arrow-rotate');
                     if(internalArrow) internalArrow.classList.remove('rotated');
                 });
             } else {
+                // Expand logic
                 targetContent.classList.add('open');
                 if(targetArrow) targetArrow.classList.add('rotated');
+                
+                // Update Breadcrumbs node for structural feedback clarity
                 const nodeText = element.textContent.replace(/[\n\r]+/g, '').trim();
                 document.getElementById('current-crumb-node').textContent = nodeText.substring(0, 30) + (nodeText.length > 30 ? '...' : '');
             }
         }
 
         function expandAllAccordions() {
-            document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(c => c.classList.add('open'));
-            document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(a => a.classList.add('rotated'));
-            showNotification('Estructura completa desplegada', 'info');
+            document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(content => {
+                content.classList.add('open');
+            });
+            document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(arrow => {
+                arrow.classList.add('rotated');
+            });
+            showNotification('Estructura completa desplegada con éxito', 'info');
         }
 
         function collapseAllAccordions() {
-            document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(c => c.classList.remove('open'));
-            document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(a => a.classList.remove('rotated'));
+            document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(content => {
+                content.classList.remove('open');
+            });
+            document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(arrow => {
+                arrow.classList.remove('rotated');
+            });
             document.getElementById('current-crumb-node').textContent = 'Vista General';
             showNotification('Estructura contraída completamente', 'info');
         }
@@ -811,15 +738,23 @@
             if(rootLevelButtons[index]) {
                 const parent = rootLevelButtons[index].parentNode;
                 const content = parent.querySelector('.accordion-content');
-                if(content && !content.classList.contains('open')) { toggleAccordion(rootLevelButtons[index]); }
+                if(content && !content.classList.contains('open')) {
+                    toggleAccordion(rootLevelButtons[index]);
+                }
                 rootLevelButtons[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                rootLevelButtons[index].classList.add('ring-2', 'ring-[#FF7800]');
+                setTimeout(() => rootLevelButtons[index].classList.remove('ring-2', 'ring-[#FF7800]'), 1500);
             }
         }
 
-        // Mode Switching Mechanics
+        // 3. System Theme Engine Manager (Local Storage backed)
         function initSystemTheme() {
             const savedTheme = localStorage.getItem('premium-dashboard-theme') || 'light';
-            if (savedTheme === 'dark') { document.documentElement.classList.add('dark', 'dark-vars'); }
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark', 'dark-vars');
+            } else {
+                document.documentElement.classList.remove('dark', 'dark-vars');
+            }
         }
 
         function toggleDarkMode() {
@@ -827,423 +762,78 @@
             document.documentElement.classList.toggle('dark-vars', isDark);
             localStorage.setItem('premium-dashboard-theme', isDark ? 'dark' : 'light');
             showNotification(`Modo ${isDark ? 'Oscuro' : 'Claro'} activado`, 'info');
-        }
-
-        // ================================================================================= -->
-        // ======================== ADVANCED EXCEL ENGINE EXTENSION ======================== -->
-        // ================================================================================= -->
-        function openExcelModal() {
-            const modal = document.getElementById('excel-modal');
-            modal.classList.remove('hidden');
-        }
-
-        function closeExcelModal() {
-            document.getElementById('excel-modal').classList.add('hidden');
-        }
-
-        function setupExcelDragAndDrop() {
-            const dropzone = document.getElementById('excel-dropzone');
             
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropzone.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    dropzone.classList.add('border-[#FF7800]', 'bg-black/10');
-                }, false);
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropzone.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    dropzone.classList.remove('border-[#FF7800]', 'bg-black/10');
-                }, false);
-            });
-
-            dropzone.addEventListener('drop', (e) => {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                processUploadedExcelFiles(files);
-            });
-        }
-
-        function handleExcelFileSelect(event) {
-            const files = event.target.files;
-            processUploadedExcelFiles(files);
-        }
-
-        // Parse and ingest file array sequence
-        function processUploadedExcelFiles(files) {
-            if(!files || files.length === 0) return;
-
-            Array.from(files).forEach(file => {
-                const reader = new FileReader();
-                const fileSizeStr = (file.size / 1024).toFixed(2) + " KB";
-                
-                reader.onload = function(e) {
-                    try {
-                        const data = new Uint8Array(e.target.result);
-                        const workbook = XLSX.read(data, { type: 'array' });
-                        
-                        let fileRecordsCount = 0;
-                        let fileSheetsMeta = [];
-
-                        // Iterate through all sheet subnodes dynamically compiling schema
-                        workbook.SheetNames.forEach(sheetName => {
-                            const worksheet = workbook.Sheets[sheetName];
-                            const jsonRows = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
-                            
-                            if(jsonRows.length > 0) {
-                                fileRecordsCount += jsonRows.length;
-                                fileSheetsMeta.push({ name: sheetName, rowsCount: jsonRows.length });
-
-                                // Index Row contents into Unified Search System Structures
-                                jsonRows.forEach((row, rIdx) => {
-                                    // Automatic feature index text derivation parsing strategy
-                                    let descriptiveTokens = [];
-                                    Object.entries(row).forEach(([k, v]) => {
-                                        if(v !== "") descriptiveTokens.push(`${k}: ${v}`);
-                                    });
-
-                                    // Extract probable properties dynamically to map high-level visual tags
-                                    let inferredTitle = row.Nombre || row.Name || row.Title || row.Título || row.EP_ID || row.ID || `Registro #${rIdx + 1}`;
-                                    let inferredDescription = descriptiveTokens.slice(0, 5).join(" | ");
-
-                                    EXCEL_DATABASE.push({
-                                        type: "Excel",
-                                        title: String(inferredTitle),
-                                        desc: String(inferredDescription),
-                                        link: "#",
-                                        date: new Date().toLocaleDateString(),
-                                        src: file.name + ` (${sheetName})`,
-                                        rawPayload: row
-                                    });
-                                });
-                            }
-                        });
-
-                        // Store processed file object context trace info
-                        saveExcelMetadataTracking(file.name, workbook.SheetNames.length, fileRecordsCount, fileSizeStr);
-                        saveExcelDatabaseToLocalStorage();
-                        renderExcelAdminPanel();
-                        
-                        if(fileRecordsCount > 0) {
-                            renderDynamicPreviewTable(workbook, workbook.SheetNames[0]);
-                        }
-                        
-                        showNotification(`Archivo ${file.name} procesado (${fileRecordsCount} registros)`, 'success');
-                        
-                    } catch(err) {
-                        console.error(err);
-                        showNotification('Error al parsear el archivo Excel', 'orange');
-                    }
-                };
-
-                reader.readAsArrayBuffer(file);
-            });
-        }
-
-        // Tracking lists for UI representation rendering
-        let ARCHIVOS_MANIFEST = [];
-        function saveExcelMetadataTracking(name, sheetsCount, recordsCount, size) {
-            ARCHIVOS_MANIFEST.push({
-                name: name,
-                sheetsCount: sheetsCount,
-                recordsCount: recordsCount,
-                size: size,
-                timestamp: new Date().toLocaleString()
-            });
-            localStorage.setItem('excel-manifest-tracker', JSON.stringify(ARCHIVOS_MANIFEST));
-        }
-
-        function saveExcelDatabaseToLocalStorage() {
-            localStorage.setItem('excel-hybrid-db-payload', JSON.stringify(EXCEL_DATABASE));
-        }
-
-        function loadExcelDatabaseFromLocalStorage() {
-            try {
-                const storedDb = localStorage.getItem('excel-hybrid-db-payload');
-                const storedManifest = localStorage.getItem('excel-manifest-tracker');
-                
-                if(storedDb) { EXCEL_DATABASE = JSON.parse(storedDb); }
-                if(storedManifest) { ARCHIVOS_MANIFEST = JSON.parse(storedManifest); }
-                
-                renderExcelAdminPanel();
-            } catch(e) {
-                console.error("Failed to load local storage index files system mapping", e);
+            // Re-render charts to adjust layout labels clarity if needed
+            if(window.auditChartInst) {
+                window.auditChartInst.destroy();
+                window.buddiesChartInst.destroy();
+                window.familiesChartInst.destroy();
+                initCharts();
             }
         }
 
-        function renderExcelAdminPanel() {
-            document.getElementById('stat-files-count').textContent = ARCHIVOS_MANIFEST.length;
-            document.getElementById('stat-records-count').textContent = EXCEL_DATABASE.length;
-            document.getElementById('stat-last-update').textContent = ARCHIVOS_MANIFEST.length > 0 ? ARCHIVOS_MANIFEST[ARCHIVOS_MANIFEST.length - 1].timestamp : "-";
-
-            const manifestContainer = document.getElementById('excel-files-manifest-list');
-            if(ARCHIVOS_MANIFEST.length === 0) {
-                manifestContainer.innerHTML = `<p class="text-xs italic">No hay archivos en memoria local actualmente.</p>`;
-                return;
-            }
-
-            manifestContainer.innerHTML = ARCHIVOS_MANIFEST.map((file, idx) => `
-                <div class="flex flex-wrap items-center justify-between p-3 bg-white/60 border border-black/10 rounded-xl gap-2">
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="file" class="w-4 h-4 text-teal-600"></i>
-                        <div>
-                            <p class="text-xs font-bold">${file.name}</p>
-                            <p class="text-[10px] text-slate-500">Hojas: ${file.sheetsCount} | Registros: ${file.recordsCount} | Peso: ${file.size} | ${file.timestamp}</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <button onclick="deleteExcelFileByIndex(${idx})" class="p-1.5 rounded-lg hover:bg-red-50 text-red-600 transition" title="Eliminar archivo e índice"><i data-lucide="trash" class="w-3.5 h-3.5"></i></button>
-                    </div>
-                </div>
-            `).join('');
-            lucide.createIcons();
-        }
-
-        function deleteExcelFileByIndex(idx) {
-            const fileMeta = ARCHIVOS_MANIFEST[idx];
-            // Filter records to remove matching source strings
-            EXCEL_DATABASE = EXCEL_DATABASE.filter(record => !record.src.startsWith(fileMeta.name));
-            ARCHIVOS_MANIFEST.splice(idx, 1);
-            
-            saveExcelDatabaseToLocalStorage();
-            localStorage.setItem('excel-manifest-tracker', JSON.stringify(ARCHIVOS_MANIFEST));
-            
-            renderExcelAdminPanel();
-            showNotification('Archivo e índices removidos correctamente', 'info');
-            if(LAST_SEARCH_QUERY) executeGlobalSearch();
-        }
-
-        function clearExcelDatabase() {
-            EXCEL_DATABASE = [];
-            ARCHIVOS_MANIFEST = [];
-            localStorage.removeItem('excel-hybrid-db-payload');
-            localStorage.removeItem('excel-manifest-tracker');
-            renderExcelAdminPanel();
-            
-            // Clean table view DOM
-            document.getElementById('dynamic-preview-table').innerHTML = `
-                <thead class="bg-black/5 sticky top-0"><tr><th class="p-3 font-bold">Index Row</th><th class="p-3 font-bold">Muestra</th></tr></thead>
-                <tbody><tr><td class="p-3 italic" colspan="2">Ninguna muestra de datos cargada.</td></tr></tbody>`;
-            
-            showNotification('Base de datos local formateada por completo', 'info');
-            if(LAST_SEARCH_QUERY) executeGlobalSearch();
-        }
-
-        function exportUnifiedJSON() {
-            if(EXCEL_DATABASE.length === 0) {
-                showNotification('No hay registros locales para exportar', 'orange');
-                return;
-            }
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(EXCEL_DATABASE, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "unified_experience_local_index.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-        }
-
-        function renderDynamicPreviewTable(workbook, sheetName) {
-            const worksheet = workbook.Sheets[sheetName];
-            const jsonRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-            const tableEl = document.getElementById('dynamic-preview-table');
-            
-            if(jsonRows.length === 0) return;
-
-            // Generate headers
-            const headers = jsonRows[0];
-            let headerHTML = `<tr class="bg-black/10">`;
-            headers.forEach(h => { headerHTML += `<th class="p-2.5 font-bold border-b border-black/10">${h || "Columna"}</th>`; });
-            headerHTML += `</tr>`;
-
-            // Generate sample rows up to 5 elements deep limit
-            let bodyHTML = "";
-            const samples = jsonRows.slice(1, 6);
-            samples.forEach(row => {
-                bodyHTML += `<tr class="border-b border-black/5 hover:bg-black/5">`;
-                headers.forEach((h, idx) => {
-                    bodyHTML += `<td class="p-2 text-slate-700">${row[idx] !== undefined ? row[idx] : ""}</td>`;
-                });
-                bodyHTML += `</tr>`;
-            });
-
-            tableEl.innerHTML = `
-                <thead class="bg-black/5 sticky top-0">${headerHTML}</thead>
-                <tbody>${bodyHTML}</tbody>
-            `;
-        }
-
-        // ================================================================================= -->
-        // ================= UNIFIED OMNIBOX HYBRID SEARCH ENGINE ========================== -->
-        // ================================================================================= -->
+        // 4. Real-time Search Processing Filtration Engine
         function executeGlobalSearch() {
             const rawQuery = document.getElementById('global-search-input').value.toLowerCase().trim();
-            LAST_SEARCH_QUERY = rawQuery;
+            const links = document.querySelectorAll('#accordion-root-navigation a');
+            const sections = document.querySelectorAll('#accordion-root-navigation button');
+            const pill = document.getElementById('filter-tag-pill');
 
-            const resultsPanel = document.getElementById('search-results-panel');
-            const gridContainer = document.getElementById('search-results-injection-grid');
-
-            if(!rawQuery) {
-                resultsPanel.classList.add('hidden');
-                // Fallback style visual reset inside accordion system tree view
-                document.querySelectorAll('#accordion-root-navigation a').forEach(l => { l.style.display = ''; l.classList.remove('bg-amber-500/20'); });
-                document.querySelectorAll('#accordion-root-navigation > div').forEach(m => m.style.display = '');
+            if (!rawQuery) {
+                // Clear matching filter filters
+                pill.classList.add('hidden');
+                links.forEach(l => { l.style.display = ''; l.classList.remove('bg-amber-500/20'); });
+                sections.forEach(s => s.parentNode.style.display = '');
                 return;
             }
 
-            // 1. Process local query filtering on static structural documentation data elements
-            const filteredStatic = STATIC_DATABASE_KNOWLEDGE.filter(item => 
-                item.title.toLowerCase().includes(rawQuery) || 
-                item.desc.toLowerCase().includes(rawQuery) ||
-                item.type.toLowerCase().includes(rawQuery)
-            );
+            pill.classList.remove('hidden');
+            let totalMatches = 0;
 
-            // 2. Process query deep text evaluation inside Dynamic Loaded local Excel matrix objects
-            const filteredExcel = EXCEL_DATABASE.filter(item => {
-                const titleMatch = item.title.toLowerCase().includes(rawQuery);
-                const descMatch = item.desc.toLowerCase().includes(rawQuery);
-                // Deep dynamic structural inspection of properties payload values
-                let cellMatch = false;
-                if(item.rawPayload) {
-                    cellMatch = Object.values(item.rawPayload).some(val => 
-                        String(val).toLowerCase().includes(rawQuery)
-                    );
-                }
-                return titleMatch || descMatch || cellMatch;
-            });
-
-            // Combine both index datasets into complete application query layout list
-            const combinedResults = [...filteredStatic, ...filteredExcel];
-            
-            // Apply current navigation pill tag filter rules if distinct from 'all' root baseline
-            const displayingResults = CURRENT_FILTER === 'all' ? combinedResults : combinedResults.filter(item => item.type === CURRENT_FILTER);
-
-            document.getElementById('results-count-metric').textContent = displayingResults.length;
-            resultsPanel.classList.remove('hidden');
-
-            if(displayingResults.length === 0) {
-                gridContainer.innerHTML = `
-                    <div class="col-span-1 md:col-span-2 p-6 text-center text-slate-500 italic text-xs">
-                        No se encontraron registros ni herramientas de coincidencia unificada para "${rawQuery}". Intenta con otra palabra clave.
-                    </div>`;
-                return;
-            }
-
-            // Render interactive multi level item records grid mapping standard layout UI rules
-            gridContainer.innerHTML = displayingResults.map((item, index) => {
-                const uniqueStrId = `res-copy-node-${index}`;
-                // Select semantic category tag color markers code blocks
-                let badgeTheme = "bg-blue-100 text-blue-700";
-                if(item.type === 'Excel') badgeTheme = "bg-teal-100 text-teal-800 border border-teal-300 font-bold";
-                else if(item.type === 'Buddy') badgeTheme = "bg-rose-100 text-rose-700";
-                else if(item.type === 'Idea') badgeTheme = "bg-amber-100 text-amber-700";
-                else if(item.type === 'Auditoría') badgeTheme = "bg-purple-100 text-purple-700";
-
-                // Serialize payload data explicitly to offer inline user copy triggers
-                const textRepresentationDump = `Tipo: [${item.type}] | Título: ${item.title} | Detalle: ${item.desc} | Origen: ${item.src}`;
-
-                return `
-                    <div class="p-4 rounded-2xl bg-white border border-black/10 flex flex-col justify-between gap-3 shadow-sm hover:border-[#FF7800] transition duration-200">
-                        <div class="flex flex-col gap-1">
-                            <div class="flex items-center justify-between">
-                                <span class="px-2 py-0.5 rounded-md text-[10px] uppercase font-extrabold ${badgeTheme}">[${item.type}]</span>
-                                <span class="text-[10px] text-slate-500 font-medium">${item.date}</span>
-                            </div>
-                            <h5 class="text-xs font-bold mt-1 text-black">${item.title}</h5>
-                            <p class="text-[11px] text-slate-600 line-clamp-2 mt-0.5">${item.desc}</p>
-                        </div>
-                        <div class="flex items-center justify-between border-t border-black/5 pt-2 mt-1">
-                            <span class="text-[10px] italic text-slate-500 max-w-[50%] truncate">Fuente: ${item.src}</span>
-                            <div class="flex items-center gap-1">
-                                <button onclick="copySearchResultText('${btoa(unescape(encodeURIComponent(textRepresentationDump)))}')" class="p-1 rounded hover:bg-slate-100 text-slate-700" title="Copiar Fila de Datos"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
-                                ${item.link !== '#' ? `<a href="${item.link}" target="_blank" class="p-1 rounded hover:bg-slate-100 text-slate-700" title="Abrir Enlace Oficial En Nueva Pestaña"><i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>` : ''}
-                                <button onclick="triggerInspectRecordDetail('${btoa(unescape(encodeURIComponent(JSON.stringify(item))))}')" class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded bg-black text-white hover:bg-[#FF7800] transition">Ver</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            lucide.createIcons();
-
-            // Synchronize and filter standard native layout list menu sidebar triggers to show contextual visibility references
-            document.querySelectorAll('#accordion-root-navigation a').forEach(link => {
-                const text = link.textContent.toLowerCase();
-                if(text.includes(rawQuery)) {
+            links.forEach(link => {
+                const innerText = link.textContent.toLowerCase();
+                if (innerText.includes(rawQuery)) {
                     link.style.display = '';
                     link.classList.add('bg-amber-500/20');
+                    totalMatches++;
+                    
+                    // Force reveal parent containment hierarchy trees dynamically
+                    let ancestor = link.parentNode;
+                    while (ancestor && ancestor !== document.getElementById('accordion-root-navigation')) {
+                        if (ancestor.classList.contains('accordion-content')) {
+                            ancestor.classList.add('open');
+                            const parentTrigger = ancestor.parentNode.querySelector('.arrow-rotate');
+                            if(parentTrigger) parentTrigger.classList.add('rotated');
+                        }
+                        ancestor = ancestor.parentNode;
+                    }
                 } else {
                     link.style.display = 'none';
-                }
-            });
-        }
-
-        function filterSearchResults(category) {
-            CURRENT_FILTER = category;
-            
-            // Cycle visual active buttons layout style matrices mappings
-            ['all', 'TN', 'Buddy', 'Auditoría', 'Reporte', 'Idea', 'Excel'].forEach(c => {
-                const btn = document.getElementById(`filter-btn-${c === 'Familia Global' ? 'Familia' : c}`);
-                if(btn) {
-                    if(c === category) {
-                        btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-[#FF7800] text-white transition-all shadow-sm";
-                    } else {
-                        btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all text-black";
-                    }
+                    link.classList.remove('bg-amber-500/20');
                 }
             });
 
-            if(LAST_SEARCH_QUERY) {
-                executeGlobalSearch();
-            } else {
-                showNotification(`Filtro asignado a: ${category}. Ingresa términos en el buscador.`, 'info');
-            }
-        }
-
-        function closeSearchResults() {
-            document.getElementById('search-results-panel').classList.add('hidden');
-            document.getElementById('global-search-input').value = '';
-            LAST_SEARCH_QUERY = '';
-            // Reset tree elements layout display states
-            document.querySelectorAll('#accordion-root-navigation a').forEach(l => { l.style.display = ''; l.classList.remove('bg-amber-500/20'); });
-            document.querySelectorAll('#accordion-root-navigation > div').forEach(m => m.style.display = '');
-        }
-
-        function copySearchResultText(base64Payload) {
-            try {
-                const decodedText = decodeURIComponent(escape(atob(base64Payload)));
-                navigator.clipboard.writeText(decodedText);
-                showNotification('Fila indexada copiada al portapapeles', 'success');
-            } catch (err) {
-                showNotification('No se pudo ejecutar copia directa', 'orange');
-            }
-        }
-
-        function triggerInspectRecordDetail(base64Payload) {
-            try {
-                const parsedObject = JSON.parse(decodeURIComponent(escape(atob(base64Payload))));
-                let messageDump = `Detalles del Registro Indexado:\n\n`;
-                if(parsedObject.rawPayload) {
-                    Object.entries(parsedObject.rawPayload).forEach(([k,v]) => {
-                        messageDump += `${k}: ${v}\n`;
-                    });
+            // Clean visible states for internal empty modules
+            document.querySelectorAll('#accordion-root-navigation > div').forEach(masterModule => {
+                const subLinksVisible = masterModule.querySelectorAll('a:not([style*="display: none"])');
+                if (subLinksVisible.length === 0) {
+                    masterModule.style.display = 'none';
                 } else {
-                    messageDump += `Título: ${parsedObject.title}\nDescripción: ${parsedObject.desc}\nOrigen: ${parsedObject.src}`;
+                    masterModule.style.display = '';
                 }
-                alert(messageDump);
-            } catch (e) {
-                showNotification('Error al abrir la ficha extendida', 'orange');
-            }
+            });
         }
 
-        // 8. Count-Up Digital Animation Core
+        // 5. Count-Up Digital Animation Core
         function executeCountUpAnimations() {
-            document.querySelectorAll('.count-up').forEach(el => {
+            const elements = document.querySelectorAll('.count-up');
+            elements.forEach(el => {
                 const target = parseInt(el.getAttribute('data-target'), 10) || 0;
                 let current = 0;
-                const steps = 40;
+                const steps = 50;
                 const increment = Math.ceil(target / steps);
+                const speed = 25;
+
                 const timer = setInterval(() => {
                     current += increment;
                     if (current >= target) {
@@ -1252,44 +842,76 @@
                     } else {
                         el.textContent = current;
                     }
-                }, 30);
+                }, speed);
             });
         }
 
-        // Notification UI Injections
+        // 6. Notification System Infrastructure Engine
         function showNotification(message, type = 'success') {
             const hub = document.getElementById('notification-hub');
             const toast = document.createElement('div');
+            
             let iconType = 'info';
-            let borderCol = 'border-l-blue-600';
-            let textIcon = 'text-blue-600';
+            let borderCol = 'border-l-[var(--tech-blue)]';
+            let textIcon = 'text-blue-500';
 
             if(type === 'success') {
                 iconType = 'check-circle';
-                borderCol = 'border-l-emerald-600';
-                textIcon = 'text-emerald-600';
+                borderCol = 'border-l-emerald-500';
+                textIcon = 'text-emerald-500';
             } else if (type === 'orange') {
                 iconType = 'alert-triangle';
-                borderCol = 'border-l-[#FF7800]';
-                textIcon = 'text-amber-600';
+                borderCol = 'border-l-[var(--neon-orange)]';
+                textIcon = 'text-amber-500';
             }
 
-            toast.className = `p-4 rounded-2xl shadow-xl border-l-4 ${borderCol} transition-all duration-300 transform translate-x-20 opacity-0 flex items-start gap-3 w-80 max-w-full bg-white/95 backdrop-blur-md`;
+            let bgStyle = "rgba(255,255,255,0.95)";
+            if(document.documentElement.classList.contains("dark")) {
+                bgStyle = "rgba(15,23,42,0.95)";
+            }
+
+            toast.className = `p-4 rounded-2xl shadow-xl border-l-4 ${borderCol} transition-all duration-300 transform translate-x-20 opacity-0 flex items-start gap-3 w-80 max-w-full`;
+            toast.style.background = bgStyle;
+            toast.style.backdropFilter = "blur(10px)";
+            
             toast.innerHTML = `
-                <div class="${textIcon} shrink-0 mt-0.5"><i data-lucide="${iconType}" class="w-4 h-4"></i></div>
-                <div class="flex-1"><p class="text-xs font-bold leading-snug text-black">${message}</p></div>
+                <div class="${textIcon} shrink-0 mt-0.5">
+                    <i data-lucide="${iconType}" class="w-4 h-4"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="text-xs font-bold text-slate-900 dark:text-white leading-snug">${message}</p>
+                </div>
             `;
+
             hub.appendChild(toast);
             lucide.createIcons();
 
-            setTimeout(() => toast.classList.remove("translate-x-20", "opacity-0"), 50);
+            setTimeout(() => {
+                toast.classList.remove("translate-x-20", "opacity-0");
+            }, 50);
+
             setTimeout(() => {
                 toast.classList.add("translate-x-20", "opacity-0");
                 setTimeout(() => toast.remove(), 400);
             }, 4000);
         }
 
-           // ================================================================================= -->
+        // 7. Network Monitoring Event Hooks
+        window.addEventListener('online', () => {
+            document.getElementById('status-text').textContent = 'Online';
+            const badge = document.getElementById('status-text').parentNode;
+            badge.className = "flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-semibold";
+            showNotification('Conexión reestablecida con el servidor', 'success');
+        });
+
+        window.addEventListener('offline', () => {
+            document.getElementById('status-text').textContent = 'Offline';
+            const badge = document.getElementById('status-text').parentNode;
+            badge.className = "flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-500 text-xs font-semibold";
+            showNotification('Se ha perdido la conexión de red', 'orange');
+        });
+
+        // ================================================================================= -->
         // ============================ CHARTS INITIALIZATION LAYER ======================== -->
         // ================================================================================= -->
         function initCharts() {
