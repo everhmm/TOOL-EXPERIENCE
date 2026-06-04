@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOOL GUÍA DE PROCESOS, IDEAS, CARPETAS Y MÁS | AIESEC Experience</title>
+    <title>TOOL | AIESEC Experience</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,28 +31,28 @@
         }
 
         .dark-vars {
-            --bg-body: linear-gradient(135deg, #E2E8F0, #CBD5E1);
+            --bg-body: linear-gradient(135deg, #CBD5E1, #94A3B8);
             --card-bg: #E2E8F0;
             --glass-white: rgba(255, 255, 255, 0.85);
             --neon-orange: #FF7800;
             --tech-blue: #1D4ED8;
             --text-main: #0F172A;
             --text-gray: #1E293B;
-            --shadow-soft: 0px 25px 60px rgba(0, 0, 0, 0.12);
-            --shadow-neumorph: 6px 6px 12px rgba(148, 163, 184, 0.5), -6px -6px 12px rgba(255, 255, 255, 0.9);
+            --shadow-soft: 0px 25px 60px rgba(15, 23, 42, 0.15);
+            --shadow-neumorph: 6px 6px 12px rgba(148, 163, 184, 0.5), -4px -4px 12px rgba(255, 255, 255, 0.9);
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg-body);
-            color: var(--text-main);
+            color: #000000 !important;
             transition: background 0.5s ease, color 0.3s ease;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* OBLIGATORIO: Todas las letras de color negro */
-        *, ::placeholder, text, span, p, h1, h2, h3, h4, h5, h6, a, input, button, select, option, div {
+        /* Forzar que todos los elementos de texto legibles contengan color negro según instrucción obligatoria */
+        h1, h2, h3, h4, h5, h6, p, span, a, label, input, button, select, text, th, td, div {
             color: #000000 !important;
         }
 
@@ -60,11 +60,12 @@
             font-family: 'Inter', sans-serif;
         }
 
+        /* Ambient Premium Background Vectors */
         .ambient-sphere-1 {
             position: absolute;
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(20,184,166,0.25) 0%, rgba(37,99,235,0.05) 70%);
+            background: radial-gradient(circle, rgba(20,184,166,0.2) 0%, rgba(37,99,235,0.05) 70%);
             filter: blur(80px);
             top: -10%;
             left: -10%;
@@ -76,7 +77,7 @@
             position: absolute;
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, rgba(245,158,11,0.2) 0%, rgba(219,39,119,0.03) 60%);
+            background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, rgba(219,39,119,0.03) 60%);
             filter: blur(90px);
             bottom: 15%;
             right: -5%;
@@ -88,7 +89,7 @@
             position: absolute;
             width: 800px;
             height: 250px;
-            background: linear-gradient(45deg, rgba(59,130,246,0.15), rgba(20,184,166,0.1));
+            background: linear-gradient(45deg, rgba(59,130,246,0.1), rgba(20,184,166,0.08));
             filter: blur(100px);
             top: 40%;
             left: 25%;
@@ -102,6 +103,7 @@
             100% { transform: translateY(40px) scale(1.1) rotate(15deg); }
         }
 
+        /* Glassmorphism Core */
         .glass-card {
             background: var(--glass-white);
             backdrop-filter: blur(30px);
@@ -112,6 +114,7 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* Premium Buttons style mapping rules */
         .premium-btn {
             background: var(--glass-white);
             backdrop-filter: blur(10px);
@@ -127,6 +130,7 @@
             box-shadow: 0 12px 24px rgba(255, 120, 0, 0.2);
         }
 
+        /* Accordion Animations */
         .accordion-content {
             max-height: 0;
             overflow: hidden;
@@ -147,6 +151,7 @@
             transform: rotate(90deg);
         }
 
+        /* Submenu items styling */
         .sub-link-card {
             position: relative;
             background: rgba(255, 255, 255, 0.45);
@@ -162,6 +167,7 @@
             transform: translateX(4px);
         }
 
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -170,7 +176,7 @@
             background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(100, 116, 139, 0.4);
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 999px;
         }
         ::-webkit-scrollbar-thumb:hover {
@@ -187,9 +193,12 @@
             gap: 12px;
         }
 
-        .drop-zone--over {
-            border-color: var(--neon-orange) !important;
-            background: rgba(255, 120, 0, 0.1) !important;
+        /* Floating Engine Trigger Config */
+        .excel-floating-trigger {
+            position: fixed;
+            top: 20px;
+            right: 90px;
+            z-index: 50;
         }
     </style>
 </head>
@@ -201,65 +210,117 @@
 
     <div id="notification-hub"></div>
 
+    <div class="excel-floating-trigger">
+        <button onclick="openExcelModal()" class="glass-card px-4 py-2 flex items-center gap-2 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-[#FF7800] bg-white/80 shadow-lg" style="border-radius: 24px;">
+            <i data-lucide="upload-cloud" style="color: #000000 !important;"></i>
+            <span class="text-xs font-bold font-inter">Cargar</span>
+        </button>
+    </div>
+
+    <div id="excel-modal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all duration-300">
+        <div class="glass-card w-full max-w-4xl max-h-[85vh] overflow-y-auto p-6 sm:p-8 flex flex-col gap-6 bg-white/95" style="border-radius: 32px;">
+            <div class="flex items-center justify-between border-b border-black/10 pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 bg-amber-500/10 rounded-xl">
+                        <i data-lucide="database" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold">Motor de Datos Local Excel / CSV</h3>
+                        <p class="text-xs">Indexación híbrida local en LocalStorage</p>
+                    </div>
+                </div>
+                <button onclick="closeExcelModal()" class="p-2 rounded-full hover:bg-black/10 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div id="excel-dropzone" class="border-2 border-dashed border-black/20 hover:border-[#FF7800] rounded-2xl p-8 flex flex-col items-center justify-center gap-3 bg-black/5 text-center transition-all cursor-pointer">
+                <i data-lucide="file-spreadsheet" class="w-12 h-12 text-teal-600"></i>
+                <div>
+                    <p class="text-sm font-bold">Arrastra tus archivos Excel o CSV aquí</p>
+                    <p class="text-xs mt-1">Soporta formatos .xlsx, .xls y .csv con indexación automática completa</p>
+                </div>
+                <label class="premium-btn px-4 py-2 text-xs font-bold cursor-pointer inline-block mt-2">
+                    Seleccionar archivo manualmente
+                    <input type="file" id="excel-file-input" class="hidden" accept=".xlsx, .xls, .csv" multiple onchange="handleExcelFileSelect(event)">
+                </label>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-black/5 p-4 rounded-2xl">
+                <div class="flex flex-col">
+                    <span class="text-xs font-medium">Archivos Cargados</span>
+                    <span id="stat-files-count" class="text-xl font-extrabold">0</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xs font-medium">Registros Indexados</span>
+                    <span id="stat-records-count" class="text-xl font-extrabold">0</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xs font-medium">Última Actualización</span>
+                    <span id="stat-last-update" class="text-xs font-bold mt-1">-</span>
+                </div>
+                <div class="col-span-1 md:col-span-3 flex flex-wrap gap-2 pt-2 border-t border-black/10">
+                    <button onclick="exportUnifiedJSON()" class="premium-btn px-3 py-1.5 text-xs font-bold flex items-center gap-1.5"><i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar Datos</button>
+                    <button onclick="clearExcelDatabase()" class="premium-btn px-3 py-1.5 text-xs font-bold text-red-600 border-red-200 hover:border-red-500 flex items-center gap-1.5"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Eliminar Todo</button>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <h4 class="text-xs font-bold uppercase tracking-wider">Archivos e Índices Procesados</h4>
+                <div id="excel-files-manifest-list" class="flex flex-col gap-2">
+                    <p class="text-xs italic">No hay archivos en memoria local actualmente.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <h4 class="text-xs font-bold uppercase tracking-wider">Vista Previa de Tabla Dinámica</h4>
+                <div class="overflow-x-auto border border-black/10 rounded-xl bg-white/50 max-h-60 overflow-y-auto">
+                    <table class="w-full text-left text-xs" id="dynamic-preview-table">
+                        <thead class="bg-black/5 sticky top-0">
+                            <tr>
+                                <th class="p-3 font-bold">Index Row</th>
+                                <th class="p-3 font-bold">Carga un documento para visualizar columnas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-3 italic text-slate-500" colspan="2">Ninguna muestra de datos cargada.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="max-w-[1920px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
         
         <aside class="col-span-1 lg:col-span-4 xl:col-span-3 flex flex-col gap-6">
             
-            <div class="glass-card p-5 border-2 border-dashed border-slate-300/80" id="excel-center-widget">
-                <div class="flex items-center justify-between border-b border-slate-300 pb-3 mb-3">
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="database" class="w-5 h-5 text-[var(--tech-blue)]"></i>
-                        <h3 class="text-xs font-extrabold uppercase tracking-wider">Centro de Datos Híbrido</h3>
-                    </div>
-                    <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded-full font-bold uppercase" id="local-db-counter">0 Archivos</span>
-                </div>
-
-                <div id="excel-drop-zone" class="border-2 border-dashed border-slate-300 rounded-xl p-4 text-center cursor-pointer hover:bg-white/40 transition flex flex-col items-center justify-center gap-2">
-                    <i data-lucide="upload-cloud" class="w-8 h-8 text-slate-400"></i>
-                    <p class="text-xs font-bold">Arrastra tu Excel / CSV aquí</p>
-                    <p class="text-[10px] text-slate-500">Soporta .xlsx, .xls, .csv</p>
-                    <input type="file" id="excel-file-input" accept=".xlsx, .xls, .csv" class="hidden" multiple>
-                    <button type="button" onclick="document.getElementById('excel-file-input').click()" class="mt-1 px-3 py-1 bg-slate-200 text-[10px] font-bold rounded-lg hover:bg-slate-300 transition">
-                        Examinar Archivos
-                    </button>
-                </div>
-
-                <div class="mt-3 flex flex-col gap-2 max-h-48 overflow-y-auto pr-1 hidden" id="loaded-files-status-list"></div>
-
-                <div class="mt-3 pt-2 border-t border-slate-300 flex justify-between items-center gap-2">
-                    <button onclick="clearLocalDatabase()" class="text-[10px] font-bold text-red-600 hover:underline flex items-center gap-1">
-                        <i data-lucide="trash-2" class="w-3 h-3"></i> Vaciar Base
-                    </button>
-                    <button onclick="exportIntegratedDatabase()" class="text-[10px] font-bold text-blue-600 hover:underline flex items-center gap-1">
-                        <i data-lucide="download" class="w-3 h-3"></i> Exportar Todo (.json)
-                    </button>
-                </div>
-            </div>
-            
-            <div class="glass-card p-5 flex items-center justify-between">
+            <div class="glass-card p-6 flex items-center justify-between bg-white/80">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#14B8A6] to-[#2563EB] flex items-center justify-center font-bold text-xl shadow-md">
                         A
                     </div>
                     <div>
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">AIESEC Experience</h2>
+                        <h2 class="text-xs font-bold uppercase tracking-wider">AIESEC Experience</h2>
                         <p class="text-sm font-bold opacity-90">GOLD SUNRISE HUB</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 text-xs font-semibold">
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-semibold">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span id="status-text">Online</span>
                 </div>
             </div>
 
-            <div class="glass-card p-6 flex flex-col gap-4">
-                <div class="flex items-center justify-between border-b border-slate-300 pb-2 mb-1">
-                    <h3 class="text-sm font-bold text-[var(--tech-blue)] tracking-wide uppercase">Menú Operativo</h3>
+            <div class="glass-card p-6 flex flex-col gap-4 bg-white/80">
+                <div class="flex items-center justify-between border-b border-black/10 pb-3 mb-2">
+                    <h3 class="text-sm font-bold tracking-wide uppercase">Menú Operativo</h3>
                     <div class="flex gap-2">
-                        <button onclick="expandAllAccordions()" title="Expandir todo" class="p-1.5 rounded-lg hover:bg-slate-300/40 text-xs font-semibold flex items-center gap-1 transition">
+                        <button onclick="expandAllAccordions()" title="Expandir todo" class="p-1.5 rounded-lg hover:bg-black/5 text-xs font-semibold flex items-center gap-1 transition">
                             <i data-lucide="chevrons-down" class="w-3.5 h-3.5"></i>
                         </button>
-                        <button onclick="collapseAllAccordions()" title="Contraer todo" class="p-1.5 rounded-lg hover:bg-slate-300/40 text-xs font-semibold flex items-center gap-1 transition">
+                        <button onclick="collapseAllAccordions()" title="Contraer todo" class="p-1.5 rounded-lg hover:bg-black/5 text-xs font-semibold flex items-center gap-1 transition">
                             <i data-lucide="chevrons-up" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
@@ -267,26 +328,26 @@
 
                 <nav class="font-inter flex flex-col gap-3" id="accordion-root-navigation">
                     
-                    <div class="border border-slate-300 rounded-2xl overflow-hidden bg-white/20">
-                        <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-4 font-bold text-sm flex items-center justify-between hover:bg-white/30 transition-all gap-2">
+                    <div class="border border-black/10 rounded-2xl overflow-hidden bg-white/30">
+                        <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-4 font-bold text-sm flex items-center justify-between hover:bg-white/40 transition-all gap-2">
                             <span class="flex items-center gap-2 uppercase tracking-wide">
-                                <i data-lucide="shield-check" class="w-4 h-4 text-[var(--tech-blue)]"></i>
+                                <i data-lucide="shield-check" class="w-4 h-4 text-teal-600"></i>
                                 PANEL DE CONTROL Y CALIDAD (E.C.B.)
                             </span>
-                            <i data-lucide="chevron-right" class="w-4 h-4 arrow-rotate text-slate-400"></i>
+                            <i data-lucide="chevron-right" class="w-4 h-4 arrow-rotate"></i>
                         </button>
                         
-                        <div class="accordion-content px-3">
+                        <div class="accordion-content bg-white/10 px-3">
                             <div class="py-2 flex flex-col gap-2">
                                 <a href="https://drive.google.com/file/d/1DB2SgFyDNFDP_74QIntr9bjaK6oXhJMk/view" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium">
                                     <span class="flex items-center gap-2"><i data-lucide="book-open" class="w-3.5 h-3.5 opacity-70"></i> 1.1 Guía del Área Experience (Booklet)</span>
                                     <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
                                 </a>
 
-                                <div class="rounded-xl border border-slate-300 overflow-hidden">
-                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/40 hover:bg-white/60 transition gap-2">
-                                        <span class="flex items-center gap-2"><i data-lucide="folder" class="w-3.5 h-3.5 text-amber-600"></i> 1.2 Proceso de Auditorías</span>
-                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
+                                <div class="rounded-xl border border-black/5 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/20 hover:bg-white/40 transition gap-2">
+                                        <span class="flex items-center gap-2"><i data-lucide="folder" class="w-3.5 h-3.5 text-amber-500"></i> 1.2 Proceso de Auditorías</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate"></i>
                                     </button>
                                     <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
                                         <a href="https://docs.google.com/spreadsheets/d/1sswwe1HrFlfzfFGCBADgKYKZelNUVFoY_MvSSzNMF0o/edit" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
@@ -308,10 +369,10 @@
                                     </div>
                                 </div>
 
-                                <div class="rounded-xl border border-slate-300 overflow-hidden">
-                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/40 hover:bg-white/60 transition gap-2">
-                                        <span class="flex items-center gap-2"><i data-lucide="folder" class="w-3.5 h-3.5 text-amber-600"></i> 1.3 Control de TNs y Auditorías</span>
-                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
+                                <div class="rounded-xl border border-black/5 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/20 hover:bg-white/40 transition gap-2">
+                                        <span class="flex items-center gap-2"><i data-lucide="folder" class="w-3.5 h-3.5 text-amber-500"></i> 1.3 Control de TNs y Auditorías</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate"></i>
                                     </button>
                                     <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
                                         <a href="https://drive.google.com/drive/folders/1zNJEuNvtOV6FnS8qh6wV7uA3rIDGyT7T" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
@@ -342,26 +403,26 @@
                         </div>
                     </div>
 
-                    <div class="border border-slate-300 rounded-2xl overflow-hidden bg-white/20">
-                        <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-4 font-bold text-sm flex items-center justify-between hover:bg-white/30 transition-all gap-2">
+                    <div class="border border-black/10 rounded-2xl overflow-hidden bg-white/30">
+                        <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-4 font-bold text-sm flex items-center justify-between hover:bg-white/40 transition-all gap-2">
                             <span class="flex items-center gap-2 uppercase tracking-wide">
-                                <i data-lucide="users" class="w-4 h-4 text-[var(--tech-blue)]"></i>
+                                <i data-lucide="users" class="w-4 h-4 text-blue-600"></i>
                                 GESTIÓN DE TRAINEES TN
                             </span>
-                            <i data-lucide="chevron-right" class="w-4 h-4 arrow-rotate text-slate-400"></i>
+                            <i data-lucide="chevron-right" class="w-4 h-4 arrow-rotate"></i>
                         </button>
                         
-                        <div class="accordion-content px-3">
+                        <div class="accordion-content bg-white/10 px-3">
                             <div class="py-2 flex flex-col gap-2">
                                 <a href="https://docs.google.com/spreadsheets/d/1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8" target="_blank" class="sub-link-card p-3 flex items-center justify-between text-xs font-medium">
                                     <span class="flex items-center gap-2"><i data-lucide="database" class="w-3.5 h-3.5 opacity-70"></i> 2.1 Datos del TNs</span>
                                     <i data-lucide="external-link" class="w-3 h-3 opacity-50"></i>
                                 </a>
 
-                                <div class="rounded-xl border border-slate-300 overflow-hidden">
-                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/40 hover:bg-white/60 transition gap-2">
-                                        <span class="flex items-center gap-2"><i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-600"></i> 2.2 Base de Ideas</span>
-                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
+                                <div class="rounded-xl border border-black/5 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/20 hover:bg-white/40 transition gap-2">
+                                        <span class="flex items-center gap-2"><i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-500"></i> 2.2 Base de Ideas</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate"></i>
                                     </button>
                                     <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
                                         <a href="https://docs.google.com/spreadsheets/d/1Al23B_Skf1nf4ysvOplzyNAZeYj7j513vDvzZAJXl_g" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
@@ -387,10 +448,10 @@
                                     </div>
                                 </div>
 
-                                <div class="rounded-xl border border-slate-300 overflow-hidden">
-                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/40 hover:bg-white/60 transition gap-2">
-                                        <span class="flex items-center gap-2"><i data-lucide="file-text" class="w-3.5 h-3.5 text-amber-600"></i> 2.3 Reportes TNs</span>
-                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
+                                <div class="rounded-xl border border-black/5 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/20 hover:bg-white/40 transition gap-2">
+                                        <span class="flex items-center gap-2"><i data-lucide="file-text" class="w-3.5 h-3.5 text-amber-500"></i> 2.3 Reportes TNs</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate"></i>
                                     </button>
                                     <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
                                         <a href="https://docs.google.com/spreadsheets/d/1yBqcp1MV5Bq6prDLA7DQOijuNhky9VFqjuf49RJ6UQA" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
@@ -400,10 +461,10 @@
                                     </div>
                                 </div>
 
-                                <div class="rounded-xl border border-slate-300 overflow-hidden">
-                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/40 hover:bg-white/60 transition gap-2">
-                                        <span class="flex items-center gap-2"><i data-lucide="heart" class="w-3.5 h-3.5 text-amber-600"></i> 2.4 Buddies</span>
-                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate text-slate-400"></i>
+                                <div class="rounded-xl border border-black/5 overflow-hidden">
+                                    <button type="button" onclick="toggleAccordion(this)" class="w-full text-left p-3 text-xs font-semibold flex items-center justify-between bg-white/20 hover:bg-white/40 transition gap-2">
+                                        <span class="flex items-center gap-2"><i data-lucide="heart" class="w-3.5 h-3.5 text-amber-500"></i> 2.4 Buddies</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 arrow-rotate"></i>
                                     </button>
                                     <div class="accordion-content pl-3 pr-1 flex flex-col gap-1.5 py-1.5">
                                         <a href="https://docs.google.com/spreadsheets/d/1YBoX-HBkM0z39_QOtWVjiKQ3_fN5OzOt60rAfPbQdh0" target="_blank" class="sub-link-card p-2.5 text-xs flex justify-between items-center">
@@ -449,94 +510,79 @@
                 </nav>
             </div>
 
-            <div class="glass-card p-5 text-xs flex flex-col gap-2">
+            <div class="glass-card p-5 text-xs flex flex-col gap-2 bg-white/80">
                 <div class="flex items-center justify-between">
-                    <span>Sincronización Total:</span>
-                    <span class="font-bold" id="live-clock">03/06/2026 20:05</span>
+                    <span>Última Sincronización:</span>
+                    <span class="font-bold text-slate-800" id="live-clock">03/06/2026 18:06</span>
                 </div>
                 <div class="flex items-center justify-between">
-                    <span>Estatus Motor Local:</span>
-                    <span class="font-bold text-teal-600" id="local-engine-status">Indexación Activa</span>
+                    <span>Área:</span>
+                    <span class="font-bold text-blue-700">AIESEC Experience</span>
+                </div>
+                <div class="w-full bg-slate-300 h-1 rounded-full overflow-hidden mt-1">
+                    <div class="bg-[#FF7800] h-full w-[88%] rounded-full animate-pulse"></div>
                 </div>
             </div>
         </aside>
 
         <main class="col-span-1 lg:col-span-8 xl:col-span-9 flex flex-col gap-6 lg:gap-8">
             
-            <header class="glass-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <header class="glass-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/80">
                 <div>
                     <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight uppercase leading-none">
-                        TOOL GUÍA DE PROCESOS, IDEAS, CARPETAS Y MÁS
+                        TOOL EXPERIENCE
                     </h1>
-                    <p class="text-xs sm:text-sm font-semibold tracking-wide text-slate-600 mt-1.5 flex items-center gap-2">
-                        <span class="inline-block w-2 h-2 rounded-full bg-[var(--neon-orange)]"></span>
-                        COORDI EXPERIENCE GOLD SUNRISE + INTEGRADOR DE EXCEL LOCAL
+                    <p class="text-xs sm:text-sm font-semibold tracking-wide mt-1.5 flex items-center gap-2">
+                        <span class="inline-block w-2 h-2 rounded-full bg-[#FF7800]"></span>
+                        COORDI EXPERIENCE GOLD SUNRISE
                     </p>
                 </div>
                 
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                    <div class="relative min-w-[240px] md:min-w-[320px]">
-                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                        <input type="text" id="global-search-input" onkeyup="executeGlobalSearch()" placeholder="Buscador Inteligente (Excel, Sheets, TNs, Buddies...)" 
-                               class="w-full pl-11 pr-4 py-2.5 text-xs font-semibold rounded-full bg-white/70 border border-slate-300 outline-none placeholder-slate-400 focus:border-[var(--neon-orange)] shadow-inner transition-all">
+                    <div class="relative min-w-[240px] md:min-w-[300px]">
+                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500"></i>
+                        <input type="text" id="global-search-input" onkeyup="executeGlobalSearch()" placeholder="Buscar procesos, links o registros de excel..." 
+                               class="w-full pl-11 pr-4 py-2.5 text-xs font-medium rounded-full bg-white/90 border border-slate-300 outline-none placeholder-slate-500 focus:border-[#FF7800] shadow-inner transition-all">
                     </div>
                     
-                    <button onclick="toggleDarkMode()" id="theme-toggle-btn" class="p-3 rounded-full bg-white/80 shadow-md hover:bg-[var(--neon-orange)] transition group flex items-center justify-center border border-slate-300">
-                        <i data-lucide="sun" class="w-4 h-4"></i>
+                    <button onclick="toggleDarkMode()" id="theme-toggle-btn" class="p-3 rounded-full bg-white/90 shadow-md hover:bg-[#FF7800] transition group flex items-center justify-center border border-black/10">
+                        <i data-lucide="moon" class="w-4 h-4 text-slate-700 block dark:hidden"></i>
+                        <i data-lucide="sun" class="w-4 h-4 text-slate-900 hidden dark:block"></i>
                     </button>
                 </div>
             </header>
 
-            <div class="glass-card px-6 py-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between text-xs font-semibold">
-                <div class="flex items-center gap-2" id="breadcrumb-trail">
-                    <span class="hover:text-[var(--tech-blue)] cursor-pointer">SaaS Hub</span>
-                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
-                    <span class="font-bold" id="current-crumb-node">Motor Híbrido</span>
+            <div class="glass-card p-3 flex flex-wrap items-center gap-2 bg-white/80">
+                <span class="text-xs font-bold px-3 uppercase text-slate-500">Filtros:</span>
+                <button onclick="filterSearchResults('all')" id="filter-btn-all" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-[#FF7800] text-white transition-all">Todos</button>
+                <button onclick="filterSearchResults('TN')" id="filter-btn-TN" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">TNs</button>
+                <button onclick="filterSearchResults('Buddy')" id="filter-btn-Buddy" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">Buddies</button>
+                <button onclick="filterSearchResults('Familia Global')" id="filter-btn-Familia" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">Familias</button>
+                <button onclick="filterSearchResults('Reporte')" id="filter-btn-Reporte" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">Reportes</button>
+                <button onclick="filterSearchResults('Idea')" id="filter-btn-Idea" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">Ideas</button>
+                <button onclick="filterSearchResults('Auditoría')" id="filter-btn-Auditoría" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all">Auditorías</button>
+                <button onclick="filterSearchResults('Excel')" id="filter-btn-Excel" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all font-semibold border-dashed border-teal-500">Excel Local</button>
+            </div>
+
+            <div id="search-results-panel" class="glass-card p-6 hidden flex flex-col gap-4 bg-amber-500/5 border-2 border-dashed border-[#FF7800]/30 animate-fadeIn">
+                <div class="flex items-center justify-between border-b border-black/10 pb-2">
+                    <h4 class="text-sm font-bold flex items-center gap-2"><i data-lucide="layers" class="text-[#FF7800]"></i> Resultados del Motor de Inteligencia Unificado (<span id="results-count-metric">0</span>)</h4>
+                    <button onclick="closeSearchResults()" class="text-xs font-bold text-slate-500 hover:text-black">Cerrar Resultados</button>
                 </div>
-                
-                <div class="flex flex-wrap gap-1.5" id="search-filter-pills-container">
-                    <button onclick="setActiveSearchFilter('All')" class="px-3 py-1 rounded-full bg-slate-900 !text-white font-bold text-[10px] uppercase tracking-wider transition filter-pill-btn" id="filter-pill-All">Todos</button>
-                    <button onclick="setActiveSearchFilter('TN')" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider transition filter-pill-btn" id="filter-pill-TN">TNs</button>
-                    <button onclick="setActiveSearchFilter('Buddy')" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider transition filter-pill-btn" id="filter-pill-Buddy">Buddies</button>
-                    <button onclick="setActiveSearchFilter('Familia')" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider transition filter-pill-btn" id="filter-pill-Familia">Familias</button>
-                    <button onclick="setActiveSearchFilter('Reporte')" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider transition filter-pill-btn" id="filter-pill-Reporte">Reportes</button>
-                    <button onclick="setActiveSearchFilter('Idea')" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider transition filter-pill-btn" id="filter-pill-Idea">Ideas</button>
-                    <button onclick="setActiveSearchFilter('Auditoria')" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider transition filter-pill-btn" id="filter-pill-Auditoria">Auditorías</button>
-                    <button onclick="setActiveSearchFilter('Excel')" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider transition filter-pill-btn" id="filter-pill-Excel">Excel</button>
+                <div id="search-results-injection-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto pr-2">
+                    </div>
+            </div>
+
+            <div class="glass-card px-6 py-3 flex items-center justify-between text-xs font-semibold bg-white/80">
+                <div class="flex items-center gap-2" id="breadcrumb-trail">
+                    <span class="hover:text-blue-600 cursor-pointer">SaaS Hub</span>
+                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                    <span class="font-bold" id="current-crumb-node">Vista General</span>
                 </div>
             </div>
 
-            <section id="search-results-viewport" class="hidden flex flex-col gap-4">
-                <div class="glass-card p-5 border-l-4 border-l-[var(--neon-orange)]">
-                    <div class="flex justify-between items-center mb-3">
-                        <h4 class="text-xs font-extrabold uppercase tracking-widest text-slate-500">Resultados de Búsqueda del Motor Unificado</h4>
-                        <span id="results-count-badge" class="text-xs font-bold bg-slate-200 px-2.5 py-0.5 rounded-full">0 Encontrados</span>
-                    </div>
-                    <div id="results-dynamic-container" class="flex flex-col gap-3 max-h-[500px] overflow-y-auto pr-2"></div>
-                </div>
-            </section>
-
-            <section id="excel-preview-workspace" class="hidden flex flex-col gap-4">
-                <div class="glass-card p-6">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-300 pb-3 mb-4">
-                        <div>
-                            <h3 class="text-sm font-extrabold uppercase tracking-wide flex items-center gap-2">
-                                <i data-lucide="table" class="text-emerald-600"></i> Vista Previa de Tabla Dinámica Local
-                            </h3>
-                            <p class="text-[11px] text-slate-500 mt-0.5" id="preview-file-meta-string"></p>
-                        </div>
-                        <div class="flex gap-2">
-                            <select id="preview-sheet-selector" onchange="switchPreviewSheet()" class="text-xs font-bold rounded-lg border border-slate-300 bg-white px-2.5 py-1"></select>
-                        </div>
-                    </div>
-                    <div class="overflow-x-auto max-h-72 border border-slate-300 rounded-xl bg-white/50">
-                        <table class="w-full text-left text-xs border-collapse font-inter" id="preview-data-html-table"></table>
-                    </div>
-                </div>
-            </section>
-
             <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden bg-white/80 group hover:scale-[1.02]">
                     <div class="flex justify-between items-start">
                         <div class="p-3 rounded-xl bg-teal-500/10 text-teal-600">
                             <i data-lucide="globe-2" class="w-5 h-5"></i>
@@ -546,13 +592,15 @@
                         </span>
                     </div>
                     <div>
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total TNs Registrados</p>
-                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 count-up" id="kpi-tns" data-target="19">0</h4>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-600">Total TNs Registrados</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 count-up" data-target="19">0</h4>
                     </div>
-                    <div class="h-10 w-full mt-2 opacity-80"><canvas id="miniChart1"></canvas></div>
+                    <div class="h-10 w-full mt-2 opacity-80">
+                        <canvas id="miniChart1"></canvas>
+                    </div>
                 </div>
 
-                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden bg-white/80 group hover:scale-[1.02]">
                     <div class="flex justify-between items-start">
                         <div class="p-3 rounded-xl bg-blue-500/10 text-blue-600">
                             <i data-lucide="check-square" class="w-5 h-5"></i>
@@ -560,13 +608,15 @@
                         <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-500/10 text-blue-600">100% Ok</span>
                     </div>
                     <div>
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Auditorías Aprobadas</p>
-                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 count-up" id="kpi-auditorias" data-target="15">0</h4>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-600">Auditorías Aprobadas</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 count-up" data-target="15">0</h4>
                     </div>
-                    <div class="h-10 w-full mt-2 opacity-80"><canvas id="miniChart2"></canvas></div>
+                    <div class="h-10 w-full mt-2 opacity-80">
+                        <canvas id="miniChart2"></canvas>
+                    </div>
                 </div>
 
-                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden bg-white/80 group hover:scale-[1.02]">
                     <div class="flex justify-between items-start">
                         <div class="p-3 rounded-xl bg-amber-500/10 text-amber-600">
                             <i data-lucide="smile" class="w-5 h-5"></i>
@@ -574,61 +624,65 @@
                         <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-amber-500/10 text-amber-600">Activos</span>
                     </div>
                     <div>
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Buddies Conectados</p>
-                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 count-up" id="kpi-buddies" data-target="24">0</h4>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-600">Buddies Conectados</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 count-up" data-target="24">0</h4>
                     </div>
-                    <div class="h-10 w-full mt-2 opacity-80"><canvas id="miniChart3"></canvas></div>
+                    <div class="h-10 w-full mt-2 opacity-80">
+                        <canvas id="miniChart3"></canvas>
+                    </div>
                 </div>
 
-                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden group hover:scale-[1.02]">
+                <div class="glass-card p-5 flex flex-col gap-3 relative overflow-hidden bg-white/80 group hover:scale-[1.02]">
                     <div class="flex justify-between items-start">
-                        <div class="p-3 rounded-xl bg-orange-500/10 text-[var(--neon-orange)]">
+                        <div class="p-3 rounded-xl bg-orange-500/10 text-[#FF7800]">
                             <i data-lucide="clipboard-list" class="w-5 h-5"></i>
                         </div>
-                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600" id="excel-index-badge">0 Indexados</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center gap-0.5"><i data-lucide="check" class="w-3 h-3"></i> Nuevo</span>
                     </div>
                     <div>
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Registros de Excel Local</p>
-                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1" id="kpi-excel-rows">0</h4>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-600">Formularios Completados</p>
+                        <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 count-up" data-target="48">0</h4>
                     </div>
-                    <div class="h-10 w-full mt-2 opacity-80"><canvas id="miniChart4"></canvas></div>
+                    <div class="h-10 w-full mt-2 opacity-80">
+                        <canvas id="miniChart4"></canvas>
+                    </div>
                 </div>
             </section>
 
             <section class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                <div class="glass-card p-6 flex flex-col justify-between gap-6 relative overflow-hidden border-t-4 border-t-[var(--tech-blue)] group">
+                <div class="glass-card p-6 flex flex-col justify-between gap-6 relative overflow-hidden border-t-4 border-t-blue-600 bg-white/80 group">
                     <div>
                         <div class="flex items-center gap-3">
-                            <div class="p-3 rounded-2xl bg-blue-500/10 text-[var(--tech-blue)]">
+                            <div class="p-3 rounded-2xl bg-blue-500/10 text-blue-600">
                                 <i data-lucide="shield" class="w-6 h-6"></i>
                             </div>
                             <h3 class="text-lg font-bold">PANEL DE CONTROL Y CALIDAD (E.C.B.)</h3>
                         </div>
-                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+                        <p class="text-sm mt-3 leading-relaxed text-slate-700">
                             Centro neurálgico para auditorías en tiempo real, gestión de documentación obligatoria del comité, normativas de intercambio globales y matrices de control de calidad.
                         </p>
                     </div>
                     <div class="pt-4">
-                        <button onclick="triggerModuleAccordion(0)" class="premium-btn w-full py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+                        <button onclick="triggerModuleAccordion(0)" class="premium-btn w-full py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 bg-white text-black">
                             Ingresar al Módulo <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="glass-card p-6 flex flex-col justify-between gap-6 relative overflow-hidden border-t-4 border-t-[var(--neon-orange)] group">
+                <div class="glass-card p-6 flex flex-col justify-between gap-6 relative overflow-hidden border-t-4 border-t-[#FF7800] bg-white/80 group">
                     <div>
                         <div class="flex items-center gap-3">
-                            <div class="p-3 rounded-2xl bg-orange-500/10 text-[var(--neon-orange)]">
+                            <div class="p-3 rounded-2xl bg-orange-500/10 text-[#FF7800]">
                                 <i data-lucide="user-check" class="w-6 h-6"></i>
                             </div>
                             <h3 class="text-lg font-bold">GESTIÓN DE TRAINEES TN</h3>
                         </div>
-                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+                        <p class="text-sm mt-3 leading-relaxed text-slate-700">
                             Panel de seguimiento logístico para trainees asignados, bases de ideas turísticas, asignación del ecosistema de Buddies, redes de Familias Globales y reportes operacionales.
                         </p>
                     </div>
                     <div class="pt-4">
-                        <button onclick="triggerModuleAccordion(1)" class="premium-btn w-full py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+                        <button onclick="triggerModuleAccordion(1)" class="premium-btn w-full py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 bg-white text-black">
                             Ingresar al Módulo <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
                     </div>
@@ -636,33 +690,27 @@
             </section>
 
             <section class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4">
-                    <div class="flex items-center justify-between border-b border-slate-300 pb-3">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                            <i data-lucide="pie-chart" class="w-4 h-4 text-pink-500"></i> Audit Status Distribution
-                        </h4>
+                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4 bg-white/80">
+                    <div class="flex items-center justify-between border-b border-black/10 pb-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="pie-chart" class="text-pink-600"></i> Audit Status Distribution</h4>
                     </div>
                     <div class="relative w-full h-64 flex items-center justify-center">
                         <canvas id="auditDoughnutChart"></canvas>
                     </div>
                 </div>
 
-                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4">
-                    <div class="flex items-center justify-between border-b border-slate-300 pb-3">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                            <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-500"></i> Buddies Engagement
-                        </h4>
+                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4 bg-white/80">
+                    <div class="flex items-center justify-between border-b border-black/10 pb-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="bar-chart-3" class="text-indigo-600"></i> Buddies Engagement</h4>
                     </div>
                     <div class="relative w-full h-64 flex items-center justify-center">
                         <canvas id="buddiesBarChart"></canvas>
                     </div>
                 </div>
 
-                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4">
-                    <div class="flex items-center justify-between border-b border-slate-300 pb-3">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                            <i data-lucide="home" class="w-4 h-4 text-emerald-500"></i> Familias Globales Activas
-                        </h4>
+                <div class="glass-card p-5 xl:col-span-1 flex flex-col gap-4 bg-white/80">
+                    <div class="flex items-center justify-between border-b border-black/10 pb-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="home" class="text-emerald-600"></i> Familias Globales Activas</h4>
                     </div>
                     <div class="relative w-full h-64 flex items-center justify-center">
                         <canvas id="familiesHorizontalBarChart"></canvas>
@@ -674,37 +722,45 @@
     </div>
 
     <script>
-        // Native Internal Datastores to facilitate absolute operational reality inside the client engine
-        const GOOGLE_CONNECTORS_DATABASE = [
-            { id: "g1", type: "TN", title: "Juan Carlos Mendoza", desc: "Trainee asignado de México, EP ID: EP-MX-2026-9932. Universidad: UNAM. Empresa Anfitriona: TechCorp S.A.", source: "Google Sheets - Datos del TNs", date: "2026-05-12", opid: "OP-9021" },
-            { id: "g2", type: "TN", title: "Marie Sophie Laurent", desc: "Trainee asignada de Francia, EP ID: EP-FR-2026-4412. Correo: marie.laurent@univ-paris.fr. Status: Pre-IPS completado.", source: "Google Sheets - Datos del TNs", date: "2026-05-28", opid: "OP-4482" },
-            { id: "g3", type: "Buddy", title: "Andrés Felipe Silva", desc: "Buddy Líder asignado al área de soporte logístico. Universidad Católica. Correo: af.silva@uc.edu. Participa en Entrevistas de reclutamiento.", source: "Google Sheets - Información Buddies", date: "2026-04-10", opid: "N/A" },
-            { id: "g4", type: "Buddy", title: "Camila Ariatna Encinas Morales", desc: "Vicepresidenta de la organización aliada SOCIADEM y Buddy Honoraria. Coordinación de ciclos de seminarios.", source: "Google Sheets - Base de Datos Aplicantes", date: "2026-06-01", opid: "N/A" },
-            { id: "g5", type: "Idea", title: "Hospedaje Familiar Sopocachi", desc: "Habitación doble disponible con baño privado y wifi. Propietario verificado por la Coordinación Golden Sunrise. Costo accesible.", source: "Google Sheets - Información de Hospedaje", date: "2026-05-15", opid: "N/A" },
-            { id: "g6", type: "Idea", title: "Ruta Gastronómica Central", desc: "Guía de restaurantes típicos degustados y recomendados para trainees internacionales. Incluye costos y mapas Canva.", source: "Google Sheets - Guía de Lugares Gastronómicos", date: "2026-05-20", opid: "N/A" },
-            { id: "g7", type: "Auditoria", title: "Auditoría de Visas Q2", desc: "Control de calidad trimestral para los contratos de intercambio y seguros internacionales de trainees entrantes. Status: 100% Ok.", source: "Google Sheets - Tool de Auditorías TNs", date: "2026-06-02", opid: "OP-9921" },
-            { id: "g8", type: "Reporte", title: "Reporte Operativo POA 2025", desc: "Evaluación formal del Plan Operativo Anual de la Coordinación Golden Sunrise. Análisis del entorno y cadena de valor.", source: "Google Sheets - Reportes TNs Cordi", date: "2026-04-30", opid: "N/A" }
+        // Internal Real Data Mappings corresponding to default system links
+        const STATIC_DATABASE_KNOWLEDGE = [
+            { type: "Auditoría", title: "Proceso de Auditorías Experience", desc: "Planilla de control de calidad interno", link: "https://docs.google.com/spreadsheets/d/1sswwe1HrFlfzfFGCBADgKYKZelNUVFoY_MvSSzNMF0o/edit", date: "01/04/2026", src: "Google Sheets" },
+            { type: "Auditoría", title: "Tool de Auditorías TNs", desc: "Seguimiento e indexación de requerimientos legales para trainees", link: "https://docs.google.com/spreadsheets/d/1vWqeiPBoOLh5FSTskH65I7d5O5IadZUEZKSA22Bh1yc/edit", date: "12/04/2026", src: "Google Sheets" },
+            { type: "Auditoría", title: "Modelo de Documentación TNs", desc: "Carpeta en la nube con plantillas oficiales y expedientes tipo", link: "https://drive.google.com/drive/folders/1wf1iQ18Rhjfen5kiI3jfV7TVvwGXmaGr", date: "15/04/2026", src: "Google Drive" },
+            { type: "Auditoría", title: "Plantillas de Correos", desc: "Modelos de comunicación formal pregrabados", link: "https://docs.google.com/spreadsheets/d/1B5LKtMbUzldDt7DDw0nHpgKMgdpBBFxOHe351PU1v9I/edit", date: "20/04/2026", src: "Google Sheets" },
+            { type: "TN", title: "Base de Datos TNs (E.C.B.)", desc: "Registros históricos y carpetas de trainees nacionales", link: "https://drive.google.com/drive/folders/1zNJEuNvtOV6FnS8qh6wV7uA3rIDGyT7T", date: "22/04/2026", src: "Google Drive" },
+            { type: "TN", title: "Lead Space", desc: "Consolidado de oportunidades operacionales", link: "https://docs.google.com/spreadsheets/d/1dQxdYjFcTUSNxWJQH1_TDmq26qDhvWCoCmqaD-DJNi8", date: "25/04/2026", src: "Google Sheets" },
+            { type: "TN", title: "Datos del TNs (Módulo Logística)", desc: "Información extendida y perfiles de trainees", link: "https://docs.google.com/spreadsheets/d/1lm-dnfHMbVA2lGxxgVKqni5nRV93jw8cg62iyd3MaW8", date: "02/05/2026", src: "Google Sheets" },
+            { type: "Idea", title: "Información de Hospedaje", desc: "Listado de inmuebles y opciones habitacionales válidas", link: "https://docs.google.com/spreadsheets/d/1Al23B_Skf1nf4ysvOplzyNAZeYj7j513vDvzZAJXl_g", date: "05/05/2026", src: "Google Sheets" },
+            { type: "Idea", title: "Guía de Lugares Gastronómicos", desc: "Recomendaciones culinarias locales organizadas en Canva", link: "https://canva.link/oun3q20ma7zqvns", date: "07/05/2026", src: "Canva Link" },
+            { type: "Idea", title: "Comida Típica Degustada", desc: "Control y feedback cultural de experiencias gastronómicas", link: "https://docs.google.com/spreadsheets/d/1FtuZQd9NiaQEjDPJG1N4rCdS9QiXH7UVgwX1qjCWH7s", date: "08/05/2026", src: "Google Sheets" },
+            { type: "Idea", title: "Ideas de la Cordi Golden Sunrise", desc: "Repositorio estratégico de brainstorming para el comité", link: "https://docs.google.com/spreadsheets/d/1ln54GrisiOtvfGndW8HJ_BuiRhC69W6PeDWwV2B9OO4", date: "10/05/2026", src: "Google Sheets" },
+            { type: "Reporte", title: "Reportes TNs Cordi Golden Sunrise", desc: "Reportabilidad operativa semanal", link: "https://docs.google.com/spreadsheets/d/1yBqcp1MV5Bq6prDLA7DQOijuNhky9VFqjuf49RJ6UQA", date: "15/05/2026", src: "Google Sheets" },
+            { type: "Buddy", title: "Información Personal de Buddies", desc: "Directorio institucional de voluntarios asignados", link: "https://docs.google.com/spreadsheets/d/1YBoX-HBkM0z39_QOtWVjiKQ3_fN5OzOt60rAfPbQdh0", date: "18/05/2026", src: "Google Sheets" },
+            { type: "Buddy", title: "Google Forms Aplicación Buddies", desc: "Formulario de captación externa de nuevos aplicantes", link: "https://forms.gle/FtScUx7b8uVzcMi77", date: "19/05/2026", src: "Google Forms" },
+            { type: "Buddy", title: "Base de Datos (Aplicantes)", desc: "Matriz evaluativa y perfiles de postulantes a Buddy", link: "https://docs.google.com/spreadsheets/d/1VEjfTnTDm94399pq0NRSohfnsG6Y55Bdv--DeVDTZX8", date: "20/05/2026", src: "Google Sheets" },
+            { type: "Buddy", title: "Entrevistas de Buddies", desc: "Agenda y notas cualitativas de selección de personal", link: "https://docs.google.com/spreadsheets/d/1Okww1E-nTgCj2nY3KZV0txWwMRjGbxGy3UEShN5mQp0", date: "22/05/2026", src: "Google Sheets" },
+            { type: "Familia Global", title: "Carpeta de Familias Globales", desc: "Documentación legal y perfiles de hogares anfitriones", link: "https://drive.google.com/drive/folders/1oRQ6Hcw2bRm6V8T3uk1CRhPDSYS7haC9", date: "28/05/2026", src: "Google Drive" },
+            { type: "Familia Global", title: "Booklet Familia Global", desc: "Manual de inducción premium para familias en Canva", link: "https://www.canva.com/design/DAGmfmofgSs/nuGUyRLIbEkxNl8U7nSHTg", date: "02/06/2026", src: "Canva Link" }
         ];
 
-        // Global State variables for current memory cycles
-        let EXCEL_LOCAL_DATABASE = []; 
-        let activeSearchFilter = "All";
-        let lastSelectedPreviewFileIndex = 0;
-        let lastSelectedPreviewSheetName = "";
+        // Global Hybrid Database Instance state arrays
+        let EXCEL_DATABASE = []; 
+        let CURRENT_FILTER = 'all';
+        let LAST_SEARCH_QUERY = '';
 
-        // Lifecycle trigger
+        // DOM Initializer lifecycles hooks
         document.addEventListener('DOMContentLoaded', () => {
             initSystemTheme();
             initCharts();
             executeCountUpAnimations();
-            startLiveClock();
-            setupExcelDragAndDropEngine();
-            loadLocalDatabaseFromStorage();
             lucide.createIcons();
-            showNotification('Motor de Datos Local y Híbrido inicializado con éxito', 'success');
+            startLiveClock();
+            setupExcelDragAndDrop();
+            loadExcelDatabaseFromLocalStorage();
+            showNotification('Bienvenido al Hub Híbrido de AIESEC Experience', 'success');
         });
 
-        // Live Clock Sync
         function startLiveClock() {
             const clockEl = document.getElementById('live-clock');
             const formatNum = (num) => String(num).padStart(2, '0');
@@ -714,7 +770,7 @@
             }, 1000);
         }
 
-        // Accordion Controls
+        // Accordion Trigger Handlers
         function toggleAccordion(element) {
             const parentNode = element.parentNode;
             const targetContent = parentNode.querySelector('.accordion-content');
@@ -724,488 +780,464 @@
             if (targetContent.classList.contains('open')) {
                 targetContent.classList.remove('open');
                 if(targetArrow) targetArrow.classList.remove('rotated');
+                targetContent.querySelectorAll('.accordion-content').forEach(sub => {
+                    sub.classList.remove('open');
+                    const internalArrow = sub.parentNode.querySelector('.arrow-rotate');
+                    if(internalArrow) internalArrow.classList.remove('rotated');
+                });
             } else {
                 targetContent.classList.add('open');
                 if(targetArrow) targetArrow.classList.add('rotated');
                 const nodeText = element.textContent.replace(/[\n\r]+/g, '').trim();
-                document.getElementById('current-crumb-node').textContent = nodeText.substring(0, 25) + (nodeText.length > 25 ? '...' : '');
+                document.getElementById('current-crumb-node').textContent = nodeText.substring(0, 30) + (nodeText.length > 30 ? '...' : '');
             }
         }
 
         function expandAllAccordions() {
             document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(c => c.classList.add('open'));
             document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(a => a.classList.add('rotated'));
+            showNotification('Estructura completa desplegada', 'info');
         }
 
         function collapseAllAccordions() {
             document.querySelectorAll('#accordion-root-navigation .accordion-content').forEach(c => c.classList.remove('open'));
             document.querySelectorAll('#accordion-root-navigation .arrow-rotate').forEach(a => a.classList.remove('rotated'));
-            document.getElementById('current-crumb-node').textContent = 'Motor Híbrido';
+            document.getElementById('current-crumb-node').textContent = 'Vista General';
+            showNotification('Estructura contraída completamente', 'info');
         }
 
         function triggerModuleAccordion(index) {
             const rootLevelButtons = document.querySelectorAll('#accordion-root-navigation > div > button');
             if(rootLevelButtons[index]) {
-                const content = rootLevelButtons[index].parentNode.querySelector('.accordion-content');
-                if(content && !content.classList.contains('open')) toggleAccordion(rootLevelButtons[index]);
+                const parent = rootLevelButtons[index].parentNode;
+                const content = parent.querySelector('.accordion-content');
+                if(content && !content.classList.contains('open')) { toggleAccordion(rootLevelButtons[index]); }
                 rootLevelButtons[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
-        // Drag & Drop File Loading Engine Core
-        function setupExcelDragAndDropEngine() {
-            const dropZone = document.getElementById('excel-drop-zone');
-            const fileInput = document.getElementById('excel-file-input');
+        // Mode Switching Mechanics
+        function initSystemTheme() {
+            const savedTheme = localStorage.getItem('premium-dashboard-theme') || 'light';
+            if (savedTheme === 'dark') { document.documentElement.classList.add('dark', 'dark-vars'); }
+        }
 
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            document.documentElement.classList.toggle('dark-vars', isDark);
+            localStorage.setItem('premium-dashboard-theme', isDark ? 'dark' : 'light');
+            showNotification(`Modo ${isDark ? 'Oscuro' : 'Claro'} activado`, 'info');
+        }
+
+        // ================================================================================= -->
+        // ======================== ADVANCED EXCEL ENGINE EXTENSION ======================== -->
+        // ================================================================================= -->
+        function openExcelModal() {
+            const modal = document.getElementById('excel-modal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeExcelModal() {
+            document.getElementById('excel-modal').classList.add('hidden');
+        }
+
+        function setupExcelDragAndDrop() {
+            const dropzone = document.getElementById('excel-dropzone');
+            
             ['dragenter', 'dragover'].forEach(eventName => {
-                dropZone.addEventListener(eventName, (e) => { e.preventDefault(); dropZone.classList.add('drop-zone--over'); }, false);
+                dropzone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    dropzone.classList.add('border-[#FF7800]', 'bg-black/10');
+                }, false);
             });
 
             ['dragleave', 'drop'].forEach(eventName => {
-                dropZone.addEventListener(eventName, (e) => { e.preventDefault(); dropZone.classList.remove('drop-zone--over'); }, false);
+                dropzone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    dropzone.classList.remove('border-[#FF7800]', 'bg-black/10');
+                }, false);
             });
 
-            dropZone.addEventListener('drop', (e) => {
+            dropzone.addEventListener('drop', (e) => {
                 const dt = e.dataTransfer;
                 const files = dt.files;
-                handleIncomingFilesArray(files);
-            });
-
-            fileInput.addEventListener('change', (e) => {
-                handleIncomingFilesArray(fileInput.files);
+                processUploadedExcelFiles(files);
             });
         }
 
-        // Excel file processors utilizing SheetJS
-        function handleIncomingFilesArray(files) {
+        function handleExcelFileSelect(event) {
+            const files = event.target.files;
+            processUploadedExcelFiles(files);
+        }
+
+        // Parse and ingest file array sequence
+        function processUploadedExcelFiles(files) {
             if(!files || files.length === 0) return;
 
             Array.from(files).forEach(file => {
                 const reader = new FileReader();
-                const fileSizeString = (file.size / 1024).toFixed(1) + " KB";
+                const fileSizeStr = (file.size / 1024).toFixed(2) + " KB";
                 
                 reader.onload = function(e) {
                     try {
                         const data = new Uint8Array(e.target.result);
                         const workbook = XLSX.read(data, { type: 'array' });
                         
-                        const fileRecord = {
-                            fileName: file.name,
-                            fileSize: fileSizeString,
-                            uploadDate: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString(),
-                            sheets: []
-                        };
+                        let fileRecordsCount = 0;
+                        let fileSheetsMeta = [];
 
+                        // Iterate through all sheet subnodes dynamically compiling schema
                         workbook.SheetNames.forEach(sheetName => {
                             const worksheet = workbook.Sheets[sheetName];
                             const jsonRows = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
-                            fileRecord.sheets.push({
-                                sheetName: sheetName,
-                                rows: jsonRows
-                            });
+                            
+                            if(jsonRows.length > 0) {
+                                fileRecordsCount += jsonRows.length;
+                                fileSheetsMeta.push({ name: sheetName, rowsCount: jsonRows.length });
+
+                                // Index Row contents into Unified Search System Structures
+                                jsonRows.forEach((row, rIdx) => {
+                                    // Automatic feature index text derivation parsing strategy
+                                    let descriptiveTokens = [];
+                                    Object.entries(row).forEach(([k, v]) => {
+                                        if(v !== "") descriptiveTokens.push(`${k}: ${v}`);
+                                    });
+
+                                    // Extract probable properties dynamically to map high-level visual tags
+                                    let inferredTitle = row.Nombre || row.Name || row.Title || row.Título || row.EP_ID || row.ID || `Registro #${rIdx + 1}`;
+                                    let inferredDescription = descriptiveTokens.slice(0, 5).join(" | ");
+
+                                    EXCEL_DATABASE.push({
+                                        type: "Excel",
+                                        title: String(inferredTitle),
+                                        desc: String(inferredDescription),
+                                        link: "#",
+                                        date: new Date().toLocaleDateString(),
+                                        src: file.name + ` (${sheetName})`,
+                                        rawPayload: row
+                                    });
+                                });
+                            }
                         });
 
-                        // Insert or merge matching files by unique name constraints
-                        const existingIdx = EXCEL_LOCAL_DATABASE.findIndex(f => f.fileName === file.name);
-                        if(existingIdx > -1) {
-                            EXCEL_LOCAL_DATABASE[existingIdx] = fileRecord;
-                        } else {
-                            EXCEL_LOCAL_DATABASE.push(fileRecord);
-                        }
-
-                        // Atomic state commit updates
-                        saveLocalDatabaseToStorage();
-                        rebuildLocalAdminConsoleView();
-                        executeGlobalSearch(); // Trigger evaluation to check if query criteria is hit
+                        // Store processed file object context trace info
+                        saveExcelMetadataTracking(file.name, workbook.SheetNames.length, fileRecordsCount, fileSizeStr);
+                        saveExcelDatabaseToLocalStorage();
+                        renderExcelAdminPanel();
                         
-                        // Default to show freshly updated preview structures instantly
-                        triggerWorkspaceFilePreview(EXCEL_LOCAL_DATABASE.length - 1);
-                        showNotification(`Archivo '${file.name}' indexado de forma híbrida`, 'success');
-
-                    } catch (err) {
+                        if(fileRecordsCount > 0) {
+                            renderDynamicPreviewTable(workbook, workbook.SheetNames[0]);
+                        }
+                        
+                        showNotification(`Archivo ${file.name} procesado (${fileRecordsCount} registros)`, 'success');
+                        
+                    } catch(err) {
                         console.error(err);
-                        showNotification('Error al analizar archivo binario Excel', 'orange');
+                        showNotification('Error al parsear el archivo Excel', 'orange');
                     }
                 };
+
                 reader.readAsArrayBuffer(file);
             });
         }
 
-        // LocalStorage Backed Synchronization Cycles
-        function saveLocalDatabaseToStorage() {
+        // Tracking lists for UI representation rendering
+        let ARCHIVOS_MANIFEST = [];
+        function saveExcelMetadataTracking(name, sheetsCount, recordsCount, size) {
+            ARCHIVOS_MANIFEST.push({
+                name: name,
+                sheetsCount: sheetsCount,
+                recordsCount: recordsCount,
+                size: size,
+                timestamp: new Date().toLocaleString()
+            });
+            localStorage.setItem('excel-manifest-tracker', JSON.stringify(ARCHIVOS_MANIFEST));
+        }
+
+        function saveExcelDatabaseToLocalStorage() {
+            localStorage.setItem('excel-hybrid-db-payload', JSON.stringify(EXCEL_DATABASE));
+        }
+
+        function loadExcelDatabaseFromLocalStorage() {
             try {
-                localStorage.setItem('sunrise_hybrid_excel_store', JSON.stringify(EXCEL_LOCAL_DATABASE));
+                const storedDb = localStorage.getItem('excel-hybrid-db-payload');
+                const storedManifest = localStorage.getItem('excel-manifest-tracker');
+                
+                if(storedDb) { EXCEL_DATABASE = JSON.parse(storedDb); }
+                if(storedManifest) { ARCHIVOS_MANIFEST = JSON.parse(storedManifest); }
+                
+                renderExcelAdminPanel();
             } catch(e) {
-                showNotification('El archivo excede la cuota permitida por LocalStorage. Manteniéndose únicamente en memoria volátil.', 'orange');
+                console.error("Failed to load local storage index files system mapping", e);
             }
         }
 
-        function loadLocalDatabaseFromStorage() {
-            const raw = localStorage.getItem('sunrise_hybrid_excel_store');
-            if(raw) {
-                try {
-                    EXCEL_LOCAL_DATABASE = JSON.parse(raw);
-                    rebuildLocalAdminConsoleView();
-                    if(EXCEL_LOCAL_DATABASE.length > 0) {
-                        triggerWorkspaceFilePreview(0);
-                    }
-                } catch(e) {
-                    EXCEL_LOCAL_DATABASE = [];
-                }
+        function renderExcelAdminPanel() {
+            document.getElementById('stat-files-count').textContent = ARCHIVOS_MANIFEST.length;
+            document.getElementById('stat-records-count').textContent = EXCEL_DATABASE.length;
+            document.getElementById('stat-last-update').textContent = ARCHIVOS_MANIFEST.length > 0 ? ARCHIVOS_MANIFEST[ARCHIVOS_MANIFEST.length - 1].timestamp : "-";
+
+            const manifestContainer = document.getElementById('excel-files-manifest-list');
+            if(ARCHIVOS_MANIFEST.length === 0) {
+                manifestContainer.innerHTML = `<p class="text-xs italic">No hay archivos en memoria local actualmente.</p>`;
+                return;
             }
+
+            manifestContainer.innerHTML = ARCHIVOS_MANIFEST.map((file, idx) => `
+                <div class="flex flex-wrap items-center justify-between p-3 bg-white/60 border border-black/10 rounded-xl gap-2">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="file" class="w-4 h-4 text-teal-600"></i>
+                        <div>
+                            <p class="text-xs font-bold">${file.name}</p>
+                            <p class="text-[10px] text-slate-500">Hojas: ${file.sheetsCount} | Registros: ${file.recordsCount} | Peso: ${file.size} | ${file.timestamp}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button onclick="deleteExcelFileByIndex(${idx})" class="p-1.5 rounded-lg hover:bg-red-50 text-red-600 transition" title="Eliminar archivo e índice"><i data-lucide="trash" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
         }
 
-        function clearLocalDatabase() {
-            EXCEL_LOCAL_DATABASE = [];
-            localStorage.removeItem('sunrise_hybrid_excel_store');
-            rebuildLocalAdminConsoleView();
-            document.getElementById('excel-preview-workspace').classList.add('hidden');
-            executeGlobalSearch();
-            showNotification('Base de datos local vaciada', 'orange');
+        function deleteExcelFileByIndex(idx) {
+            const fileMeta = ARCHIVOS_MANIFEST[idx];
+            // Filter records to remove matching source strings
+            EXCEL_DATABASE = EXCEL_DATABASE.filter(record => !record.src.startsWith(fileMeta.name));
+            ARCHIVOS_MANIFEST.splice(idx, 1);
+            
+            saveExcelDatabaseToLocalStorage();
+            localStorage.setItem('excel-manifest-tracker', JSON.stringify(ARCHIVOS_MANIFEST));
+            
+            renderExcelAdminPanel();
+            showNotification('Archivo e índices removidos correctamente', 'info');
+            if(LAST_SEARCH_QUERY) executeGlobalSearch();
         }
 
-        function deleteExcelFileRecord(index) {
-            EXCEL_LOCAL_DATABASE.splice(index, 1);
-            saveLocalDatabaseToStorage();
-            rebuildLocalAdminConsoleView();
-            if(EXCEL_LOCAL_DATABASE.length > 0) {
-                triggerWorkspaceFilePreview(0);
-            } else {
-                document.getElementById('excel-preview-workspace').classList.add('hidden');
+        function clearExcelDatabase() {
+            EXCEL_DATABASE = [];
+            ARCHIVOS_MANIFEST = [];
+            localStorage.removeItem('excel-hybrid-db-payload');
+            localStorage.removeItem('excel-manifest-tracker');
+            renderExcelAdminPanel();
+            
+            // Clean table view DOM
+            document.getElementById('dynamic-preview-table').innerHTML = `
+                <thead class="bg-black/5 sticky top-0"><tr><th class="p-3 font-bold">Index Row</th><th class="p-3 font-bold">Muestra</th></tr></thead>
+                <tbody><tr><td class="p-3 italic" colspan="2">Ninguna muestra de datos cargada.</td></tr></tbody>`;
+            
+            showNotification('Base de datos local formateada por completo', 'info');
+            if(LAST_SEARCH_QUERY) executeGlobalSearch();
+        }
+
+        function exportUnifiedJSON() {
+            if(EXCEL_DATABASE.length === 0) {
+                showNotification('No hay registros locales para exportar', 'orange');
+                return;
             }
-            executeGlobalSearch();
-            showNotification('Archivo eliminado del motor híbrido', 'info');
-        }
-
-        function exportIntegratedDatabase() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
-                exportTimestamp: new Date().toISOString(),
-                googleSheetsMirrorCount: GOOGLE_CONNECTORS_DATABASE.length,
-                excelLocalDatabase: EXCEL_LOCAL_DATABASE
-            }, null, 2));
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(EXCEL_DATABASE, null, 2));
             const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "AIESEC_Sunrise_Integrated_DB.json");
+            downloadAnchor.setAttribute("download", "unified_experience_local_index.json");
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
         }
 
-        // Render Local Console Administrative views
-        function rebuildLocalAdminConsoleView() {
-            const container = document.getElementById('loaded-files-status-list');
-            const fileCounter = document.getElementById('local-db-counter');
-            const kpiExcelRows = document.getElementById('kpi-excel-rows');
-            const excelIndexBadge = document.getElementById('excel-index-badge');
-
-            if(EXCEL_LOCAL_DATABASE.length === 0) {
-                container.classList.add('hidden');
-                fileCounter.textContent = "0 Archivos";
-                kpiExcelRows.textContent = "0";
-                excelIndexBadge.textContent = "0 Indexados";
-                return;
-            }
-
-            container.classList.remove('hidden');
-            container.innerHTML = "";
-            fileCounter.textContent = `${EXCEL_LOCAL_DATABASE.length} Archivos`;
-
-            let totalRowsIndexed = 0;
-
-            EXCEL_LOCAL_DATABASE.forEach((file, fIdx) => {
-                let fileRowCount = 0;
-                file.sheets.forEach(s => fileRowCount += s.rows.length);
-                totalRowsIndexed += fileRowCount;
-
-                const fileItem = document.createElement('div');
-                fileItem.className = "bg-white/60 p-2 rounded-lg border border-slate-300 flex flex-col gap-1 text-[11px]";
-                fileItem.innerHTML = `
-                    <div class="flex items-center justify-between font-bold">
-                        <span class="truncate max-w-[150px]" title="${file.fileName}">${file.fileName}</span>
-                        <div class="flex gap-1">
-                            <button onclick="triggerWorkspaceFilePreview(${fIdx})" class="text-blue-600 hover:underline" title="Ver tabla dinámica">Ver</button>
-                            <button onclick="deleteExcelFileRecord(${fIdx})" class="text-red-600 hover:underline font-extrabold" title="Eliminar del sistema">X</button>
-                        </div>
-                    </div>
-                    <div class="flex justify-between text-[10px] text-slate-500">
-                        <span>Hojas: ${file.sheets.length} | Filas: ${fileRowCount}</span>
-                        <span>${file.fileSize}</span>
-                    </div>
-                `;
-                container.appendChild(fileItem);
-            });
-
-            kpiExcelRows.textContent = totalRowsIndexed;
-            excelIndexBadge.textContent = `${totalRowsIndexed} Indexados`;
-        }
-
-        // Workspace Viewport Pivot generator for Loaded Excel sheets
-        function triggerWorkspaceFilePreview(fileIndex) {
-            const file = EXCEL_LOCAL_DATABASE[fileIndex];
-            if(!file) return;
-
-            lastSelectedPreviewFileIndex = fileIndex;
-            const workspace = document.getElementById('excel-preview-workspace');
-            const metaString = document.getElementById('preview-file-meta-string');
-            const sheetSelector = document.getElementById('preview-sheet-selector');
-
-            workspace.classList.remove('hidden');
+        function renderDynamicPreviewTable(workbook, sheetName) {
+            const worksheet = workbook.Sheets[sheetName];
+            const jsonRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            const tableEl = document.getElementById('dynamic-preview-table');
             
-            let totalRows = 0;
-            file.sheets.forEach(s => totalRows += s.rows.length);
-            metaString.textContent = `Archivo: ${file.fileName} (${file.fileSize}) | Cargado: ${file.uploadDate} | Total Filas: ${totalRows}`;
+            if(jsonRows.length === 0) return;
 
-            // Build select sheet choices dropdown selectors
-            sheetSelector.innerHTML = "";
-            file.sheets.forEach((sheet, sIdx) => {
-                const opt = document.createElement('option');
-                opt.value = sheet.sheetName;
-                opt.textContent = sheet.sheetName;
-                sheetSelector.appendChild(opt);
-            });
+            // Generate headers
+            const headers = jsonRows[0];
+            let headerHTML = `<tr class="bg-black/10">`;
+            headers.forEach(h => { headerHTML += `<th class="p-2.5 font-bold border-b border-black/10">${h || "Columna"}</th>`; });
+            headerHTML += `</tr>`;
 
-            if(file.sheets.length > 0) {
-                lastSelectedPreviewSheetName = file.sheets[0].sheetName;
-                renderPreviewHtmlTable(file.sheets[0].rows);
-            }
-        }
-
-        function switchPreviewSheet() {
-            const sheetSelector = document.getElementById('preview-sheet-selector');
-            const file = EXCEL_LOCAL_DATABASE[lastSelectedPreviewFileIndex];
-            if(!file) return;
-
-            const sheetObj = file.sheets.find(s => s.sheetName === sheetSelector.value);
-            if(sheetObj) {
-                lastSelectedPreviewSheetName = sheetObj.sheetName;
-                renderPreviewHtmlTable(sheetObj.rows);
-            }
-        }
-
-        function renderPreviewHtmlTable(rows) {
-            const table = document.getElementById('preview-data-html-table');
-            table.innerHTML = "";
-
-            if(!rows || rows.length === 0) {
-                table.innerHTML = `<tr><td class="p-4 text-slate-500 text-center font-bold">Esta hoja está vacía.</td></tr>`;
-                return;
-            }
-
-            // Extract comprehensive headers safely
-            const headerKeys = Object.keys(rows[0]);
-            
-            // Build the table header string array element
-            const thead = document.createElement('thead');
-            thead.className = "bg-slate-100 border-b border-slate-300 stick top-0 z-10 font-bold text-[11px]";
-            let headerRowStr = "<tr>";
-            headerKeys.forEach(key => {
-                headerRowStr += `<th class="p-2.5 whitespace-nowrap">${key}</th>`;
-            });
-            headerRowStr += "</tr>";
-            thead.innerHTML = headerRowStr;
-            table.appendChild(thead);
-
-            // Populate table cells up to a safe performance threshold view line mapping limit of 30 lines
-            const tbody = document.createElement('tbody');
-            const itemsToRender = rows.slice(0, 30);
-
-            itemsToRender.forEach(row => {
-                let rowStr = "<tr class='border-b border-slate-200 hover:bg-slate-50/80 transition'>";
-                headerKeys.forEach(key => {
-                    const cellVal = row[key] !== undefined ? row[key] : "";
-                    rowStr += `<td class="p-2 text-slate-700 truncate max-w-[200px]" title="${cellVal}">${cellVal}</td>`;
+            // Generate sample rows up to 5 elements deep limit
+            let bodyHTML = "";
+            const samples = jsonRows.slice(1, 6);
+            samples.forEach(row => {
+                bodyHTML += `<tr class="border-b border-black/5 hover:bg-black/5">`;
+                headers.forEach((h, idx) => {
+                    bodyHTML += `<td class="p-2 text-slate-700">${row[idx] !== undefined ? row[idx] : ""}</td>`;
                 });
-                rowStr += "</tr>";
-                tbody.innerHTML += rowStr;
-            });
-            table.appendChild(tbody);
-
-            if(rows.length > 30) {
-                const tfoot = document.createElement('tfoot');
-                tfoot.innerHTML = `<tr><td colspan="${headerKeys.length}" class="p-2 text-center text-[10px] bg-slate-50 font-bold text-slate-500">Mostrando primeras 30 filas de ${rows.length} registros totales de la hoja.</td></tr>`;
-                table.appendChild(tfoot);
-            }
-        }
-
-        // Active filter pill selection framework state mutations
-        function setActiveSearchFilter(filterType) {
-            activeSearchFilter = filterType;
-            document.querySelectorAll('.filter-pill-btn').forEach(btn => {
-                btn.classList.remove('bg-slate-900', '!text-white');
-                btn.classList.add('bg-slate-200');
+                bodyHTML += `</tr>`;
             });
 
-            const currentActiveBtn = document.getElementById(`filter-pill-${filterType}`);
-            if(currentActiveBtn) {
-                currentActiveBtn.classList.remove('bg-slate-200');
-                currentActiveBtn.classList.add('bg-slate-900', '!text-white');
-            }
-
-            executeGlobalSearch();
+            tableEl.innerHTML = `
+                <thead class="bg-black/5 sticky top-0">${headerHTML}</thead>
+                <tbody>${bodyHTML}</tbody>
+            `;
         }
 
         // ================================================================================= -->
-        // ============= THE HYBRID UNIFIED REAL-TIME SEARCH ENGINE PROCESSING ============= -->
+        // ================= UNIFIED OMNIBOX HYBRID SEARCH ENGINE ========================== -->
         // ================================================================================= -->
         function executeGlobalSearch() {
             const rawQuery = document.getElementById('global-search-input').value.toLowerCase().trim();
-            const resultsViewport = document.getElementById('search-results-viewport');
-            const resultsContainer = document.getElementById('results-dynamic-container');
-            const resultsCountBadge = document.getElementById('results-count-badge');
+            LAST_SEARCH_QUERY = rawQuery;
 
-            // Internal menu link matching variables
-            const links = document.querySelectorAll('#accordion-root-navigation a');
-            const sections = document.querySelectorAll('#accordion-root-navigation button');
+            const resultsPanel = document.getElementById('search-results-panel');
+            const gridContainer = document.getElementById('search-results-injection-grid');
 
-            if (!rawQuery) {
-                resultsViewport.classList.add('hidden');
-                links.forEach(l => { l.style.display = ''; l.classList.remove('bg-amber-500/20'); });
-                sections.forEach(s => s.parentNode.style.display = '');
+            if(!rawQuery) {
+                resultsPanel.classList.add('hidden');
+                // Fallback style visual reset inside accordion system tree view
+                document.querySelectorAll('#accordion-root-navigation a').forEach(l => { l.style.display = ''; l.classList.remove('bg-amber-500/20'); });
+                document.querySelectorAll('#accordion-root-navigation > div').forEach(m => m.style.display = '');
                 return;
             }
 
-            resultsViewport.classList.remove('hidden');
-            resultsContainer.innerHTML = "";
-            let matchedElementsCount = 0;
+            // 1. Process local query filtering on static structural documentation data elements
+            const filteredStatic = STATIC_DATABASE_KNOWLEDGE.filter(item => 
+                item.title.toLowerCase().includes(rawQuery) || 
+                item.desc.toLowerCase().includes(rawQuery) ||
+                item.type.toLowerCase().includes(rawQuery)
+            );
 
-            // TRACK 1: Search and highlight sidebar components matching criteria strings
-            links.forEach(link => {
-                const innerText = link.textContent.toLowerCase();
-                if (innerText.includes(rawQuery)) {
+            // 2. Process query deep text evaluation inside Dynamic Loaded local Excel matrix objects
+            const filteredExcel = EXCEL_DATABASE.filter(item => {
+                const titleMatch = item.title.toLowerCase().includes(rawQuery);
+                const descMatch = item.desc.toLowerCase().includes(rawQuery);
+                // Deep dynamic structural inspection of properties payload values
+                let cellMatch = false;
+                if(item.rawPayload) {
+                    cellMatch = Object.values(item.rawPayload).some(val => 
+                        String(val).toLowerCase().includes(rawQuery)
+                    );
+                }
+                return titleMatch || descMatch || cellMatch;
+            });
+
+            // Combine both index datasets into complete application query layout list
+            const combinedResults = [...filteredStatic, ...filteredExcel];
+            
+            // Apply current navigation pill tag filter rules if distinct from 'all' root baseline
+            const displayingResults = CURRENT_FILTER === 'all' ? combinedResults : combinedResults.filter(item => item.type === CURRENT_FILTER);
+
+            document.getElementById('results-count-metric').textContent = displayingResults.length;
+            resultsPanel.classList.remove('hidden');
+
+            if(displayingResults.length === 0) {
+                gridContainer.innerHTML = `
+                    <div class="col-span-1 md:col-span-2 p-6 text-center text-slate-500 italic text-xs">
+                        No se encontraron registros ni herramientas de coincidencia unificada para "${rawQuery}". Intenta con otra palabra clave.
+                    </div>`;
+                return;
+            }
+
+            // Render interactive multi level item records grid mapping standard layout UI rules
+            gridContainer.innerHTML = displayingResults.map((item, index) => {
+                const uniqueStrId = `res-copy-node-${index}`;
+                // Select semantic category tag color markers code blocks
+                let badgeTheme = "bg-blue-100 text-blue-700";
+                if(item.type === 'Excel') badgeTheme = "bg-teal-100 text-teal-800 border border-teal-300 font-bold";
+                else if(item.type === 'Buddy') badgeTheme = "bg-rose-100 text-rose-700";
+                else if(item.type === 'Idea') badgeTheme = "bg-amber-100 text-amber-700";
+                else if(item.type === 'Auditoría') badgeTheme = "bg-purple-100 text-purple-700";
+
+                // Serialize payload data explicitly to offer inline user copy triggers
+                const textRepresentationDump = `Tipo: [${item.type}] | Título: ${item.title} | Detalle: ${item.desc} | Origen: ${item.src}`;
+
+                return `
+                    <div class="p-4 rounded-2xl bg-white border border-black/10 flex flex-col justify-between gap-3 shadow-sm hover:border-[#FF7800] transition duration-200">
+                        <div class="flex flex-col gap-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded-md text-[10px] uppercase font-extrabold ${badgeTheme}">[${item.type}]</span>
+                                <span class="text-[10px] text-slate-500 font-medium">${item.date}</span>
+                            </div>
+                            <h5 class="text-xs font-bold mt-1 text-black">${item.title}</h5>
+                            <p class="text-[11px] text-slate-600 line-clamp-2 mt-0.5">${item.desc}</p>
+                        </div>
+                        <div class="flex items-center justify-between border-t border-black/5 pt-2 mt-1">
+                            <span class="text-[10px] italic text-slate-500 max-w-[50%] truncate">Fuente: ${item.src}</span>
+                            <div class="flex items-center gap-1">
+                                <button onclick="copySearchResultText('${btoa(unescape(encodeURIComponent(textRepresentationDump)))}')" class="p-1 rounded hover:bg-slate-100 text-slate-700" title="Copiar Fila de Datos"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
+                                ${item.link !== '#' ? `<a href="${item.link}" target="_blank" class="p-1 rounded hover:bg-slate-100 text-slate-700" title="Abrir Enlace Oficial En Nueva Pestaña"><i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>` : ''}
+                                <button onclick="triggerInspectRecordDetail('${btoa(unescape(encodeURIComponent(JSON.stringify(item))))}')" class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded bg-black text-white hover:bg-[#FF7800] transition">Ver</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+
+            // Synchronize and filter standard native layout list menu sidebar triggers to show contextual visibility references
+            document.querySelectorAll('#accordion-root-navigation a').forEach(link => {
+                const text = link.textContent.toLowerCase();
+                if(text.includes(rawQuery)) {
                     link.style.display = '';
                     link.classList.add('bg-amber-500/20');
                 } else {
                     link.style.display = 'none';
-                    link.classList.remove('bg-amber-500/20');
                 }
             });
-
-            // TRACK 2: Structural processing alignment mapping into unified dynamic matches view output array
-            let masterMergedPool = [];
-
-            // Append live Google Sheet mirror records data lines
-            GOOGLE_CONNECTORS_DATABASE.forEach(item => {
-                masterMergedPool.push({
-                    id: item.id,
-                    type: item.type,
-                    title: item.title,
-                    desc: item.desc,
-                    source: item.source,
-                    date: item.date,
-                    rawPayloadString: `${item.title} ${item.desc} ${item.source} ${item.type}`.toLowerCase()
-                });
-            });
-
-            // Append dynamic indexing from unstructured local Excel data matrix arrays without strict field models constraint
-            EXCEL_LOCAL_DATABASE.forEach((file, fIdx) => {
-                file.sheets.forEach(sheet => {
-                    sheet.rows.forEach((row, rIdx) => {
-                        // Concatenate cell contents into full index block organically
-                        let cellsTextString = "";
-                        let summaryPropertiesList = [];
-                        
-                        Object.keys(row).forEach(key => {
-                            if(row[key] !== null && row[key] !== undefined) {
-                                cellsTextString += " " + String(row[key]);
-                                if(summaryPropertiesList.length < 4 && String(row[key]).trim().length > 0) {
-                                    summaryPropertiesList.push(`<strong>${key}:</strong> ${row[key]}`);
-                                }
-                            }
-                        });
-
-                        masterMergedPool.push({
-                            id: `excel-${fIdx}-${sheet.sheetName}-${rIdx}`,
-                            type: "Excel",
-                            title: row["Nombre"] || row["Name"] || row["Título"] || `Fila #${rIdx + 1} de Excel`,
-                            desc: `Valores indexados: ${summaryPropertiesList.join(" | ")}`,
-                            source: `Local Excel - ${file.fileName} [Hoja: ${sheet.sheetName}]`,
-                            date: file.uploadDate,
-                            rawPayloadString: cellsTextString.toLowerCase()
-                        });
-                    });
-                });
-            });
-
-            // Filtering process matching filter selection matrices
-            masterMergedPool.forEach(item => {
-                // Category validation checkpoint matches
-                if (activeSearchFilter !== "All") {
-                    if (activeSearchFilter === "Familia" && item.type !== "Familia Global") return;
-                    if (activeSearchFilter === "Auditoria" && item.type !== "Auditoria") return;
-                    if (activeSearchFilter === "TN" && item.type !== "TN") return;
-                    if (activeSearchFilter === "Buddy" && item.type !== "Buddy") return;
-                    if (activeSearchFilter === "Reporte" && item.type !== "Reporte") return;
-                    if (activeSearchFilter === "Idea" && item.type !== "Idea") return;
-                    if (activeSearchFilter === "Excel" && item.type !== "Excel") return;
-                }
-
-                // Query match confirmation criteria checks
-                if (item.rawPayloadString.includes(rawQuery)) {
-                    matchedElementsCount++;
-                    
-                    // Build premium SaaS styling outcome row cards item view
-                    const rowCard = document.createElement('div');
-                    rowCard.className = "p-3.5 rounded-xl border border-slate-300 bg-white/80 hover:border-[var(--neon-orange)] transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs";
-                    
-                    let badgeColor = "bg-blue-100 text-blue-800";
-                    if(item.type === "Excel") badgeColor = "bg-emerald-100 text-emerald-900";
-                    if(item.type === "TN") badgeColor = "bg-teal-100 text-teal-900";
-                    if(item.type === "Buddy") badgeColor = "bg-amber-100 text-amber-900";
-                    if(item.type === "Idea") badgeColor = "bg-purple-100 text-purple-900";
-
-                    rowCard.innerHTML = `
-                        <div class="flex items-start gap-3">
-                            <span class="px-2 py-0.5 rounded text-[9px] uppercase font-bold tracking-widest ${badgeColor} mt-0.5 shrink-0">[${item.type}]</span>
-                            <div>
-                                <h5 class="font-bold font-inter text-slate-900">${item.title}</h5>
-                                <p class="text-slate-600 text-[11px] mt-0.5">${item.desc}</p>
-                                <div class="flex items-center gap-3 text-[10px] text-slate-400 mt-1">
-                                    <span class="font-medium text-slate-500">Fuente: ${item.source}</span>
-                                    <span>•</span>
-                                    <span>Modificado: ${item.date}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex sm:flex-col items-center sm:items-end justify-end gap-1.5 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200">
-                            <button onclick="copySearchResultText('${btoa(unescape(encodeURIComponent(item.title + " - " + item.desc)))}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded text-[10px] font-bold flex items-center gap-1 transition">
-                                <i data-lucide="copy" class="w-3 h-3"></i> Copiar
-                            </button>
-                            <button onclick="showNotification('Abriendo la conexión remota del registro integrado...','info')" class="px-2.5 py-1 bg-slate-900 !text-white hover:bg-slate-800 rounded text-[10px] font-bold flex items-center gap-1 transition">
-                                <i data-lucide="external-link" class="w-3 h-3 !text-white"></i> Abrir
-                            </button>
-                        </div>
-                    `;
-                    resultsContainer.appendChild(rowCard);
-                }
-            });
-
-            resultsCountBadge.textContent = `${matchedElementsCount} Encontrados`;
-            if(matchedElementsCount === 0) {
-                resultsContainer.innerHTML = `<p class="p-6 text-center font-bold text-slate-400 text-xs">Ningún registro coincide con el término de búsqueda en la matriz unificada.</p>`;
-            }
-            lucide.createIcons();
         }
 
-        // Auxiliary utility logic functions
+        function filterSearchResults(category) {
+            CURRENT_FILTER = category;
+            
+            // Cycle visual active buttons layout style matrices mappings
+            ['all', 'TN', 'Buddy', 'Auditoría', 'Reporte', 'Idea', 'Excel'].forEach(c => {
+                const btn = document.getElementById(`filter-btn-${c === 'Familia Global' ? 'Familia' : c}`);
+                if(btn) {
+                    if(c === category) {
+                        btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-[#FF7800] text-white transition-all shadow-sm";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 border border-black/10 transition-all text-black";
+                    }
+                }
+            });
+
+            if(LAST_SEARCH_QUERY) {
+                executeGlobalSearch();
+            } else {
+                showNotification(`Filtro asignado a: ${category}. Ingresa términos en el buscador.`, 'info');
+            }
+        }
+
+        function closeSearchResults() {
+            document.getElementById('search-results-panel').classList.add('hidden');
+            document.getElementById('global-search-input').value = '';
+            LAST_SEARCH_QUERY = '';
+            // Reset tree elements layout display states
+            document.querySelectorAll('#accordion-root-navigation a').forEach(l => { l.style.display = ''; l.classList.remove('bg-amber-500/20'); });
+            document.querySelectorAll('#accordion-root-navigation > div').forEach(m => m.style.display = '');
+        }
+
         function copySearchResultText(base64Payload) {
             try {
-                const dec = decodeURIComponent(escape(atob(base64Payload)));
-                navigator.clipboard.writeText(dec);
-                showNotification('Contenido copiado al portapapeles con éxito', 'success');
-            } catch(e) {
-                showNotification('No se pudo copiar el contenido', 'orange');
+                const decodedText = decodeURIComponent(escape(atob(base64Payload)));
+                navigator.clipboard.writeText(decodedText);
+                showNotification('Fila indexada copiada al portapapeles', 'success');
+            } catch (err) {
+                showNotification('No se pudo ejecutar copia directa', 'orange');
             }
         }
 
-        function initSystemTheme() {
-            localStorage.setItem('premium-dashboard-theme', 'light');
-            document.documentElement.classList.remove('dark', 'dark-vars');
+        function triggerInspectRecordDetail(base64Payload) {
+            try {
+                const parsedObject = JSON.parse(decodeURIComponent(escape(atob(base64Payload))));
+                let messageDump = `Detalles del Registro Indexado:\n\n`;
+                if(parsedObject.rawPayload) {
+                    Object.entries(parsedObject.rawPayload).forEach(([k,v]) => {
+                        messageDump += `${k}: ${v}\n`;
+                    });
+                } else {
+                    messageDump += `Título: ${parsedObject.title}\nDescripción: ${parsedObject.desc}\nOrigen: ${parsedObject.src}`;
+                }
+                alert(messageDump);
+            } catch (e) {
+                showNotification('Error al abrir la ficha extendida', 'orange');
+            }
         }
 
-        function toggleDarkMode() {
-            showNotification('El sistema está fijado en paleta clara de alto contraste por directriz obligatoria.', 'orange');
-        }
-
+        // 8. Count-Up Digital Animation Core
         function executeCountUpAnimations() {
             document.querySelectorAll('.count-up').forEach(el => {
                 const target = parseInt(el.getAttribute('data-target'), 10) || 0;
@@ -1220,34 +1252,33 @@
                     } else {
                         el.textContent = current;
                     }
-                }, 20);
+                }, 30);
             });
         }
 
+        // Notification UI Injections
         function showNotification(message, type = 'success') {
             const hub = document.getElementById('notification-hub');
             const toast = document.createElement('div');
             let iconType = 'info';
-            let borderCol = 'border-l-[var(--tech-blue)]';
+            let borderCol = 'border-l-blue-600';
+            let textIcon = 'text-blue-600';
 
             if(type === 'success') {
                 iconType = 'check-circle';
                 borderCol = 'border-l-emerald-600';
+                textIcon = 'text-emerald-600';
             } else if (type === 'orange') {
                 iconType = 'alert-triangle';
-                borderCol = 'border-l-[var(--neon-orange)]';
+                borderCol = 'border-l-[#FF7800]';
+                textIcon = 'text-amber-600';
             }
 
-            toast.className = `p-4 rounded-2xl shadow-2xl border-l-4 ${borderCol} transition-all duration-300 transform translate-x-20 opacity-0 flex items-start gap-3 w-80 max-w-full bg-white/95 backdrop-blur-md`;
+            toast.className = `p-4 rounded-2xl shadow-xl border-l-4 ${borderCol} transition-all duration-300 transform translate-x-20 opacity-0 flex items-start gap-3 w-80 max-w-full bg-white/95 backdrop-blur-md`;
             toast.innerHTML = `
-                <div class="shrink-0 mt-0.5">
-                    <i data-lucide="${iconType}" class="w-4 h-4"></i>
-                </div>
-                <div class="flex-1">
-                    <p class="text-xs font-bold leading-snug">${message}</p>
-                </div>
+                <div class="${textIcon} shrink-0 mt-0.5"><i data-lucide="${iconType}" class="w-4 h-4"></i></div>
+                <div class="flex-1"><p class="text-xs font-bold leading-snug text-black">${message}</p></div>
             `;
-
             hub.appendChild(toast);
             lucide.createIcons();
 
@@ -1255,43 +1286,35 @@
             setTimeout(() => {
                 toast.classList.add("translate-x-20", "opacity-0");
                 setTimeout(() => toast.remove(), 400);
-            }, 3500);
+            }, 4000);
         }
 
-        // Charts Infrastructure Definition Core
+        // ================================================================================= -->
+        // ============================ CHARTS INITIALIZATION LAYER ======================== -->
+        // ================================================================================= -->
         function initCharts() {
             const fontColor = '#000000';
             const gridColor = 'rgba(0,0,0,0.06)';
 
-            // Chart 1: Audit status
-            new Chart(document.getElementById('auditDoughnutChart').getContext('2d'), {
+            window.auditChartInst = new Chart(document.getElementById('auditDoughnutChart').getContext('2d'), {
                 type: 'doughnut',
                 data: {
                     labels: ['Aprobados', 'Pendientes', 'Revisión'],
-                    datasets: [{
-                        data: [12, 4, 3],
-                        backgroundColor: [UI_COLORS.turquoise, UI_COLORS.blue, UI_COLORS.orange],
-                        borderWidth: 0
-                    }]
+                    datasets: [{ data: [12, 4, 3], backgroundColor: [UI_COLORS.turquoise, UI_COLORS.blue, UI_COLORS.orange], borderWidth: 0 }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { color: fontColor, font: { size: 10 } } } },
-                    cutout: '70%'
+                    plugins: { legend: { position: 'bottom', labels: { color: fontColor, font: { family: 'Inter', size: 11 } } } },
+                    cutout: '75%'
                 }
             });
 
-            // Chart 2: Buddies Distribution
-            new Chart(document.getElementById('buddiesBarChart').getContext('2d'), {
+            window.buddiesChartInst = new Chart(document.getElementById('buddiesBarChart').getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5'],
-                    datasets: [{
-                        data: [5, 12, 18, 22, 24],
-                        backgroundColor: UI_COLORS.blue,
-                        borderRadius: 6
-                    }]
+                    datasets: [{ data: [5, 12, 18, 22, 24], backgroundColor: UI_COLORS.blue, borderRadius: 8 }]
                 },
                 options: {
                     responsive: true,
@@ -1304,16 +1327,11 @@
                 }
             });
 
-            // Chart 3: Global Families Pool
-            new Chart(document.getElementById('familiesHorizontalBarChart').getContext('2d'), {
+            window.familiesChartInst = new Chart(document.getElementById('familiesHorizontalBarChart').getContext('2d'), {
                 type: 'bar',
                 data: {
-                    labels: ['Z. Central', 'Z. Sur', 'Sopocachi', 'Miraflores'],
-                    datasets: [{
-                        data: [8, 14, 9, 6],
-                        backgroundColor: [UI_COLORS.orange, UI_COLORS.turquoise, UI_COLORS.blue, '#A855F7'],
-                        borderRadius: 5
-                    }]
+                    labels: ['Zona Central', 'Zona Sur', 'Sopocachi', 'Miraflores'],
+                    datasets: [{ data: [8, 14, 9, 6], backgroundColor: [UI_COLORS.orange, UI_COLORS.turquoise, UI_COLORS.blue, '#A855F7'], borderRadius: 6 }]
                 },
                 options: {
                     indexAxis: 'y',
@@ -1327,26 +1345,18 @@
                 }
             });
 
-            // Mini KPI Sparklines
-            const sparklineConf = {
-                responsive: true, maintainAspectRatio: false,
+            const miniOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
                 plugins: { legend: { display: false }, tooltip: { enabled: false } },
                 scales: { x: { display: false }, y: { display: false } },
                 elements: { point: { radius: 0 } }
             };
 
-            new Chart(document.getElementById('miniChart1').getContext('2d'), {
-                type: 'line', data: { labels: [1,2,3,4,5], datasets: [{ data: [10, 14, 12, 17, 19], borderColor: UI_COLORS.turquoise, tension: 0.4, borderWidth: 1.5 }] }, options: sparklineConf
-            });
-            new Chart(document.getElementById('miniChart2').getContext('2d'), {
-                type: 'line', data: { labels: [1,2,3,4,5], datasets: [{ data: [8, 9, 11, 13, 15], borderColor: UI_COLORS.blue, tension: 0.4, borderWidth: 1.5 }] }, options: sparklineConf
-            });
-            new Chart(document.getElementById('miniChart3').getContext('2d'), {
-                type: 'line', data: { labels: [1,2,3,4,5], datasets: [{ data: [15, 14, 19, 18, 24], borderColor: UI_COLORS.orange, tension: 0.4, borderWidth: 1.5 }] }, options: sparklineConf
-            });
-            new Chart(document.getElementById('miniChart4').getContext('2d'), {
-                type: 'line', data: { labels: [1,2,3,4,5], datasets: [{ data: [5, 20, 32, 45, 60], borderColor: '#A855F7', tension: 0.4, borderWidth: 1.5 }] }, options: sparklineConf
-            });
+            new Chart(document.getElementById('miniChart1').getContext('2d'), { type: 'line', data: { labels: ['1','2','3'], datasets: [{ data: [10, 14, 19], borderColor: UI_COLORS.turquoise, tension: 0.4, borderWidth: 2 }] }, options: miniOptions });
+            new Chart(document.getElementById('miniChart2').getContext('2d'), { type: 'line', data: { labels: ['1','2','3'], datasets: [{ data: [8, 11, 15], borderColor: UI_COLORS.blue, tension: 0.4, borderWidth: 2 }] }, options: miniOptions });
+            new Chart(document.getElementById('miniChart3').getContext('2d'), { type: 'line', data: { labels: ['1','2','3'], datasets: [{ data: [15, 19, 24], borderColor: UI_COLORS.orange, tension: 0.4, borderWidth: 2 }] }, options: miniOptions });
+            new Chart(document.getElementById('miniChart4').getContext('2d'), { type: 'line', data: { labels: ['1','2','3'], datasets: [{ data: [20, 35, 48], borderColor: '#A855F7', tension: 0.4, borderWidth: 2 }] }, options: miniOptions });
         }
     </script>
 </body>
